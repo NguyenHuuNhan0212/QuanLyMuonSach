@@ -4,11 +4,11 @@ const theoDoiMuonSachSchema = new mongoose.Schema(
     {
         MADOCGIA: {type: mongoose.Schema.Types.ObjectId, ref: 'bangDocGia', required: true},
         MASACH: {type: mongoose.Schema.Types.ObjectId, ref: 'bangSach', required: true},
-        MSNV: {type: mongoose.Schema.Types.ObjectId, ref: 'bangNhanVien', required: true},
+        MSNV: {type: mongoose.Schema.Types.ObjectId, ref: 'bangNhanVien'},
         NGAYMUON: {type: Date, required: true, default: Date.now },
         NGAYTRA: {type: Date},
         SoLuongMuon: {type: Number, required: true, default: 1},
-        TrangThai: { type: String, required: true, default: 'chờ giải quyết'}
+        TrangThai: { type: String, required: true, default: 'Chờ lấy'}// dự kiến có 3 trạng thái đã lấy, chờ lấy, đã trả
     },
     {
         timestamps: true,

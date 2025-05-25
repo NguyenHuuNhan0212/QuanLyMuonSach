@@ -7,9 +7,10 @@ const docGiaSchema = new mongoose.Schema(
         HOLOT: {type: String, required: true},
         TEN: { type: String, required: true},
         NGAYSINH: {type: Date, required: true},
-        PHAI: {type: String, required: true, enum:['Nam', 'Nữ', 'Khác']},
+        PHAI: {type: String, required: true, enum: ['Nam', 'Nữ', 'Khác']},
         DIACHI: {type: String, required: true},
-        DIENTHOAI: {type: String, required: true, match: /^[0-9]{10,11}$/}
+        DIENTHOAI: {type: String, required: true, match: /^[0-9]{10,11}$/},
+        PASSWORD: {type: String, required: true}
     }, 
     {
         timestamps: true,

@@ -4,9 +4,9 @@ const muonSachController = require('../controllers/theodoimuonsach.controller')
 
 //chưa nghĩ ra được chuẩn RESTful 
 router.get('/', muonSachController.getAllForUser)
-    .get('/admin', muonSachController.getAllForAdmin)
+    .get('/staff', muonSachController.getAllForAdmin)
     .post('/', muonSachController.addBorrow)
-    .patch('/:muonId', muonSachController.updateBorrowForUser)
+    .patch('/:muonId', muonSachController.updateBorrowForAdmin)
     .delete('/users/:muonId', muonSachController.deleteBorrowForUser)
-    .delete('/admin/:muonId', muonSachController.deleteBorrowForAdmin)
+    .delete('/staffs/:muonId', muonSachController.deleteBorrowForAdmin)
 module.exports = router
