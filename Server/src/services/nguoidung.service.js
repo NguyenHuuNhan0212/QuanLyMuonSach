@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs')
 
 module.exports = class UserService{
     async register(data){
-        console.log("Dữ liệu nhận được:", data)
         const kiemTraUser = await nguoiDungModel.exists({DIENTHOAI: data.DIENTHOAI})
         if(!kiemTraUser){
             try{
