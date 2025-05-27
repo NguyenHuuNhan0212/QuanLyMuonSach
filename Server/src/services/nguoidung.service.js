@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 
 module.exports = class UserService{
     async register(data){
-        const kiemTraUser = await nguoiDungModel.exists({DIENTHOAI: data.DIENTHOAI})
+        const kiemTraUser = await nguoiDungModel.exists({$or: [{DIENTHOAI: data.DIENTHOAI}, {EMAIL: data.EMAIL}]})
         if(!kiemTraUser){
             try{
                 const hashedPassword = await bcrypt.hash(data.PASSWORD, 10)
@@ -16,16 +16,17 @@ module.exports = class UserService{
                         PHAI: data.PHAI,
                         DIACHI: data.DIACHI,
                         DIENTHOAI: data.DIENTHOAI,
-                        PASSWORD: hashedPassword
+                        PASSWORD: hashedPassword,
+                        EMAIL: data.EMAIL
                     }
                 )
                 await userNew.save()
-                return { message: 'Đăng ký tài khoản thành công!'}
+                return { message: 'Đăng ký tài khoản thành công! Vui lòng đăng nhập để sử dụng.'}
             }catch(err){
                 return {message: err}
             }
         }else{
-            return {message: 'Số điện thoại đã tồn tại!'}
+            return {message: 'Số điện thoại/Email đã tồn tại!'}
         }
     }
 

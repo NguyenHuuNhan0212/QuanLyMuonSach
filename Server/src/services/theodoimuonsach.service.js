@@ -1,5 +1,7 @@
 const muonSachModel = require('../models/theodoimuonsach.model')
 const sachModel = require('../models/sach.model')
+const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 module.exports = class BorrowBook{
     async getAllForUser(MaDocGia){
@@ -19,6 +21,45 @@ module.exports = class BorrowBook{
             message: 'Lấy thông tin mượn sách thành công.'
         }
     }
+    async sendEmailToUser(muonId, email){
+        const muon = await muonSachModel.findById(muonId)
+            .populate('MASACH')
+        const today = new Date();
+        const twoDaysLater = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+        const dd = String(twoDaysLater.getDate()).padStart(2, '0');
+        const mm = String(twoDaysLater.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+        const yyyy = twoDaysLater.getFullYear();
+
+        const formattedDate = `${dd}/${mm}/${yyyy}`;
+
+        if(!muon){
+            return {message: 'Không tìm thấy thông tin mượn sách.'}
+        }
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        })
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Thông tin mượn sách',
+            html: `<h4>Thông tin mượn sách</h4>
+            <p>Xin chào,</p>
+            <p>Bạn đã đăng ký mượn quyển sách có tên <b>"${muon.MASACH.TENSACH}"</b> với số lượng ${muon.SoLuongMuon}.</p>
+            <p>Bạn vui lòng đến thư viện để nhận sách trong vòng từ hôm nay đến hết ngày <b style="color: red">${formattedDate}</b>.</p>`
+        }
+        try{
+            await transporter.sendMail(mailOptions)
+            return {message: 'Email đã được gửi thành công!'}
+        }catch(err){
+            return {message: 'Gửi email thất bại!'}
+        }
+    }
     async addBorrow(data, docgiaId){
         const borrowNew = new muonSachModel({
             MADOCGIA: docgiaId,
@@ -33,7 +74,12 @@ module.exports = class BorrowBook{
                     SoLuongDaMuon: sach.SoLuongDaMuon + borrowNew.SoLuongMuon
                 }
             })
-            console.log(`Bạn đã đăng ký mượn quyển sách có tên ${sach.TENSACH}`)
+           //lấy thông tin nguời dùng để gửi email
+            const docgia = await muonSachModel.findById(borrowNew._id).populate('MADOCGIA', 'EMAIL')
+            if(!docgia || !docgia.MADOCGIA || !docgia.MADOCGIA.EMAIL){
+                return {message: 'Không tìm thấy thông tin người dùng để gửi email.'}
+            }
+            await this.sendEmailToUser(borrowNew._id, docgia.MADOCGIA.EMAIL)
         }
         return {
             muon: borrowNew,
