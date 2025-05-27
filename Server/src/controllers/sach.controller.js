@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken')
 const BookService = require('../services/sach.service')
 
 function verifyToken(req, res) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = req.headers['authorization']
+    //const token = authHeader && authHeader.split(' ')[1]
     return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, staff) => {
             if(error || !staff.ChucVu){

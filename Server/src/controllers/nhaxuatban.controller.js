@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken')
 const PublisherService = require('../services/nhaxuatban.service')
 
 function verifyToken(req, res) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1] // tách từ "Bearer <token>"
+    const token = req.headers['authorization']
+    //const token = authHeader && authHeader.split(' ')[1] // tách từ "Bearer <token>"
     return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, staff) => {
             if(error || !staff.ChucVu){

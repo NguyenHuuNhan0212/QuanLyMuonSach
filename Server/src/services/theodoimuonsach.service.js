@@ -34,7 +34,7 @@ module.exports = class BorrowBook{
         const formattedDate = `${dd}/${mm}/${yyyy}`;
 
         if(!muon){
-            return {message: 'Không tìm thấy thông tin mượn sách.'}
+            return { err: 'Không tìm thấy thông tin mượn sách.'}
         }
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -77,6 +77,7 @@ module.exports = class BorrowBook{
            //lấy thông tin nguời dùng để gửi email
             const docgia = await muonSachModel.findById(borrowNew._id).populate('MADOCGIA', 'EMAIL')
             if(!docgia || !docgia.MADOCGIA || !docgia.MADOCGIA.EMAIL){
+                await muonSachModel.findByIdAndDelete(borrowNew._id)
                 return {message: 'Không tìm thấy thông tin người dùng để gửi email.'}
             }
             await this.sendEmailToUser(borrowNew._id, docgia.MADOCGIA.EMAIL)
