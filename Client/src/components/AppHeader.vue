@@ -97,4 +97,10 @@ export default {
 .form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
+/* @media (max-width: 768px) {
+  .navbar form {
+    justify-content: center;
+  }
+} */
+
 </style>

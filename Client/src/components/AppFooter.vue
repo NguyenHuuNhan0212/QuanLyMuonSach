@@ -4,11 +4,10 @@
       <div class="row">
 
       
-        <div class="col-md-3 mb-4">
-          <img src="../assets/logo.jpg" alt="Logo thư viện" class="mb-3" width="200" height="200">
+        <div class="col-md-3 mb-4 d-flex justify-content-center align-items-center" style="min-height: 150px;">
+            <img src="../assets/logo.jpg" alt="Logo thư viện" class="mb-3" width="150" height="150">
         </div>
 
-       
         <div class="col-md-3 mb-4">
           <h5 class="fw-bold mb-3 border-bottom pb-2">Giới thiệu</h5>
           <ul class="list-unstyled">
@@ -52,11 +51,9 @@
           </ul>
           <!-- Social icons -->
           <div class="mt-3">
-            <span class="me-3 fw-bold">Social:</span>
-            <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-white me-2"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/huu.nhan.985788" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com/@vigo0701" class="text-white me-2"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.instagram.com/nhanvigo/" class="text-white me-2"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
       </div>
