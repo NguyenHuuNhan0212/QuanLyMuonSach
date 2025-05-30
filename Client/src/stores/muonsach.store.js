@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/axios/api.service"
 import { defineStore } from "pinia"
-import { useUserStore } from "./user.store"
+import { useUserStore } from "./nguoidung.store"
 
 export const useBorrowBookStore = defineStore('borrowBook', {
     state: () => {
