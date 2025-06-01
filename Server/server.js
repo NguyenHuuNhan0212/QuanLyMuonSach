@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const ApiError = require('./src/api-error')
-const db = require('./src/config/mongoose')
+const db = require('./src/config/KetNoiDB')
 require('dotenv').config()
 const app = express()
 const PORT = process.env.PORT

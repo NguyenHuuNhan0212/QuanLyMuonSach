@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5" style="max-width: 400px;">
+  <div class="container mt-5" style="max-width: 400px; max-height: 400px;">
     <h2 class="mb-4 text-center">Đăng nhập</h2>
     <form @submit.prevent="login">
       <div class="mb-3">
@@ -26,7 +26,7 @@
         />
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+      <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
     </form>
   </div>
 </template>

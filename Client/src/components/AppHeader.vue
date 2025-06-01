@@ -46,7 +46,7 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle fw-semibold text-primary"
+              class="nav-link dropdown-toggle fw-semibold text-primary me-4"
               href="#"
               role="button"
               data-bs-toggle="dropdown"
