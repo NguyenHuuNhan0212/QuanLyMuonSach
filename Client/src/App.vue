@@ -12,8 +12,12 @@ export default {
 </script>
 <template>
   <div id="app">
-    <HeaderView />
-    <RouterView />
+    <header class="fixed-top">
+       <HeaderView />
+    </header>
+    <main class="container mt-5 pt-5">
+      <RouterView />
+    </main>
     <FooterView />
   </div>
 </template>
