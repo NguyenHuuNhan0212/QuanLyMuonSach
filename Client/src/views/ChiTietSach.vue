@@ -1,110 +1,58 @@
 <template>
-    <div class="book-detail container py-4">
-        <button class="btn btn-outline-secondary mb-4" @click="$router.back()"><el-icon>
-                <Back />
-            </el-icon></button>
+  <div v-if="book" class="book-detail container py-4">
+    <!-- Phần nội dung hiện sách -->
+    <button class="btn btn-outline-secondary mb-4" @click="$router.back()">
+      <el-icon><Back /></el-icon>
+    </button>
 
-        <div class="row">
-            <div class="col-md-5">
-                <div class="image-wrapper">
-                    <img :src="book.image" :alt="book.title" class="img-fluid rounded shadow" />
-                </div>
-            </div>
-            <div class="col-md-7">
-                <h2 class="mb-3">{{ book.title }}</h2>
-                <h5 class="text-muted mb-3">Tác giả: {{ book.tacgia }}</h5>
-                <p class="description mb-4">Mô tả: {{ book.description }}</p>
-                <div class="quantity-control mb-4 ">
-                    <span>Số lượng: </span>
-                    <br>
-                    <el-input-number class="mt-3" v-model="quantity" :min="1" :max="10" @change="handleChange" />
-                </div>
-
-                <button class="btn btn-primary" @click="borrowBook">Đăng ký mượn</button>
-            </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="image-wrapper">
+          <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
         </div>
-    </div>
+      </div>
+      <div class="col-md-7">
+        <h1 class="mb-4">Thông tin sách</h1>
+        <h4 class="mb-3 text-muted fst-italic">Mã sách: {{ book.MASACH }}</h4>
+        <h4 class="mb-3 text-muted">Tên sách: {{ book.TENSACH }}</h4>
+        <h5 class="text-muted mb-3">Tác giả: {{ book.TACGIA }}</h5>
+        <p class="description mb-4">Đơn giá: {{ book.DONGIA }}</p>
+        <p class="description mb-4">Số quyển: {{ book.SOQUYEN }}</p>
+        <p class="description mb-4">Nhà xuất bản: {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
+        <p class="description mb-4">Năm xuất bản: {{ book.NAMXUATBAN }}</p>
+        <div class="quantity-control mb-4 ">
+          <span>Số lượng: </span>
+          <br />
+          <el-input-number class="mt-3" v-model="quantity" :min="1" :max="10" @change="handleChange" />
+        </div>
 
+        <button class="btn btn-primary" @click="borrowBook">Đăng ký mượn</button>
+      </div>
+    </div>
+  </div>
+
+  <div v-else class="text-center py-5">
+    <p>Đang tải dữ liệu sách hoặc không tìm thấy sách...</p>
+  </div>
 </template>
 
-<script>
-export default {
-  name: "BookDetail",
-  data() {
-    return {
-      book: null,
-      quantity: 1
-    };
-  },
-  created() {
-    const id = Number(this.$route.params.id);
-    const books = [
-        {
-          id: 1,
-          title: 'Sách 1',
-          description: 'Mô tả sách 1',
-          tacgia: 'Tác giả 1',
-          image: 'https://img.lovepik.com/png/20231113/an-open-book-that-has-cute-drawings-vector-clipart-album_575932_wh860.png'
-        },
-        {
-          id: 2,
-          title: 'Sách 2',
-          description: 'Mô tả sách 2',
-          tacgia: 'Tác giả 2',
-          image: 'https://pdcorel.com/wp-content/uploads/2023/06/27-Hoat-hinh-vector-pdcorel.com_-1.jpg'
-        },
-        {
-          id: 3,
-          title: 'Sách 3',
-          description: 'Mô tả sách 3',
-          tacgia: 'Tác giả 3',
-          image: 'https://nhasachphuongnam.com/images/detailed/256/toan-lop-4-tap-1-ket-noi-tri-thuc-voi-cuoc-song.jpg'
-        },
-        {
-          id: 4,
-          title: 'Sách 4',
-          description: 'Mô tả sách 4',
-          tacgia: 'Tác giả 4',
-          image: 'https://qtedu.vn/wp-content/uploads/2021/08/dac-nhan-tam-tieng-trung-1.jpg'  
-        },
-        {
-          id: 5,
-          title: 'Sách 5',
-          description: 'Mô tả sách 5',
-          tacgia: 'Tác giả 5',
-          image: 'https://pdcorel.com/wp-content/uploads/2023/06/27-Hoat-hinh-vector-pdcorel.com_-1.jpg'
-        },
-        {
-          id: 6,
-          title: 'Sách 6',
-          description: 'Mô tả sách 6',
-          tacgia: 'Tác giả 6',
-          image: 'https://nhasachphuongnam.com/images/detailed/256/toan-lop-4-tap-1-ket-noi-tri-thuc-voi-cuoc-song.jpg'
-        },
-        {
-          id: 7,
-          title: 'Sách 7',
-          description: 'Mô tả sách 7',
-          tacgia: 'Tác giả 7',
-          image: 'https://qtedu.vn/wp-content/uploads/2021/08/dac-nhan-tam-tieng-trung-1.jpg'  
-        }
-      ];
-    this.book = books.find(b => b.id === id);
-    if (!this.book) {
-      this.$router.replace('/');
-    }
-  },
-  methods: {
-    handleChange(value) {
-      this.quantity = value;
-    },
-    borrowBook() {
-      alert(`Bạn đã mượn ${this.quantity} cuốn sách: ${this.book.title}`);
-      // Bạn có thể thay alert bằng logic gọi API hoặc xử lý khác
-    }
-  }
-};
 
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useBookStore } from '@/stores/sach.store';
+import { useRoute } from 'vue-router'
+
+const quantity = ref(1);
+const route = useRoute()
+const id = route.params.MaSach
+const bookStore = useBookStore();
+
+onMounted(async () => {
+    await bookStore.getAll();
+});
+const book = computed(() => {
+    return bookStore.getBook(id);
+});
 </script>
 
 
@@ -142,6 +90,27 @@ export default {
   text-align: center;
   font-weight: 600;
   font-size: 1.2rem;
+}
+/* thêm hiệu ứng cho hình ảnh */
+.image-wrapper {
+  perspective: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper img {
+  width: 200px;
+  height: auto;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  transition: transform 0.6s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.image-wrapper:hover img {
+  transform: rotateY(-25deg);
 }
 
 </style>

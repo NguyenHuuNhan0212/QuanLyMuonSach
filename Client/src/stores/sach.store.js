@@ -71,13 +71,13 @@ export const useBookStore = defineStore('book', {
     },
     getters: {
         getBook(state) {
-            return (MaSach) => state.books.find(book => book.MASACH === MaSach)
+            return (MaSach) => state.books.find(book => String(book.MASACH) === String(MaSach));
         },
         getBooks(state){
             return state.books
         },
-        getBooksFormTitle(state) {
-            return (title) => state.books.filter(book => book.TENSACH.toLowerCase().includes(title.toLowerCase()))
+        getBooksFormName(state) {
+            return (name) => state.books.filter(book => book.TENSACH.toLowerCase().includes(name.toLowerCase()))
         },
         getFetching(state) {
             return state.fetching

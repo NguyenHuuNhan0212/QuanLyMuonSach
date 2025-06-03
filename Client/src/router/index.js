@@ -3,20 +3,21 @@ import { createRouter, createWebHistory } from "vue-router"
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "trangchu",
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/login",
-    name: "login",
-    component: () => import("../views/LoginView.vue"),
+    path: "/dang-nhap",
+    name: "dangnhap",
+    component: () => import("../views/DangNhap.vue"),
   },
   {
-    path: "/book/:id",
+    path: "/book/:MaSach",
     name: "chitietsach",
     component: () => import("../views/ChiTietSach.vue"),
     props: true,
-  }
+  },
+  
 ]
 
 const router = createRouter({

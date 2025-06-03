@@ -1,31 +1,28 @@
 <template>
-  <RouterLink :to="{ name: 'chitietsach', params: { id: book.id }}" class="book-link">
+  <RouterLink :to="{ name: 'chitietsach', params: { MaSach: book.MASACH }}" class="book-link">
     <div class="card text-center book-card">
       <div class="image-wrapper">
-        <img :src="book.image" class="card-img-top book-image" :alt="book.title" />
+        <img :src="book.image" class="card-img-top book-image" :alt="book.TENSACH" />
       </div>
       <br>
       <br>
       <div class="card-body">
-        <h5 class="card-title">{{ book.title }}</h5>
-        <p><i>{{ book.tacgia }}</i></p>
+        <h5 class="card-title">{{ book.TENSACH }}</h5>
+        <p><i>{{ book.TACGIA }}</i></p>
       </div>
     </div>
   </RouterLink>
 </template>
 
-<script>
+<script setup>
 import { RouterLink } from 'vue-router';
+const props = defineProps({
+  book: {
+    type: Object,
+    required: true
+  }
+});
 
-export default {
-  name: 'Sach',
-  props: {
-    book: {
-      type: Object,
-      required: true,
-    },
-  },
-};
 </script>
 
 <style scoped>

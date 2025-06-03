@@ -5,7 +5,7 @@
 
       
         <div class="col-md-3 mb-4 d-flex justify-content-center align-items-center" style="min-height: 150px;">
-            <img src="../assets/logo.jpg" alt="Logo thư viện" class="mb-3" width="150" height="150">
+            <img src="../assets/logo.jpg" alt="Logo thư viện" class="mb-3 logo-footer" width="150" height="150">
         </div>
 
         <div class="col-md-3 mb-4">
@@ -87,4 +87,8 @@
 .footer i {
   font-size: 16px;
 }
+.logo-footer {
+  border-radius: 50%;
+}
+
 </style>
