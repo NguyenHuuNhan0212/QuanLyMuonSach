@@ -1,12 +1,12 @@
 <template>
     <AppHeader />
-    <main class="mt-5 pt-5">
-        <MauDangKyNguoiDung />
+    <main class="container mt-5 pt-5">
+        <LichSuMuonSach />
     </main>
     <AppFooter />
 </template>
-<script setup>  
+<script setup>
+import LichSuMuonSach from '@/components/client/LichSuMuonSach.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import MauDangKyNguoiDung from '@/components/client/MauDangKyNguoiDung.vue';
 </script>

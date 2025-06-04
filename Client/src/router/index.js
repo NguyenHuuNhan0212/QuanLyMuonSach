@@ -21,8 +21,14 @@ const routes = [
     path: "/dang-ky",
     name: "dangky",
     component: () => import("../views/DangKyView.vue"),
+  },
+  {
+    path: "/user/lich-su-muon-sach",
+    name: "lichsumuonsach",
+    component: () => import("../views/LichSuMuonSachView.vue"),
+    
   }
-  
+
 ]
 
 const router = createRouter({

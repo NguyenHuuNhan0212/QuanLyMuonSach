@@ -37,7 +37,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             }
             return axiosInstance.get('/borrows', {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.SachMuon = [...this.SachMuon, ... res.data.danhsachmuon]
+                    this.SachMuon =  res.data.danhsachmuon
                     this.fetching = true
                     return res.data.message
                 })

@@ -1,6 +1,6 @@
 <script setup>
-import sach from '@/components/sach.vue'
-import slider from '@/components/slider.vue'
+import sach from '@/components/client/sach.vue'
+import slider from '@/components/client/slider.vue'
 import { onMounted, computed } from 'vue'
 import { useBookStore } from '@/stores/sach.store'
 import AppHeader from '@/components/AppHeader.vue'
@@ -23,9 +23,9 @@ const books = computed(() => {
     <h1 class="text-center mb-4">Danh sách sách</h1>
 
     <div class="container">
-      <div class="row">
+      <div class="row  g-4">
         <div
-          class="col-md-3 mb-4"
+          class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-1-5"
           v-for="book in books"
           :key="book.MASACH"
         >
@@ -37,5 +37,12 @@ const books = computed(() => {
   <AppFooter />
 </template>
 
-<style>
+<style scoped>
+
+@media (min-width: 1200px) {
+  .col-xl-1-5 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+}
 </style>

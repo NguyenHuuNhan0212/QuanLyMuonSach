@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed-top">
+  <header class="fixed-top" data-aos="fade-down" data-aos-duration="8000">
 
   <nav class="navbar navbar-expand-lg bg-light py-3 shadow-sm">
     <div class="container-fluid align-items-center ">
@@ -60,20 +60,24 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-            <span v-if="!userStore.token && !userStore.staffToken">
-              Menu
-            </span>
-            <span v-else>
+            <span v-if="userStore.token">
               {{ userStore.userInfo?.TEN || 'Tài khoản' }}
             </span>
-              
+            <span v-else-if="userStore.staffToken">
+              {{ userStore.staffInfo?.HoTenNV || 'Quản trị viên' }}
+            </span>
+            <span v-else>
+              Menu
+            </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li v-if="!userStore.token && !userStore.staffToken">
                 <router-link :to="{name: 'dangnhap'}" class="dropdown-item">Đăng nhập</router-link>
               </li>
               <li v-else><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
-              <li><a class="dropdown-item" href="#">Lịch sử mượn sách</a></li>
+              <li>
+                <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
+              </li>
             </ul>
           </li>
         </ul>
@@ -87,52 +91,272 @@
 import { useBookStore } from '@/stores/sach.store';
 import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
+import router from '@/router';
 const userStore = useUserStore();
 const sachStore = useBookStore();
 // Xử lý khi Admin logout
-const handleLogout = () => {
-  userStore.UserLogout();
-  sachStore.searchText = ''; // Reset search text on logout
-  ElMessage({
-    message: 'Đăng xuất thành công!',
-    type: 'success',
-  });
-};
-</script>
 
+const handleLogout = () => {
+  if(userStore.token){
+    userStore.UserLogout();
+    sachStore.searchText = ''; 
+    router.push({ name: 'trangchu' });// Reset search text on logout
+    ElMessage({
+      message: 'Đăng xuất thành công!',
+      type: 'success',
+    });
+     // Redirect to home page after logout
+  } else if(userStore.staffToken) {
+    userStore.StaffLogout();
+    sachStore.searchText = ''; // Reset search text on logout
+    router.push({ name: 'trangchu' }); // Redirect to home page after logout
+    ElMessage({
+      message: 'Đăng xuất thành công!',
+      type: 'success',
+    });
+   
+  } else {
+    ElMessage.error('Bạn chưa đăng nhập!');
+  }
+} 
+</script>
 <style scoped>
 .navbar {
-  background-color: #eaf4ff; /* Màu nền nhạt */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .navbar-brand span {
   font-size: 1.3rem;
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.form-control {
+  border: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.9);
 }
 
 .form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.3rem rgba(102, 126, 234, 0.25);
+  background: rgba(255,255,255,1);
 }
-/* @media (max-width: 768px) {
-  .navbar form {
-    justify-content: center;
-  }
-} */
+
 .logo-header {
   border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
+
+.logo-header:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+/* Style cho nút Trang Chủ */
 .nav-link-border {
-  border: none;       
-  border-radius: 4px;              
-  padding: 4px 12px;                
-  transition: all 0.3s ease;        
-  color: #0d6efd;              
+  position: relative;
+  padding: 10px 20px !important;
+  margin: 0 8px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.nav-link-border:hover {            
-  color: #fff !important;                   
-  background-color: #0d6efd;       
-  text-decoration: none;            
+.nav-link-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
 }
 
+.nav-link-border:hover {
+  color: #2c3e50 !important;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-shadow: none;
+}
+
+.nav-link-border:hover::before {
+  left: 100%;
+}
+
+.nav-link-border:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Style cho Dropdown Menu */
+.dropdown-toggle {
+  position: relative;
+  padding: 10px 20px !important;
+  margin: 0 8px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.dropdown-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.dropdown-toggle:hover {
+  color: #2c3e50 !important;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-shadow: none;
+}
+
+.dropdown-toggle:hover::before {
+  left: 100%;
+}
+
+.dropdown-toggle:active {
+  transform: translateY(-1px) scale(1.02);
+}
+/* xóa nút mũi tên ở dropdowns*/ 
+.dropdown-toggle::after {
+  display: none;
+}
+/* Style cho Dropdown Menu Items */
+.dropdown-menu {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  margin: 2px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.dropdown-item:hover {
+  color: white;
+  background: transparent;
+  transform: translateX(5px);
+}
+
+.dropdown-item:hover::before {
+  left: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-link-border,
+  .dropdown-toggle {
+    margin: 5px 0;
+    padding: 8px 16px !important;
+  }
+  
+  .navbar form {
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .form-control {
+    border-radius: 20px;
+  }
+}
+
+/* Animation cho navbar khi load */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar {
+  animation: slideDown 0.5s ease-out;
+}
+
+/* Thêm hiệu ứng ripple khi click */
+.nav-link-border,
+.dropdown-toggle {
+  position: relative;
+}
+
+.nav-link-border::after,
+.dropdown-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transition: width 0.6s, height 0.6s;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.nav-link-border:active::after,
+.dropdown-toggle:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Gradient text effect cho brand */
+.navbar-brand span {
+  background: linear-gradient(45deg, #ffffff, #f0f8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 </style>
