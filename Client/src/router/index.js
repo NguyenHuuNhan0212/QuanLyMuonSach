@@ -26,8 +26,13 @@ const routes = [
     path: "/user/lich-su-muon-sach",
     name: "lichsumuonsach",
     component: () => import("../views/LichSuMuonSachView.vue"),
-    
-  }
+  },
+  {
+        path: "/user/lich-su-muon-sach/:id",
+        name: "chitietlichsumuonsach",
+        component: () => import("../views/ChiTietLichSuMuonSach.vue"),
+        props: true,
+      },
 
 ]
 

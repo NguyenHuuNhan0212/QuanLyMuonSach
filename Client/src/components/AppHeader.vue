@@ -75,7 +75,7 @@
                 <router-link :to="{name: 'dangnhap'}" class="dropdown-item">Đăng nhập</router-link>
               </li>
               <li v-else><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
-              <li>
+              <li v-if="userStore.token">
                 <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
               </li>
             </ul>

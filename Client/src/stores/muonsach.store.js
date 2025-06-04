@@ -114,5 +114,12 @@ export const useBorrowBookStore = defineStore('borrowBook', {
                 })
         }   
 
+    },
+    getters: {
+        getBorrowById: (state) => {
+            return (id) => {
+                return state.SachMuon.find(muon => muon._id === id)
+            }
+        },
     }
 })

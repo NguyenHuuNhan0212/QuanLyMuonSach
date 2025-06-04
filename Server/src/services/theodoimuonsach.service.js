@@ -45,7 +45,7 @@ module.exports = class BorrowBook{
             }
         })
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: `"Thư viện trực tuyến"<${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Thông tin mượn sách',
             html: `<h4>Thông tin mượn sách</h4>
