@@ -4,11 +4,11 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      token: localStorage.getItem('token') || '',
-      userInfo: {},
-      staffInfo: {},
-      staffToken: localStorage.getItem('staffToken') || '',
-    }
+      token: sessionStorage.getItem('token') || '',
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
+      staffInfo: JSON.parse(sessionStorage.getItem('staffInfo')) || {},
+      staffToken: sessionStorage.getItem('staffToken') || '',
+    };
   },
   actions: {
     UserRegister: async function (userData) {
@@ -25,8 +25,9 @@ export const useUserStore = defineStore('user', {
       return axiosInstance.post('/users/login', userData)
           .then((res) => {
             this.token = res.data.data?.token
-            localStorage.setItem('token', this.token)
+            sessionStorage.setItem('token', this.token)
             this.userInfo = res.data.data?.user
+            sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo))
             return res.data.message
           })
           .catch((err) => {
@@ -38,8 +39,9 @@ export const useUserStore = defineStore('user', {
       return axiosInstance.post('/staffs/login', staffData)
           .then((res) => {
             this.staffToken = res.data.data?.token
-            localStorage.setItem('staffToken', this.staffToken)
+            sessionStorage.setItem('staffToken', this.staffToken)
             this.staffInfo = res.data.data?.staff
+            sessionStorage.setItem('staffInfo', JSON.stringify(this.staffInfo))
             return res.data.message
           })
           .catch((err) => {
@@ -50,12 +52,14 @@ export const useUserStore = defineStore('user', {
     UserLogout: function() {
       this.token = ''
       this.userInfo = {}
-      localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('userInfo')
     },
     StaffLogout: function() {
       this.staffToken = ''
       this.staffInfo = {}
-      localStorage.removeItem('staffToken')
+      sessionStorage.removeItem('staffToken')
+      sessionStorage.removeItem('staffInfo')
     },
   },
 })

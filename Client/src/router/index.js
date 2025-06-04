@@ -4,12 +4,12 @@ const routes = [
   {
     path: "/",
     name: "trangchu",
-    component: () => import("../views/HomeView.vue"),
+    component: () => import("../views/TrangChu.vue"),
   },
   {
     path: "/dang-nhap",
     name: "dangnhap",
-    component: () => import("../views/DangNhap.vue"),
+    component: () => import("../views/DangNhapView.vue"),
   },
   {
     path: "/book/:MaSach",
@@ -17,6 +17,11 @@ const routes = [
     component: () => import("../views/ChiTietSach.vue"),
     props: true,
   },
+  {
+    path: "/dang-ky",
+    name: "dangky",
+    component: () => import("../views/DangKyView.vue"),
+  }
   
 ]
 

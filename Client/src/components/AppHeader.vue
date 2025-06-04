@@ -1,6 +1,8 @@
 <template>
+  <header class="fixed-top">
+
   <nav class="navbar navbar-expand-lg bg-light py-3 shadow-sm">
-    <div class="container-fluid align-items-center">
+    <div class="container-fluid align-items-center ">
 
       <!-- Logo -->
       <router-link to="/" class="navbar-brand d-flex align-items-center">
@@ -58,7 +60,7 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-            <span v-if="!userStore.token">
+            <span v-if="!userStore.token && !userStore.staffToken">
               Menu
             </span>
             <span v-else>
@@ -67,7 +69,7 @@
               
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li v-if="!userStore.token">
+              <li v-if="!userStore.token && !userStore.staffToken">
                 <router-link :to="{name: 'dangnhap'}" class="dropdown-item">Đăng nhập</router-link>
               </li>
               <li v-else><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
@@ -78,6 +80,7 @@
       </div>
     </div>
   </nav>
+  </header>
 </template>
 
 <script setup>
@@ -86,7 +89,7 @@ import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
 const userStore = useUserStore();
 const sachStore = useBookStore();
-
+// Xử lý khi Admin logout
 const handleLogout = () => {
   userStore.UserLogout();
   sachStore.searchText = ''; // Reset search text on logout

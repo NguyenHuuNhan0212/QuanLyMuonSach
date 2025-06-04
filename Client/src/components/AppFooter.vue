@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer text-white pt-5 pb-4 mt-5">
+  <footer class="footer text-white pt-5 pb-4 mt-5" data-aos="fade-up">
     <div class="container">
       <div class="row">
 

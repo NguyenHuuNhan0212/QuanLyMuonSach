@@ -1,39 +1,51 @@
 <template>
-  <div v-if="book" class="book-detail container py-4">
-    <!-- Phần nội dung hiện sách -->
-    <button class="btn btn-outline-secondary mb-4" @click="$router.back()">
-      <el-icon><Back /></el-icon>
-    </button>
+  <AppHeader />
+  <main class="mt-5 pt-5">
+    <div v-if="book" class="book-detail container py-4">
+      <!-- Phần nội dung hiện sách -->
+      <button class="btn btn-outline-secondary mb-4" @click="$router.back()">
+        <el-icon>
+          <Back />
+        </el-icon>
+      </button>
 
-    <div class="row">
-      <div class="col-md-5">
-        <div class="image-wrapper">
-          <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
+      <div class="row">
+        <div class="col-md-5">
+          <div class="image-wrapper">
+            <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
+          </div>
         </div>
-      </div>
-      <div class="col-md-7">
-        <h1 class="mb-4">Thông tin sách</h1>
-        <h4 class="mb-3 text-muted fst-italic">Mã sách: {{ book.MASACH }}</h4>
-        <h4 class="mb-3 text-muted">Tên sách: {{ book.TENSACH }}</h4>
-        <h5 class="text-muted mb-3">Tác giả: {{ book.TACGIA }}</h5>
-        <p class="description mb-4">Đơn giá: {{ book.DONGIA }}</p>
-        <p class="description mb-4">Số quyển: {{ book.SOQUYEN }}</p>
-        <p class="description mb-4">Nhà xuất bản: {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
-        <p class="description mb-4">Năm xuất bản: {{ book.NAMXUATBAN }}</p>
-        <div class="quantity-control mb-4 ">
-          <span>Số lượng: </span>
-          <br />
-          <el-input-number class="mt-3" v-model="quantity" :min="1" :max="10" @change="handleChange" />
-        </div>
+        <div class="col-md-7">
+          <h1 class="mb-4">Thông tin sách</h1>
+          <h4 class="mb-3 text-muted fst-italic">Mã sách: {{ book.MASACH }}</h4>
+          <h4 class="mb-3 text-muted">Tên sách: {{ book.TENSACH }}</h4>
+          <h5 class="text-muted mb-3">Tác giả: {{ book.TACGIA }}</h5>
+          <p class="description mb-4">Đơn giá: {{ book.DONGIA }}</p>
+          <p class="description mb-4">Số quyển: {{ book.SOQUYEN }}</p>
+          <p class="description mb-4">Nhà xuất bản: {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
+          <p class="description mb-4">Năm xuất bản: {{ book.NAMXUATBAN }}</p>
+          <div class="quantity-control mb-4 ">
+            <span>Số lượng: </span>
+            <br />
+            <el-input-number class="mt-3" v-model="quantity" :min="1" :max="20" />
+          </div>
 
-        <button class="btn btn-primary" @click="borrowBook">Đăng ký mượn</button>
+          <el-button 
+              type="primary"
+              :loading="isLoading"
+              :disabled="isLoading"
+              @click="handleBorrowBook">
+              Đăng ký mượn
+          </el-button>
+
+        </div>
       </div>
     </div>
-  </div>
-
-  <div v-else class="text-center py-5">
-    <p>Đang tải dữ liệu sách hoặc không tìm thấy sách...</p>
-  </div>
+    <div v-else class="text-center py-5">
+      <p>Đang tải dữ liệu sách hoặc không tìm thấy sách...</p>
+    </div>
+  </main>
+  <AppFooter />
 </template>
 
 
@@ -41,42 +53,115 @@
 import { ref, computed, onMounted } from 'vue';
 import { useBookStore } from '@/stores/sach.store';
 import { useRoute } from 'vue-router'
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import { ElMessage } from 'element-plus';
+import { useBorrowBookStore } from '@/stores/muonsach.store';
+import { useUserStore } from '@/stores/nguoidung.store';
+import router from '@/router';
+import { ElButton } from 'element-plus';
 
+const isLoading = ref(false);
+const props = defineProps({
+  MaSach: {
+    type: String,
+  }
+});
+const userStore = useUserStore();
 const quantity = ref(1);
 const route = useRoute()
 const id = route.params.MaSach
 const bookStore = useBookStore();
+const borrowBookStore = useBorrowBookStore();
 
 onMounted(async () => {
-    await bookStore.getAll();
+  await bookStore.getAll();
 });
 const book = computed(() => {
-    return bookStore.getBook(id);
+  return bookStore.getBook(id);
 });
+
+const handleBorrowBook = async () => {
+  if (!book.value) {
+    ElMessage({
+      message: 'Không tìm thấy sách để mượn.',
+      type: 'warning',
+    });
+  }
+  if(!userStore.token){
+    ElMessage({
+      message: 'Vui lòng đăng nhập để mượn sách.',
+      type: 'warning',
+    });
+    router.push({ name: 'dangnhap' });
+    return;
+  }
+  const soluongconlai = book.value.SOQUYEN - book.value.SoLuongDaMuon
+  if(quantity.value > soluongconlai){
+    ElMessage({
+      message: `Số lượng sách còn lại không đủ. Hiện tại chỉ còn ${soluongconlai} quyển.`,
+      type: 'warning',
+    });
+    return;
+  }
+  const data = {
+    MASACH: book.value._id,
+    SoLuongMuon: quantity.value,
+    MADOCGIA: userStore.userInfo._id,
+  }
+
+  console.log(data);
+  isLoading.value = true;
+  try{
+    const result = await borrowBookStore.addBorrow(data);
+  if(result === 'Đăng ký mượn sách thành công!'){
+      ElMessage({
+        message: result,
+        type: 'success',
+      });
+      router.push({ name: 'trangchu' });
+    } else {
+      ElMessage({
+        message: result || 'Đăng ký mượn sách thất bại. Vui lòng thử lại.',
+        type: 'error',
+      });
+    }
+  }catch(error){
+      ElMessage({
+        message: 'Đã xảy ra lỗi không xác định.',
+        type: 'error',
+      });
+      console.error(error);
+  }finally {
+    isLoading.value = false; // Kết thúc loading
+  }
+  
+};
 </script>
 
 
 <style scoped>
 .image-wrapper {
-    width: 100%;
-    max-height: 400px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-wrapper img {
-    object-fit: cover;
-    max-height: 300px;
-    max-width: 200px;
-    border-radius: 12px;
+  object-fit: cover;
+  max-height: 300px;
+  max-width: 200px;
+  border-radius: 12px;
 }
 
 .description {
-    font-size: 1rem;
-    line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.6;
 }
+
 .quantity-control button {
   width: 35px;
   height: 35px;
@@ -91,6 +176,7 @@ const book = computed(() => {
   font-weight: 600;
   font-size: 1.2rem;
 }
+
 /* thêm hiệu ứng cho hình ảnh */
 .image-wrapper {
   perspective: 800px;
@@ -112,5 +198,4 @@ const book = computed(() => {
 .image-wrapper:hover img {
   transform: rotateY(-25deg);
 }
-
 </style>

@@ -3,6 +3,8 @@ import sach from '@/components/sach.vue'
 import slider from '@/components/slider.vue'
 import { onMounted, computed } from 'vue'
 import { useBookStore } from '@/stores/sach.store'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 const bookStore = useBookStore()
 onMounted(() => {
@@ -14,15 +16,8 @@ const books = computed(() => {
 </script>
 
 <template>
-  <main>
-    <!-- <div class="container mt-5">
-      <h4 class="text-center">
-        Chào mừng bạn đến với hệ thống quản lý thư viện trực tuyến!
-      </h4>
-      <h4 class="text-center">
-        Tại đây, bạn có thể tìm kiếm sách, quản lý thông tin cá nhân và theo dõi lịch sử mượn sách của mình.
-      </h4>
-    </div> -->
+  <AppHeader />
+  <main class="container mt-5 pt-5">
     <slider />
     <hr class="container mt-5" />
     <h1 class="text-center mb-4">Danh sách sách</h1>
@@ -39,6 +34,7 @@ const books = computed(() => {
       </div>
     </div>
   </main>
+  <AppFooter />
 </template>
 
 <style>
