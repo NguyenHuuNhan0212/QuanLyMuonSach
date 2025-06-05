@@ -7,7 +7,6 @@ export const useBookStore = defineStore('book', {
         return {
             books: [],
             searchText: '',
-            fetching: false,
         }
     },
     actions: {
@@ -16,7 +15,6 @@ export const useBookStore = defineStore('book', {
                 return axiosInstance.get('/books')
                     .then((res) => {
                         this.books = res.data.sach
-                        this.fetching = true
                         return res.data.message
                     })
                     .catch((err) => {
@@ -79,8 +77,5 @@ export const useBookStore = defineStore('book', {
         getBooksFormName(state) {
             return (name) => state.books.filter(book => book.TENSACH.toLowerCase().includes(name.toLowerCase()))
         },
-        getFetching(state) {
-            return state.fetching
-        }
     }
 })

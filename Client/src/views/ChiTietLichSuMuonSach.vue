@@ -23,9 +23,18 @@
                     <p><strong>Mã sách:</strong> {{ borrowedBook.MASACH.MASACH }}</p>
                 <p><strong>Tên sách:</strong> {{ borrowedBook.MASACH.TENSACH }}</p>
                 <p><strong>Tác giả:</strong> {{ borrowedBook.MASACH.TACGIA }}</p>
-                <p><strong>Ngày mượn:</strong> {{ borrowedBook.NGAYMUON }}</p>
+                <p><strong>Ngày mượn:</strong>
+                    <span v-if="borrowedBook.TrangThai === 'Đã lấy' || borrowedBook.TrangThai === 'Đã trả'">
+                        {{ formatDate(borrowedBook.NGAYMUON) }}
+                    </span>
+                    <span v-else> Bạn chưa đến lấy sách </span>
+                </p>
                     <p><strong>Số lượng mượn:</strong> {{ borrowedBook.SoLuongMuon }}</p>
-                <p><strong>Ngày trả:</strong> {{ borrowedBook.NGAYTRA || 'Không có thông tin' }}</p>
+                <p><strong>Ngày trả:</strong> 
+                    <span v-if="borrowedBook.TrangThai === 'Đã trả'">
+                        {{ formatDate(borrowedBook.NGAYTRA) }}
+                    </span>
+                    <span v-else> Bạn chưa trả sách</span></p>
                 <p><strong>Trạng thái:</strong>
                     <span :class="{
                                 'text-success': borrowedBook.TrangThai === 'Đã lấy',
@@ -67,21 +76,38 @@ onMounted(async () => {
 const borrowedBook = computed(() => {
     return useBorrowBookStore().getBorrowById(id)
 })
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleString('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
 </script>
 <style scoped>
+
+/* thêm hiệu ứng cho hình ảnh */
 .image-wrapper {
-  width: 100%;
-  max-height: 400px;
-  overflow: hidden;
+  perspective: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .image-wrapper img {
-  object-fit: cover;
-  max-height: 300px;
-  max-width: 200px;
-  border-radius: 12px;
+  width: 200px;
+  height: auto;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  transition: transform 0.6s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.image-wrapper:hover img {
+  transform: rotateY(-25deg);
 }
 </style>

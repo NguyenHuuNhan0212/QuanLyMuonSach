@@ -81,7 +81,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
                     return false
                 })
         },
-        deleteBorowForUser(MaMuon) {
+        deleteBorrowForUser(MaMuon) {
             const userStore = useUserStore()
             const token = userStore.token
             if(!token) {

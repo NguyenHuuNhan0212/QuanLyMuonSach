@@ -13,7 +13,7 @@ module.exports = class BorrowBook{
     }
     async getAllForAdmin(){
         const result = await muonSachModel.find({})
-            .populate('MADOCGIA', 'HOLOT TEN PHAI NGAYSINH DIACHI DIENTHOAI')
+            .populate('MADOCGIA', 'HOLOT EMAIL TEN PHAI NGAYSINH DIACHI DIENTHOAI')
             .populate('MASACH')
             .populate('MSNV', 'HoTenNV ChucVu SoDienThoai')
         return {

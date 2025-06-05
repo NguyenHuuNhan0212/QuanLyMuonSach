@@ -1,0 +1,15 @@
+.image-wrapper {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper img {
+  object-fit: cover;
+  max-height: 300px;
+  max-width: 200px;
+  border-radius: 12px;
+}

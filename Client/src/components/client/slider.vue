@@ -1,5 +1,5 @@
 <template>
-  <div id="carouselExample" class="carousel slide container mt-5" data-bs-ride="carousel">
+  <div id="carouselExample" class="carousel slide container mt-5" data-aos="fade-right" data-aos-duration="1000" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow">
       <div class="carousel-item active">
         <img src="@/assets/slider_book.jfif" class="d-block w-100" alt="Thư viện 1">

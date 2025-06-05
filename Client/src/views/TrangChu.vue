@@ -25,7 +25,7 @@ const books = computed(() => {
     <div class="container">
       <div class="row  g-4">
         <div
-          class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-1-5"
+          class="col-12 col-sm-6 col-md-4 col-lg-3"
           v-for="book in books"
           :key="book.MASACH"
         >
@@ -39,10 +39,5 @@ const books = computed(() => {
 
 <style scoped>
 
-@media (min-width: 1200px) {
-  .col-xl-1-5 {
-    flex: 0 0 auto;
-    width: 20%;
-  }
-}
+
 </style>

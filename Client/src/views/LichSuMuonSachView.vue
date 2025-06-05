@@ -49,14 +49,16 @@ onMounted(async () => {
 
 const  cancelBorrow = async (id) => {
     try {
-        await borrowBookStore.deleteBorowForUser(id)
+        await borrowBookStore.deleteBorrowForUser(id)
         ElMessage({
             message: 'Hủy đăng ký mượn sách thành công.',
             type: 'success'
         });
+        router.push({ name: 'lichsumuonsach' });
         // Cập nhật lại danh sách mượn sách
         await borrowBookStore.getAllForUser();
         borrowHistory.value = borrowBookStore.SachMuon;
+         
     } catch (error) {
         ElMessage({
             message: 'Hủy đăng ký mượn sách thất bại.',

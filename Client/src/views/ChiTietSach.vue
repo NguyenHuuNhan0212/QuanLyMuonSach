@@ -17,15 +17,15 @@
         </div>
         <div class="col-md-7">
           <h1 class="mb-4">Thông tin sách</h1>
-          <h4 class="mb-3 text-muted fst-italic">Mã sách: {{ book.MASACH }}</h4>
-          <h4 class="mb-3 text-muted">Tên sách: {{ book.TENSACH }}</h4>
-          <h5 class="text-muted mb-3">Tác giả: {{ book.TACGIA }}</h5>
-          <p class="description mb-4">Đơn giá: {{ book.DONGIA }}</p>
-          <p class="description mb-4">Số quyển: {{ book.SOQUYEN }}</p>
-          <p class="description mb-4">Nhà xuất bản: {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
-          <p class="description mb-4">Năm xuất bản: {{ book.NAMXUATBAN }}</p>
+          <p class="mb-3 description fst-italic"><strong>Mã sách:</strong> {{ book.MASACH }}</p>
+          <p class="mb-3 description "><strong>Tên sách: </strong> {{ book.TENSACH }}</p>
+          <p class="mb-3 description"><strong>Tác giả: </strong> {{ book.TACGIA }}</p>
+          <p class="description mb-4"><strong>Đơn giá: </strong> {{ book.DONGIA }}</p>
+          <p class="description mb-4"><strong>Số lượng còn lại: </strong> {{ soluongConLai }}</p>
+          <p class="description mb-4"><strong>Nhà xuất bản: </strong> {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
+          <p class="description mb-4"><strong>Năm xuất bản: </strong> {{ book.NAMXUATBAN }}</p>
           <div class="quantity-control mb-4 ">
-            <span>Số lượng: </span>
+            <strong>Số lượng: </strong>
             <br />
             <el-input-number class="mt-3" v-model="quantity" :min="1" :max="20" />
           </div>
@@ -67,6 +67,7 @@ const props = defineProps({
     type: String,
   }
 });
+
 const userStore = useUserStore();
 const quantity = ref(1);
 const route = useRoute()
@@ -109,17 +110,17 @@ const handleBorrowBook = async () => {
     SoLuongMuon: quantity.value,
     MADOCGIA: userStore.userInfo._id,
   }
-
-  console.log(data);
   isLoading.value = true;
   try{
     const result = await borrowBookStore.addBorrow(data);
   if(result === 'Đăng ký mượn sách thành công!'){
+        // Cập nhật trực tiếp trong mảng books
+       await bookStore.getAll();
       ElMessage({
         message: result,
         type: 'success',
       });
-      router.push({ name: 'trangchu' });
+      router.push({ name: 'lichsumuonsach' });
     } else {
       ElMessage({
         message: result || 'Đăng ký mượn sách thất bại. Vui lòng thử lại.',
@@ -135,27 +136,15 @@ const handleBorrowBook = async () => {
   }finally {
     isLoading.value = false; // Kết thúc loading
   }
-  
-};
+}
+
+const soluongConLai = computed(() => {
+  if (!book.value) return 0;
+  return book.value.SOQUYEN - book.value.SoLuongDaMuon;
+});
+
 </script>
-
-
 <style scoped>
-.image-wrapper {
-  width: 100%;
-  max-height: 400px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-wrapper img {
-  object-fit: cover;
-  max-height: 300px;
-  max-width: 200px;
-  border-radius: 12px;
-}
 
 .description {
   font-size: 1rem;
@@ -176,6 +165,7 @@ const handleBorrowBook = async () => {
   font-weight: 600;
   font-size: 1.2rem;
 }
+
 
 /* thêm hiệu ứng cho hình ảnh */
 .image-wrapper {

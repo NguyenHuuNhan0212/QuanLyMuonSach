@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5 pt-5" style="max-width: 400px; max-height: 600px;">
       <h2 class="mb-4 text-center">Đăng nhập</h2>
-      <form @submit.prevent="login">
+      <form @submit.prevent="handleSubmit">
         <div class="mb-3">
           <label for="SoDienThoai" class="form-label">Số điện thoại</label>
           <input v-model="SoDienThoai" type="text" class="form-control" id="SoDienThoai" placeholder="Nhập số điện thoại"
@@ -19,7 +19,7 @@
             Đăng nhập với vai trò admin
             </label>
         </div>
-        <button type="submit" class="btn btn-primary w-100 mt-3" @click="handleSubmit">Đăng nhập</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
         <div class="text-center mt-3">
           <p>Chưa có tài khoản? <router-link :to="{name: 'dangky'}" class="register-link">Đăng ký ngay</router-link></p>
         </div>
@@ -53,12 +53,19 @@ const handleSubmit = async () => {
         await userStore.UserLogin({DIENTHOAI: SoDienThoai.value,PASSWORD: password.value,});
 
     const token = isAdmin.value ? userStore.staffToken : userStore.token;
-    if (result && token) {
+    if (result && token && !isAdmin.value) {
       ElMessage({
         message: 'Đăng nhập thành công!',
         type: 'success',
       });
       router.push({ name: 'trangchu' });
+    }else if(result && token && isAdmin.value) {
+      ElMessage({
+        message: 'Đăng nhập với vai trò quản trị viên thành công!',
+        type: 'success',
+      });
+      router.push({ name: 'trangchuadmin' });
+
     } else {
       ElMessage({
         message: 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.',

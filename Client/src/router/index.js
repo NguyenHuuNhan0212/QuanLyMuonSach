@@ -28,11 +28,23 @@ const routes = [
     component: () => import("../views/LichSuMuonSachView.vue"),
   },
   {
-        path: "/user/lich-su-muon-sach/:id",
-        name: "chitietlichsumuonsach",
-        component: () => import("../views/ChiTietLichSuMuonSach.vue"),
-        props: true,
+    path: "/user/lich-su-muon-sach/:id",
+    name: "chitietlichsumuonsach",
+    component: () => import("../views/ChiTietLichSuMuonSach.vue"),
+    props: true,
+  },
+  {
+    path: "/admin/dashboard",
+    name: "trangchuadmin",
+    component: () => import("../views/AdminDashboard.vue"),
+    children: [
+      {
+          path: "/quan-ly-muon-sach",
+          name: "quanlymuonsach",
+          component: () => import("../components/Admin/QuanLyMuonSach.vue"),
       },
+    ]
+  },
 
 ]
 

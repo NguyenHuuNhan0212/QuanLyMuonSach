@@ -49,9 +49,11 @@
             @keyup.enter="onSearch"
           />
         </form>
+
+          <router-link v-if="!userStore.token && !userStore.staffToken" :to="{name: 'dangnhap'}" class="nav-link fw-semibold text-primary nav-link-border">Đăng nhập</router-link>
         
         <!-- Phải: Dropdown menu -->
-        <ul class="navbar-nav ms-auto">
+        <ul v-else class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle fw-semibold text-primary me-4 nav-link-border"
@@ -66,15 +68,9 @@
             <span v-else-if="userStore.staffToken">
               {{ userStore.staffInfo?.HoTenNV || 'Quản trị viên' }}
             </span>
-            <span v-else>
-              Menu
-            </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li v-if="!userStore.token && !userStore.staffToken">
-                <router-link :to="{name: 'dangnhap'}" class="dropdown-item">Đăng nhập</router-link>
-              </li>
-              <li v-else><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
+              <li v-if="userStore.token || userStore.staffToken"><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
               <li v-if="userStore.token">
                 <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
               </li>
@@ -105,16 +101,6 @@ const handleLogout = () => {
       message: 'Đăng xuất thành công!',
       type: 'success',
     });
-     // Redirect to home page after logout
-  } else if(userStore.staffToken) {
-    userStore.StaffLogout();
-    sachStore.searchText = ''; // Reset search text on logout
-    router.push({ name: 'trangchu' }); // Redirect to home page after logout
-    ElMessage({
-      message: 'Đăng xuất thành công!',
-      type: 'success',
-    });
-   
   } else {
     ElMessage.error('Bạn chưa đăng nhập!');
   }

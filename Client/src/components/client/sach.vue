@@ -1,7 +1,7 @@
 <template>
   <RouterLink :to="{ name: 'chitietsach', params: { MaSach: book.MASACH }}" class="book-link">
-    <div class="card text-center book-card">
-      <div class="image-wrapper">
+    <div class="card text-center book-card" data-aos="fade-up" data-aos-duration="500">
+      <div class="image-wrapper-home">
         <img :src="book.image" class="card-img-top book-image" :alt="book.TENSACH" />
       </div>
       <br>
@@ -49,7 +49,7 @@ const props = defineProps({
 }
 
 /* Ảnh */
-.image-wrapper {
+.image-wrapper-home {
   width: 100%;
   height: 250px; /* Cố định chiều cao ảnh */
   /* overflow: hidden; */
