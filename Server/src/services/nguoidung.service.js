@@ -56,4 +56,20 @@ module.exports = class UserService{
             return { message: 'Có lỗi trong quá trình đăng nhập!'}
         }
     }
+    // cập nhật thông tin người dùng theo ID
+    async updateUser(id, data){
+        try{
+            const user = await nguoiDungModel.findById(id)
+            if(!user){
+                return {message: 'Người dùng không tồn tại!'}
+            }
+            if(data.PASSWORD){
+                data.PASSWORD = await bcrypt.hash(data.PASSWORD, 10)
+            }
+            const updatedUser = await nguoiDungModel.findByIdAndUpdate(id, data, {new: true})
+            return {data: updatedUser, message: 'Cập nhật thông tin thành công!'}
+        }catch(err){
+            return {message: err.message}
+        }
+    }
 }

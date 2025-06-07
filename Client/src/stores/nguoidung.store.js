@@ -35,6 +35,26 @@ export const useUserStore = defineStore('user', {
             return false
           })
     },
+    UserUpdate: function(userData) {
+      if (!this.token) {
+        return false
+      }
+      if (!userData || !userData._id) {
+        return false  
+      }
+      return axiosInstance.patch(`/users/${this.userInfo._id}`, userData)
+          .then((res) => {
+            console.log('Dữ liệu trả về từ server:', res.data)
+            this.userInfo = res.data?.data
+            console.log(this.userInfo)
+            sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+            return res.data.message
+          })
+          .catch((err) => {
+            console.log(err)
+            return false
+          })
+    },
     StaffLogin: function(staffData) {
       return axiosInstance.post('/staffs/login', staffData)
           .then((res) => {

@@ -61,3 +61,16 @@ module.exports.logout =  (req, res, next) => {
         return next(new ApiError(500, 'Có lỗi khi đăng xuất!'))
     }
 }
+//[PATCH] /users/:id
+module.exports.updateUser = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const data = req.body
+        const userService = new UserService()
+        const result = await userService.updateUser(id, data)
+        return res.status(200).json(result)
+    }catch(err){
+        console.log(err)
+        return next(new ApiError(500, 'Có lỗi khi cập nhật thông tin người dùng!'))
+    }
+}

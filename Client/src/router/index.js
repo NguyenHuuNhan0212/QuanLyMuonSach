@@ -12,13 +12,13 @@ const routes = [
     component: () => import("../views/DangNhapView.vue"),
   },
   {
-    path: "/book/:MaSach",
+    path: "/user/book/:MaSach",
     name: "chitietsach",
     component: () => import("../views/ChiTietSach.vue"),
     props: true,
   },
   {
-    path: "/dang-ky",
+    path: "/user/dang-ky",
     name: "dangky",
     component: () => import("../views/DangKyView.vue"),
   },
@@ -31,6 +31,18 @@ const routes = [
     path: "/user/lich-su-muon-sach/:id",
     name: "chitietlichsumuonsach",
     component: () => import("../views/ChiTietLichSuMuonSach.vue"),
+    props: true,
+  },
+   {
+    path: "/user/trang-ca-nhan/:id",
+    name: "trangcanhan",
+    component: () => import("../components/client/TrangCaNhan.vue"),
+    props: true,
+  },
+  {
+    path: "/user/update/trang-ca-nhan/:id",
+    name: "capnhatthongtindocgia",
+    component: () => import("../components/client/CapNhatThongTin.vue"),
     props: true,
   },
   {

@@ -65,15 +65,18 @@
             <span v-if="userStore.token">
               {{ userStore.userInfo?.TEN || 'Tài khoản' }}
             </span>
-            <span v-else-if="userStore.staffToken">
-              {{ userStore.staffInfo?.HoTenNV || 'Quản trị viên' }}
-            </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li v-if="userStore.token || userStore.staffToken"><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
-              <li v-if="userStore.token">
-                <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
-              </li>
+              <template v-if="userStore.token">
+                  <li><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
+                  <li>
+                    <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{name: 'trangcanhan', params: { id: userStore.userInfo?.MADOCGIA}}" class="dropdown-item">Tài khoản</router-link>
+                  </li>
+              </template>
+              
             </ul>
           </li>
         </ul>

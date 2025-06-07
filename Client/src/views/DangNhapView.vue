@@ -9,7 +9,7 @@
 <script setup>
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import mauDangNhapNguoiDung from '@/components/MauDangNhapNguoiDung.vue';
+import mauDangNhapNguoiDung from '@/components/client/MauDangNhapNguoiDung.vue';
 
 </script>
 
