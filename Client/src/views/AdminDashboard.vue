@@ -4,7 +4,7 @@
         <div class="flex-grow-1">
             <AdminHeader />
             <div class="container mt-4">
-                <h4>Chào mừng bạn đến với trang Admin</h4>
+                <h4 class="text-center">Chào mừng bạn đến với trang Admin</h4>
                 <RouterView />
             </div>
         </div>

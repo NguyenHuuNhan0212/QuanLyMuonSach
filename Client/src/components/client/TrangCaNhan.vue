@@ -13,7 +13,7 @@
             </p>
             <p>
                 <el-icon><Calendar /></el-icon>
-                <strong>Ngày sinh:</strong> {{ userStore.userInfo?.NGAYSINH }}
+                <strong>Ngày sinh:</strong> {{ formatDate(userStore.userInfo?.NGAYSINH) }}
             </p>
             <p>
                 <el-icon><User /></el-icon>
@@ -54,6 +54,11 @@ const handleUpdateAccount = () => {
     // Redirect to the account update page
     router.push({ name: 'capnhatthongtindocgia', params: { id: userStore.userInfo?._id } });
 }
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('vi-VN');
+};
+
 </script>
 
 <style scoped>

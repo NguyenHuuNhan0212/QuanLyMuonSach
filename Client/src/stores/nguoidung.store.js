@@ -44,9 +44,7 @@ export const useUserStore = defineStore('user', {
       }
       return axiosInstance.patch(`/users/${this.userInfo._id}`, userData)
           .then((res) => {
-            console.log('Dữ liệu trả về từ server:', res.data)
             this.userInfo = res.data?.data
-            console.log(this.userInfo)
             sessionStorage.setItem('userInfo', JSON.stringify(this.userInfo))
             return res.data.message
           })

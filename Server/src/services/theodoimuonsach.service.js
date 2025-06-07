@@ -15,7 +15,7 @@ module.exports = class BorrowBook{
         const result = await muonSachModel.find({})
             .populate('MADOCGIA', 'HOLOT EMAIL TEN PHAI NGAYSINH DIACHI DIENTHOAI')
             .populate('MASACH')
-            .populate('MSNV', 'HoTenNV ChucVu SoDienThoai')
+            .populate('MSNV', 'HoTenNV ChucVu SoDienThoai DiaChi')
         return {
             danhsachmuon: result,
             message: 'Lấy thông tin mượn sách thành công.'
@@ -123,6 +123,12 @@ module.exports = class BorrowBook{
         }
     }
     async updateBorrowForAdmin(data, muonId, nhanVienId){
+        let kiemTra = await muonSachModel.findOne({_id: muonId})
+        if(!kiemTra){
+            return {message: 'Không tìm thấy thông tin mượn sách.'}
+        }else if(kiemTra.TrangThai === data.TrangThai){
+            return {message: 'Trạng thái mượn sách không thay đổi.'}
+        }
         if(data.TrangThai == "Đã lấy"){
             const muon = await muonSachModel.findOneAndUpdate(
                 {
@@ -142,7 +148,7 @@ module.exports = class BorrowBook{
              const chiTietMuon = await muonSachModel.findOne({ _id: muonId})
                 .populate('MASACH')
                 .populate('MADOCGIA', 'HOLOT TEN NGAYSINH PHAI DIACHI DIENTHOAI')
-                .populate('MSNV', 'HoTenNV ChucVu SoDienThoai')
+                .populate('MSNV', 'HoTenNV ChucVu DiaChi SoDienThoai')
             return {
                 muon: chiTietMuon,
                 message: 'Cập nhật thành công.'
@@ -171,7 +177,7 @@ module.exports = class BorrowBook{
             const chiTietMuon = await muonSachModel.findById(muonId)
                     .populate('MASACH')
                     .populate('MADOCGIA', 'HOLOT TEN NGAYSINH PHAI DIACHI DIENTHOAI')
-                    .populate('MSNV', 'HoTenNV ChucVu SoDienThoai')
+                    .populate('MSNV', 'HoTenNV ChucVu DiaChi SoDienThoai')
             return {
                 muon: chiTietMuon,
                 message: 'Cập nhật mượn sách thành công.'

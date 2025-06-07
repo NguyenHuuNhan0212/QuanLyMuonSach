@@ -1,176 +1,178 @@
 <template>
-    <div class="container mt-4" data-aos="fade-up" data-aos-duration="1000">
-        <h4 class="mb-3 text-center">Quản lý mượn sách</h4>
+    <div class="borrow-table-container">
+        <h3 class="text-xl font-semibold mb-4 text-center">Danh sách mượn sách</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Mã mượn</th>
+                    <th>Tên độc giả</th>
+                    <th>Tên sách</th>
+                    <th>Ngày mượn</th>
+                    <th>Đơn giá</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="(item, index) in borrowList" :key="item.id">
+                    <tr>
+                        <td>{{ item.MAMUONSACH }}</td>
+                        <td>{{ item.MADOCGIA?.HOLOT }} {{ item.MADOCGIA?.TEN }}</td>
+                        <td>{{ item.MASACH?.TENSACH }}</td>
+                        <td>{{ formatDate(item.NGAYMUON) || 'Chưa lấy sách' }}</td>
+                        <td>{{ item.MASACH?.DONGIA }}</td>
+                        <td>
+                            <select v-model="item.TrangThai" class="form-select text-center fw-semibold"
+                                :class="bgSelect(item.TrangThai)">
+                                <option value="Chờ lấy" class="bg-warning fw-semibold">Chờ lấy</option>
+                                <option value="Đã lấy" class="bg-success fw-semibold">Đã lấy</option>
+                                <option value="Đã trả" class="bg-info fw-semibold">Đã trả</option>
+                            </select>
+                        </td>
+                        <td class="text-center align-middle">
+                            <div class="d-flex justify-content-center gap-2">
+                                <button class="btn btn-sm btn-primary" @click="updateStatus(index)">Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteBorrow(index)">Xóa</button>
+                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)">Chi tiết</button>
+                            </div>
+                        </td>
+                    </tr>
 
-        <el-table :data="borrowStore.AdminMuon" border stripe style="width: 100%">
-            <el-table-column label="Người mượn">
-                <template #default="{ row }">
-                    {{ row.MADOCGIA?.HOLOT }} {{ row.MADOCGIA?.TEN }}
+                    <!-- Chi tiết mở rộng -->
+                    <tr v-if="expandedRow === index">
+                        <td colspan="7">
+                            <div class="p-3 bg-light rounded">
+                                <div class="row">
+                                <!-- Cột bên trái: Thông tin độc giả -->
+                                <div class="col-md-6">
+                                    <p><strong>Mã mượn:</strong> {{ item.MAMUONSACH }}</p>
+                                    <p><strong>Độc giả:</strong> {{ item.MADOCGIA?.HOLOT }} {{ item.MADOCGIA?.TEN }}</p>
+                                    <p><strong>Email:</strong> {{ item.MADOCGIA?.EMAIL || 'Không có' }}</p>
+                                    <p><strong>Sách:</strong> {{ item.MASACH?.TENSACH }} (Đơn giá: {{ item.MASACH?.DONGIA }} VNĐ)</p>
+                                    <p><strong>Số lượng mượn:</strong> {{ item.SoLuongMuon }}</p>
+                                    <p><strong>Ngày mượn:</strong> {{ formatDate(item.NGAYMUON) }}</p>
+                                    <p v-if="item.TrangThai === 'Đã trả'"><strong>Ngày trả:</strong> {{ formatDate(item.NGAYTRA) }}</p>
+                                    <p><strong>Trạng thái:</strong> {{ item.TrangThai }}</p>
+                                </div>
+
+                                <!-- Cột bên phải: Thông tin nhân viên -->
+                                <div class="col-md-6">
+                                    <p><strong>Nhân viên xử lý:</strong> {{ item.MSNV?.HoTenNV || 'Chưa xác định' }}</p>
+                                    <p><strong>Số điện thoại nhân viên:</strong> {{ item.MSNV?.SoDienThoai || 'Không có' }}</p>
+                                    <p><strong>Địa chỉ:</strong> {{ item.MSNV?.DiaChi || 'Không tìm thấy địa chỉ' }}</p>
+                                </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </template>
-            </el-table-column>
-
-            <el-table-column label="Tên sách">
-                <template #default="{ row }">
-                    {{ row.MASACH?.TENSACH }}
-                </template>
-            </el-table-column>
-
-            <el-table-column label="Ngày mượn">
-                <template #default="{ row }">
-                    {{ formatDate(row.NGAYMUON) }}
-                </template>
-            </el-table-column>
-
-            <el-table-column label="Trạng thái">
-                <template #default="{ row }">
-                    <el-tag :type="tagType(row.TrangThai)">
-                        {{ row.TrangThai }}
-                    </el-tag>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="Hành động" width="300">
-                <template #default="{ row }">
-                    <el-button type="info" size="small" @click="viewDetail(row)">
-                        Chi tiết
-                    </el-button>
-                    <el-button v-if="row.TrangThai === 'Chờ lấy'" type="primary" size="small" @click="markAsTaken(row)">
-                        Đã lấy
-                    </el-button>
-                    <el-button v-else-if="row.TrangThai === 'Đã lấy'" type="success" size="small"
-                        @click="markReturned(row)">
-                        Đã trả
-                    </el-button>
-                    <el-button v-else-if="row.TrangThai === 'Đã trả'" type="danger" size="small"
-                        @click="deleteBorrow(row)">
-                        Xóa
-                    </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-
-        <!-- Dialog chi tiết -->
-        <el-dialog v-model="detailDialogVisible" width="500px" append-to-body>
-            <template #header>
-                <div style="text-align: center;">
-                    <span style="font-weight: bold;">📋 Chi tiết phiếu mượn</span>
-                </div>
-            </template>
-            <template #default>
-                <p><strong>📗 Mã sách:</strong> {{ selected?.MASACH?.MASACH || 'Không rõ' }}</p>
-                <p><strong>📕 Tên sách:</strong> {{ selected?.MASACH?.TENSACH || 'Không rõ' }}</p>
-                <p><strong>🗓️ Ngày mượn:</strong> {{ formatDate(selected?.NGAYMUON) }}</p>
-                <p v-if="selected?.TrangThai === 'Đã trả'"><strong>🗓️ Ngày trả:</strong> {{ formatDate(selected?.NGAYTRA) }}</p>
-                <p><strong>📌 Trạng thái:</strong> {{ selected?.TrangThai }}</p>
-                <p><strong>🔢 Số lượng mượn:</strong> {{ selected?.SoLuongMuon }}</p>
-                <p><strong>🙋‍♂️ Độc giả:</strong> {{ selected?.MADOCGIA?.HOLOT }} {{ selected?.MADOCGIA?.TEN }}</p>
-                <p><strong>📞 SĐT độc giả:</strong> {{ selected?.MADOCGIA?.DIENTHOAI }}</p>
-                <p><strong>📧 Email độc giả:</strong> {{ selected?.MADOCGIA?.EMAIL || 'Không có địa chỉ email hợp lệ' }}
-                </p>
-                <p><strong>🏡 Địa chỉ độc giả:</strong> {{ selected?.MADOCGIA?.DIACHI || 'Không tìm thấy địa chỉ' }}</p>
-                <p><strong>🧑‍💼 Nhân viên duyệt:</strong> {{ selected?.MSNV?.HoTenNV || 'Chưa có' }}</p>
-                <p><strong>📱 SĐT nhân viên:</strong> {{ selected?.MSNV?.SoDienThoai || 'Chưa có' }}</p>
-            </template>
-            <template #footer>
-                <el-button @click="detailDialogVisible = false">Đóng</el-button>
-            </template>
-        </el-dialog>
+            </tbody>
+           
+        </table>
+    
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import { useBorrowBookStore } from '../../stores/muonsach.store';
-
-const borrowStore = useBorrowBookStore();
-
-onMounted(() => {
-    borrowStore.getAllForAdmin();
-});
-
+import { onMounted, ref } from 'vue'
+import { useBorrowBookStore } from '@/stores/muonsach.store'
+import { ElMessage } from 'element-plus'
+const borrowStore = useBorrowBookStore()
+const borrowList = ref([])
+onMounted(async () => {
+    await borrowStore.getAllForAdmin()
+    borrowList.value = borrowStore.AdminMuon
+})
 const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return isNaN(date.getTime())
-        ? 'Không xác định'
-        : date.toLocaleString('vi-VN', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-};
-
-const tagType = (status) => {
+    if (!dateStr) return 'Chưa lấy sách'
+    return new Date(dateStr).toLocaleDateString('vi-VN')
+}
+const updateStatus = (index) => {
+    const item = borrowList.value[index]
+    const data = ref({
+        MAMUONSACH: item.MAMUONSACH,
+        MADOCGIA: item.MADOCGIA._id,
+        MASACH: item.MASACH._id,
+        NGAYMUON: item.NGAYMUON,
+        DONGIA: item.MASACH.DONGIA,
+        TrangThai: item.TrangThai
+    })
+    borrowStore.updateBorrowForAdmin(item._id, data.value)
+        .then(() => {
+            borrowStore.getAllForAdmin() // Refresh the list after update
+            ElMessage.success('Cập nhật thành công!')
+            console.log('Cập nhật trạng thái:', data.value)
+        })
+        .catch(error => {
+            console.error('Cập nhật thất bại:', error)
+            ElMessage.error('Cập nhật thất bại, vui lòng thử lại!')
+        })
+}
+const deleteBorrow = (index) => {
+    const item = borrowList.value[index]
+    borrowStore.deleteBorrowForAdmin(item._id)
+        .then(() => {
+            borrowList.value = borrowStore.AdminMuon
+            ElMessage.success(`Xóa phiếu mượn mã ${item.MAMUONSACH} thành công`)
+        })
+        .catch(error => {
+            console.error('Xóa thất bại:', error)
+            ElMessage.error('Xóa thất bại, vui lòng thử lại!')
+        })
+}
+const bgSelect = (status) => {
     switch (status) {
-        case 'Đã trả':
-            return 'success';
-        case 'Đã lấy':
-            return 'primary';
         case 'Chờ lấy':
-            return 'warning';
+            return 'bg-warning';
+        case 'Đã lấy':
+            return 'bg-success';
+        case 'Đã trả':
+            return 'bg-info';
         default:
-            return 'info';
+            return '';
     }
-};
+}
+const expandedRow = ref(null)
 
-// Dialog & dữ liệu chi tiết
-const detailDialogVisible = ref(false);
-const selected = ref(null);
+const toggleDetail = (index) => {
+  expandedRow.value = expandedRow.value === index ? null : index
+}
 
-const viewDetail = (row) => {
-    selected.value = row;
-    detailDialogVisible.value = true;
-};
-
-// Đánh dấu là đã lấy
-const markAsTaken = async (row) => {
-    const success = await borrowStore.updateBorrowForAdmin(row._id, {
-        TrangThai: 'Đã lấy',
-    });
-    if (success) {
-        ElMessage.success('Đã cập nhật trạng thái: Đã lấy');
-    } else {
-        ElMessage.error('Không thể cập nhật trạng thái');
-    }
-};
-
-// Đánh dấu đã trả sách
-const markReturned = async (row) => {
-    const success = await borrowStore.updateBorrowForAdmin(row._id, {
-        TrangThai: 'Đã trả',
-    });
-    if (success) {
-        ElMessage.success('Đã cập nhật trạng thái: Đã trả');
-    } else {
-        ElMessage.error('Không thể cập nhật trạng thái');
-    }
-};
-
-// Xóa phiếu mượn
-const deleteBorrow = (row) => {
-    ElMessageBox.confirm(
-        `Bạn có chắc muốn xóa phiếu mượn "${row.MASACH?.TENSACH}" của ${row.MADOCGIA?.HOLOT} ${row.MADOCGIA?.TEN}?`,
-        'Xác nhận',
-        {
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy',
-            type: 'warning',
-        }
-    ).then(async () => {
-        const success = await borrowStore.deleteBorrowForAdmin(row._id);
-        if (success) {
-            ElMessage.success('Đã xóa phiếu mượn');
-        } else {
-            ElMessage.error('Không thể xóa');
-        }
-    });
-};
 </script>
 
 <style scoped>
-.container {
-    max-width: 1000px;
+.borrow-table-container {
+    max-width: 100%x;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.form-select {
+    width: 100%;
+    padding: 5px;
+    background-color: aliceblue;
+}
+.bg-light {
+  background-color: #f8f9fa;
+}
+
 </style>
