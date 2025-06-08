@@ -1,16 +1,16 @@
 <template>
     <div class="borrow-table-container">
-        <h3 class="text-xl font-semibold mb-4 text-center">Danh sách mượn sách</h3>
+        <h1 class="text-center text-2xl font-bold mb-4">Danh Sách Mượn Sách</h1>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Mã mượn</th>
-                    <th>Tên độc giả</th>
-                    <th>Tên sách</th>
-                    <th>Ngày mượn</th>
-                    <th>Đơn giá</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
+                    <th class="text-center">Mã mượn</th>
+                    <th class="text-center">Tên độc giả</th>
+                    <th class="text-center">Tên sách</th>
+                    <th class="text-center">Ngày mượn</th>
+                    <th class="text-center">Đơn giá</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,9 +24,9 @@
                         <td>
                             <select v-model="item.TrangThai" class="form-select text-center fw-semibold"
                                 :class="bgSelect(item.TrangThai)">
-                                <option value="Chờ lấy" class="bg-warning fw-semibold">Chờ lấy</option>
-                                <option value="Đã lấy" class="bg-success fw-semibold">Đã lấy</option>
-                                <option value="Đã trả" class="bg-info fw-semibold">Đã trả</option>
+                                <option v-if="item.TrangThai !== 'Đã trả'" value="Chờ lấy" class="bg-warning fw-semibold">Chờ lấy sách</option>
+                                <option v-if="item.TrangThai !== 'Đã trả'" value="Đã lấy" class="bg-success fw-semibold">Đã lấy sách</option>
+                                <option value="Đã trả" class="bg-info fw-semibold">Đã trả sách</option>
                             </select>
                         </td>
                         <td class="text-center align-middle">
@@ -76,7 +76,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useBorrowBookStore } from '@/stores/muonsach.store'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const borrowStore = useBorrowBookStore()
 const borrowList = ref([])
 onMounted(async () => {
@@ -110,15 +110,29 @@ const updateStatus = (index) => {
 }
 const deleteBorrow = (index) => {
     const item = borrowList.value[index]
-    borrowStore.deleteBorrowForAdmin(item._id)
+    ElMessageBox.confirm(
+        `Bạn có chắc chắn muốn xóa phiếu mượn mã ${item.MAMUONSACH} không?`,
+        'Xác nhận xóa',
+        {
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+        type: 'warning',
+        }
+    )
+    .then(() => {
+         borrowStore.deleteBorrowForAdmin(item._id)
         .then(() => {
             borrowList.value = borrowStore.AdminMuon
             ElMessage.success(`Xóa phiếu mượn mã ${item.MAMUONSACH} thành công`)
         })
         .catch(error => {
-            console.error('Xóa thất bại:', error)
             ElMessage.error('Xóa thất bại, vui lòng thử lại!')
         })
+    })
+    .catch(() => {
+        ElMessage.error('Đã hủy thao tác xóa')
+    })
+   
 }
 const bgSelect = (status) => {
     switch (status) {
@@ -170,9 +184,6 @@ const toggleDetail = (index) => {
     width: 100%;
     padding: 5px;
     background-color: aliceblue;
-}
-.bg-light {
-  background-color: #f8f9fa;
 }
 
 </style>

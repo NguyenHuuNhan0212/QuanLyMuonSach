@@ -16,7 +16,7 @@ module.exports = class PublisherService{
         }
     }
     async addPublisher(data){
-        const kiemtra = await nhaXuatBanModel.findOne({TENNXB: data.TENNXB})
+        const kiemtra = await nhaXuatBanModel.findOne({TENNXB: data.TENNXB, DIACHI: data.DIACHI})
         if(!kiemtra){
             const nhaXuatBan = new nhaXuatBanModel(data)
             await nhaXuatBan.save()
@@ -32,6 +32,18 @@ module.exports = class PublisherService{
         
     }
     async updatePublisher(MaNXB, data){
+        const kiemTra = await nhaXuatBanModel.findOne({
+                MANXB: { $ne: MaNXB },
+                TENNXB: { $regex: `^${data.TENNXB}$`, $options: 'i' },
+                DIACHI: { $regex: `^${data.DIACHI}$`, $options: 'i' }
+            })
+
+        if(kiemTra){
+            return {
+                nhaxuatban: null,
+                message: 'Nhà xuất bản tồn tại'
+            }
+        }
         const publisher = await nhaXuatBanModel.findOneAndUpdate(
             {
                 MANXB: MaNXB

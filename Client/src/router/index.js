@@ -55,6 +55,23 @@ const routes = [
           name: "quanlymuonsach",
           component: () => import("../components/Admin/QuanLyMuonSach.vue"),
       },
+      {
+          path: "/quan-ly-nha-xuat-ban",
+          name: "quanlynxb",
+          component: () => import("../components/Admin/QuanLyNXB.vue"),
+      },
+      {
+          path: "/quan-ly-nha-xuat-ban/them-nha-xuat-ban",
+          name: "themnxb",
+          component: () => import("../components/Admin/ThemNXB.vue"),
+      },
+      {
+          path: "/quan-ly-nha-xuat-ban/cap-nhat-nha-xuat-ban/:MANXB",
+          name: "capnhatnxb",
+          component: () => import("../components/Admin/CapNhatNXB.vue"),
+          props: true
+      },
+      
     ]
   },
 

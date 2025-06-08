@@ -42,7 +42,7 @@ export const usePublisherStore = defineStore('publisher', {
             const token = userStore.staffToken
             return axiosInstance.patch(`/publishers/${MaNXB}`, data, {headers: {'Authorization': token}})
                 .then((res) => {
-                    const index = this.publishers.findIndex(publisher => publisher.MaNXB === MaNXB)
+                    const index = this.publishers.findIndex(publisher => publisher.MANXB === MaNXB)
                     if (index !== -1) {
                         this.publishers[index] = res.data.nhaxuatban
                     }
@@ -58,7 +58,7 @@ export const usePublisherStore = defineStore('publisher', {
             const token = userStore.staffToken
             return axiosInstance.delete(`/publishers/${MaNXB}`, {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.publishers = this.publishers.filter(publisher => publisher.MaNXB !== MaNXB)
+                    this.publishers = this.publishers.filter(publisher => publisher.MANXB !== MaNXB)
                     return res.data.message
                 })
                 .catch((err) => {
@@ -69,7 +69,7 @@ export const usePublisherStore = defineStore('publisher', {
     },
     getters: {
         getPublisher(state){
-            return (MaNXB) => state.publishers.find(publisher => publisher.MaNXB === MaNXB)
+            return (MaNXB) => state.publishers.find(publisher => String(publisher.MANXB) === MaNXB)
         }
     },
 

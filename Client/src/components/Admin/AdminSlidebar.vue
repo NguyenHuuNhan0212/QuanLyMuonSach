@@ -8,8 +8,8 @@
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" to="/admin/books">
-          <i class="fas fa-book me-2"></i> Sách
+        <router-link class="nav-link" :to="{name: 'quanlynxb'}">
+          <i class="fas fa-building me-2"></i> Quản lý nhà xuất bản
         </router-link>
       </li>
       <li class="nav-item mb-2">
