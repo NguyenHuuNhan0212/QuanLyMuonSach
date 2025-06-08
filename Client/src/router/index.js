@@ -71,6 +71,16 @@ const routes = [
           component: () => import("../components/Admin/CapNhatNXB.vue"),
           props: true
       },
+      {
+          path: "/quan-ly-sach",
+          name: "quanlysach",
+          component: () => import("../components/Admin/QuanLySach.vue"),
+      },
+      {
+          path: "/quan-ly-sach/them-sach",
+          name: "themsach",
+          component: () => import("../components/Admin/ThemSach.vue"),
+      },
       
     ]
   },

@@ -20,7 +20,9 @@ module.exports = class BookService{
             message: 'Thêm sách thành công.'
         }
        }else{
-        return { message: 'Sách đã tồn tại.'}
+        return { 
+            message: 'Sách đã tồn tại.'
+        }
        }
     }
     async updateBook(MaSach, data){

@@ -6,6 +6,7 @@ export const usePublisherStore = defineStore('publisher', {
     state: () => {
        return {
             publishers: [],
+            searchText: '',
             fetching:  false,
        }
     },
@@ -70,6 +71,15 @@ export const usePublisherStore = defineStore('publisher', {
     getters: {
         getPublisher(state){
             return (MaNXB) => state.publishers.find(publisher => String(publisher.MANXB) === MaNXB)
+        },
+        getPublishersFromName(state){
+            return (searchText) => {
+                if(!searchText) return state.publishers
+                const lowerSearch = searchText.toLowerCase()
+                return state.publishers.filter(publisher => 
+                    publisher.TENNXB.toLowerCase().includes(lowerSearch)
+                )
+            }
         }
     },
 

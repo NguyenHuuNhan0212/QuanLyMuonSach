@@ -1,5 +1,5 @@
 <template>
-    <div class="borrow-table-container">
+    <div class="borrow-table-container mb-5" data-aos="fade-up" data-aos-duration="1000">
         <h1 class="text-center text-2xl font-bold mb-4">Danh Sách Mượn Sách</h1>
         <table class="table table-bordered">
             <thead>

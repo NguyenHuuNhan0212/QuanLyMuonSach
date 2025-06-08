@@ -1,7 +1,16 @@
 <template>
-    <div class="quan-ly-nxb container">
+    <div class="quan-ly-nxb container mb-5" data-aos="fade-up" data-aos-duration="1000">
         <h1 class="text-center text-2xl font-bold">Quản Lý Nhà Xuất Bản</h1>
         <div class="button-container mb-3 d-flex justify-content-end" >
+            <form class="d-flex mx-auto w-50" role="search" @submit.prevent>
+                <input
+                    class="form-control rounded-pill px-4"
+                    type="search"
+                    placeholder="Nhập tên nhà xuất bản để tìm kiếm"
+                    aria-label="Search"
+                    v-model="publisherStore.searchText"
+                />
+            </form>
             <button class="btn btn-primary" @click="$router.push({ name: 'themnxb' })">Thêm Nhà Xuất Bản</button>
         </div>
         <table class="w-full table-auto border-collapse">
@@ -37,16 +46,17 @@
 </template>
 <script setup>
 import { usePublisherStore } from '@/stores/nhaxuatban.store';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { ElMessageBox, ElMessage } from 'element-plus';
 
 const router = useRouter()
 const  publisherStore = usePublisherStore();
-const nxbList = ref([]);
 onMounted( async () => {
     await publisherStore.getAll();
-    nxbList.value = publisherStore.publishers
+})
+const nxbList = computed(() => {
+    return publisherStore.getPublishersFromName(publisherStore.searchText)
 })
 const updatePublisher = (index) => {
     const publisher = nxbList.value[index]

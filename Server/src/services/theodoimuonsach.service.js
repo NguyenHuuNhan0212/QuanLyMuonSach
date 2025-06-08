@@ -147,7 +147,7 @@ module.exports = class BorrowBook{
             )
              const chiTietMuon = await muonSachModel.findOne({ _id: muonId})
                 .populate('MASACH')
-                .populate('MADOCGIA', 'HOLOT TEN NGAYSINH PHAI DIACHI DIENTHOAI')
+                .populate('MADOCGIA', 'HOLOT TEN NGAYSINH EMAIL PHAI DIACHI DIENTHOAI')
                 .populate('MSNV', 'HoTenNV ChucVu DiaChi SoDienThoai')
             return {
                 muon: chiTietMuon,
@@ -176,7 +176,7 @@ module.exports = class BorrowBook{
             )
             const chiTietMuon = await muonSachModel.findById(muonId)
                     .populate('MASACH')
-                    .populate('MADOCGIA', 'HOLOT TEN NGAYSINH PHAI DIACHI DIENTHOAI')
+                    .populate('MADOCGIA', 'HOLOT TEN NGAYSINH EMAIL PHAI DIACHI DIENTHOAI')
                     .populate('MSNV', 'HoTenNV ChucVu DiaChi SoDienThoai')
             return {
                 muon: chiTietMuon,

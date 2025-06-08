@@ -46,7 +46,6 @@
             placeholder="Nhập tên sách để tìm kiếm"
             aria-label="Search"
             v-model="sachStore.searchText"
-            @keyup.enter="onSearch"
           />
         </form>
 
