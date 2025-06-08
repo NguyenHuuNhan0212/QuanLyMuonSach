@@ -34,8 +34,8 @@
                         <td>{{ book.SOQUYEN - book.SoLuongDaMuon }}</td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updatePublisher(index)">Cập nhật</button>
-                                <button class="btn btn-sm btn-danger" @click="deletePublisher(index)">Xóa</button>
+                                <button class="btn btn-sm btn-primary" @click="updateBook(index)">Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteBook(index)">Xóa</button>
                                 <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)">Chi tiết</button>
                             </div>
                         </td>
@@ -56,8 +56,8 @@
 
                                 <!-- Cột bên phải: Thông tin NXB -->
                                 <div class="col-md-6">
-                                    <p><strong>Mã nhà xuất bản:</strong> {{ book.MANXB?.MANXB || 'Chưa xác định' }}</p>
-                                    <p><strong>Tên nhà xuất bản:</strong> {{ book.MANXB?.TENNXB || 'Không xác định' }}</p>
+                                    <p><strong>Mã nhà xuất bản:</strong> {{ book.MANXB?.MANXB || 'Không tồn tại' }}</p>
+                                    <p><strong>Tên nhà xuất bản:</strong> {{ book.MANXB?.TENNXB || 'Không có dữ liệu' }}</p>
                                     <p><strong>Địa chỉ:</strong> {{ book.MANXB?.DIACHI || 'Không tìm thấy địa chỉ' }}</p>
                                 </div>
                                 </div>
@@ -74,6 +74,7 @@
 import { useBookStore } from '@/stores/sach.store';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { ElMessageBox, ElMessage } from 'element-plus';
 
 const router = useRouter()
 const bookStore = useBookStore()
@@ -91,6 +92,34 @@ const toggleDetail = (index) => {
 const gotoAddBook = () => {
     bookStore.searchText = ''
     router.push({name: 'themsach'})
+}
+const deleteBook = (index) => {
+    const bookDelete = bookList.value[index]
+    ElMessageBox.confirm(
+        `Bạn có chắc chắn xóa sách tên ${bookDelete.TENSACH} không?`,
+        'Xác nhận xóa',
+        {
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            type: 'warning',
+        }
+    )
+    .then(async () => {
+        await bookStore.delete(bookDelete.MASACH)
+        .then(() => {
+            ElMessage.success(`Bạn đã xóa quyển sách ${bookDelete.TENSACH} thành công.`)
+        })
+        .catch((error) => {
+            ElMessage.error('Lỗi khi xóa sách.')
+        })
+    })
+    .catch(() => {
+        ElMessage.error('Đã hủy thao tác xóa')
+    })
+    
+}
+const updateBook = (index) => {
+    router.push({name: 'capnhatsach', params: { MASACH: bookList.value[index].MASACH}})
 }
 </script>
 <style scoped>

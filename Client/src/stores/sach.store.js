@@ -11,7 +11,6 @@ export const useBookStore = defineStore('book', {
     },
     actions: {
         getAll() {
-            if(this.books.length === 0) {
                 return axiosInstance.get('/books')
                     .then((res) => {
                         this.books = res.data.sach
@@ -21,8 +20,6 @@ export const useBookStore = defineStore('book', {
                         console.log(err)
                         return false
                     })
-            }
-            return 'Đã có sách không cần tải lại.'
         },
         async add(data) {
             const userStore = useUserStore()
@@ -45,7 +42,7 @@ export const useBookStore = defineStore('book', {
             const token = userStore.staffToken
             return axiosInstance.patch(`/books/${MaSach}`, data, {headers: {'Authorization': token}})
                 .then((res) => {
-                    const index = this.books.findIndex(book => book.MaSach === MaSach)
+                    const index = this.books.findIndex(book => book.MASACH === MaSach)
                     if (index !== -1) {
                         this.books[index] = res.data.sach
                     }
@@ -61,7 +58,7 @@ export const useBookStore = defineStore('book', {
             const token = userStore.staffToken
             return axiosInstance.delete(`/books/${MaSach}`, {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.books = this.books.filter(book => book.MaSach !== MaSach)
+                    this.books = this.books.filter(book => book.MASACH !== MaSach)
                     return res.data.message
                 })
                 .catch((err) => {
@@ -72,13 +69,19 @@ export const useBookStore = defineStore('book', {
     },
     getters: {
         getBook(state) {
-            return (MaSach) => state.books.find(book => String(book.MASACH) === String(MaSach));
+            return (MaSach) => state.books.find(book => String(book.MASACH) === MaSach);
         },
         getBooks(state){
             return state.books
         },
         getBooksFormName(state) {
-            return (name) => state.books.filter(book => book.TENSACH.toLowerCase().includes(name.toLowerCase()))
+            return (searchText) => {
+                if(!searchText) return state.books
+                const lowerSearch = searchText.toLowerCase()
+                return state.books.filter(book => 
+                    book.TENSACH.toLowerCase().includes(lowerSearch)
+                )
+            }
         },
     }
 })

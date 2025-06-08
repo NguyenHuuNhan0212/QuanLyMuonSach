@@ -11,7 +11,7 @@
                     v-model="publisherStore.searchText"
                 />
             </form>
-            <button class="btn btn-primary" @click="$router.push({ name: 'themnxb' })">Thêm Nhà Xuất Bản</button>
+            <button class="btn btn-primary" @click="gotoAddPublisher">Thêm Nhà Xuất Bản</button>
         </div>
         <table class="w-full table-auto border-collapse">
             <thead>
@@ -56,6 +56,7 @@ onMounted( async () => {
     await publisherStore.getAll();
 })
 const nxbList = computed(() => {
+
     return publisherStore.getPublishersFromName(publisherStore.searchText)
 })
 const updatePublisher = (index) => {
@@ -88,6 +89,10 @@ const deletePublisher = (index) => {
     .catch(() => {
         ElMessage.error('Đã hủy thao tác xóa')
     })
+}
+const gotoAddPublisher = () => {
+    publisherStore.searchText = ''
+    router.push({name: 'themnxb'})
 }
 </script>
 <style scoped>

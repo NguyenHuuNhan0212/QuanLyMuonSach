@@ -81,6 +81,12 @@ const routes = [
           name: "themsach",
           component: () => import("../components/Admin/ThemSach.vue"),
       },
+      {
+          path: "/quan-ly-sach/cap-nhat-sach/:MASACH",
+          name: "capnhatsach",
+          component: () => import("../components/Admin/CapNhatSach.vue"),
+          props:true
+      },
       
     ]
   },

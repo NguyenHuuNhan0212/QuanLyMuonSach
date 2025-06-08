@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <h2 class="text-center mb-4">Thêm Sách Mới</h2>
+    <h2 class="text-center mb-4">Cập Nhật Sách</h2>
     <form @submit.prevent="submitForm">
       <div class="mb-3">
         <label for="tenSach" class="form-label">Tên sách</label>
@@ -48,18 +48,13 @@ import { usePublisherStore } from '@/stores/nhaxuatban.store'
 import { useBookStore } from '@/stores/sach.store'
 import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const publisherStore = usePublisherStore()
+const MASACH = useRoute().params.MASACH
 const nxbList = ref([])
 const bookStore = useBookStore()
 const router = useRouter()
-
-onMounted(async () => {
-    await publisherStore.getAll()
-    nxbList.value = publisherStore.publishers
-})
-
 const form = ref({
     tenSach: '',
     tacGia: '',
@@ -69,6 +64,27 @@ const form = ref({
     maNXB: '',
     image: ''
 })
+onMounted(async () => {
+    await bookStore.getAll()
+    await publisherStore.getAll()
+    nxbList.value = publisherStore.publishers
+    
+    const book = bookStore.getBook(MASACH)
+    if(book){
+        form.value.tenSach = book.TENSACH
+        form.value.tacGia = book.TACGIA
+        form.value.soQuyen = book.SOQUYEN
+        form.value.donGia = book.DONGIA
+        form.value.namXuatBan = book.NAMXUATBAN
+        form.value.maNXB = book.MANXB?._id
+        form.value.image = book.image
+    }else{
+        ElMessage.error('Không tìm thấy sách.')
+        router.push({name: 'quanlysach'})
+    }
+})
+
+
 const submitForm = async () => {
     try{
         const data = {
@@ -80,15 +96,16 @@ const submitForm = async () => {
             MANXB: form.value.maNXB,
             image: form.value.image
         }
-        const result = await bookStore.add(data)
-        router.push({name: 'quanlysach'})
-        if(result === 'Thêm sách thành công.'){
+        const result = await bookStore.update(MASACH, data)
+        if(result === 'Cập nhật sách thành công.'){
             ElMessage.success(result)
-        }else if(result === 'Sách đã tồn tại.'){
-            ElMessage.error('Tên sách đã tồn tại')
+            router.push({name: 'quanlysach'})
+        }else{
+            ElMessage.error('Cập nhật sách thất bại')
+            router.push({name: 'quanlysach'})
         }
     }catch(err){
-        ElMessage.error('Lỗi khi thêm sách')
+        ElMessage.error('Lỗi khi cập nhật sách')
     }
     
 }

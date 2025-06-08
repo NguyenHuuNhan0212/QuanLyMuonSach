@@ -55,7 +55,10 @@ module.exports = class BookService{
     }
     async deleteBook(maSach){
         const sachDelete = await sachModel.findOneAndDelete({MASACH: maSach})
-        return sachDelete
+        return {
+            sachDelete,
+            message: `Xóa sách thành công.`
+        }
     }
     async deleteAllBook(){
         const result = await sachModel.deleteMany()

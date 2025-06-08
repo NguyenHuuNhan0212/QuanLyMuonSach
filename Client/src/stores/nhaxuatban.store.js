@@ -30,7 +30,9 @@ export const usePublisherStore = defineStore('publisher', {
             const token = userStore.staffToken
             return axiosInstance.post('/publishers', data, {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.publishers.push(res.data.nhaxuatban)
+                    if(res.data.nhaxuatban){
+                    this.publishers.push(res.data.nhaxuatban)   
+                    }
                     return res.data.message
                 })
                 .catch((err) => {
