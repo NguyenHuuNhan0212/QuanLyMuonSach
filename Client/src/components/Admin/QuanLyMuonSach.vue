@@ -39,7 +39,7 @@
                     </tr>
 
                     <!-- Chi tiết mở rộng -->
-                    <tr v-if="expandedRow === index">
+                    <tr v-if="expandedRow === index" data-aos="fade-up" data-aos-duration="1000">
                         <td colspan="7">
                             <div class="p-3 bg-light rounded">
                                 <div class="row">

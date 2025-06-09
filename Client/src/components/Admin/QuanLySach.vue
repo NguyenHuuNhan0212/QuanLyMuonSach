@@ -40,7 +40,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="expandedRow === index">
+                    <tr v-if="expandedRow === index" data-aos="fade-up" data-aos-duration="1000">
                         <td colspan="6">
                             <div class="p-3 bg-light rounded">
                                 <div class="row">
