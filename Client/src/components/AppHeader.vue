@@ -62,7 +62,9 @@
               aria-expanded="false"
             >
             <span v-if="userStore.token">
-              {{ userStore.userInfo?.TEN || 'Tài khoản' }}
+              <el-icon><Avatar /></el-icon>
+              {{ userStore.userInfo?.TEN || 'Tài khoản' }} 
+              <el-icon><ArrowDownBold /></el-icon>
             </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">

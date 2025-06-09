@@ -28,11 +28,11 @@ import router from '@/router';
 import { useBorrowBookStore } from '@/stores/muonsach.store';
 import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 const userStore = useUserStore();
 const borrowBookStore = useBorrowBookStore();
 
-const borrowHistory = ref([]);
+const borrowHistory = ref([])
 onMounted(async () => {
     if (!userStore.token) {
         ElMessage({

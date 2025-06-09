@@ -87,6 +87,11 @@ const routes = [
           component: () => import("../components/Admin/CapNhatSach.vue"),
           props:true
       },
+       {
+          path: "/trang-ca-nhan",
+          name: "trangcanhanadmin",
+          component: () => import("../components/Admin/ThongTinCaNhan.vue"),
+      },
       
     ]
   },

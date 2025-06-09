@@ -12,6 +12,8 @@
 <script setup>
 import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
+import { useRouter} from 'vue-router'
+const router = useRouter()
 const userStore = useUserStore();
 
 const handelLogout = () => {
@@ -21,8 +23,10 @@ const handelLogout = () => {
             message: 'Đăng xuất thành công!',
             type: 'success',
         });
+        router.push({name: 'trangchu'})
     }else {
         ElMessage.error('Bạn chưa đăng nhập!');
+        router.push({name: 'dangnhap'})
     }
     
 };

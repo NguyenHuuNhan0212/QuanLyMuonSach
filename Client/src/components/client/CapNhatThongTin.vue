@@ -46,8 +46,8 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">Cập nhật</button>
-          <button type="button" class="btn btn-secondary" @click="resetForm">Đặt lại</button>
+          <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Cập nhật</button>
+          <button type="button" class="btn btn-danger" @click="resetForm"><el-icon><Close /></el-icon> Đặt lại</button>
         </div>
       </form>
     </div>

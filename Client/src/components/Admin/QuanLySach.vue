@@ -11,7 +11,7 @@
                     v-model="bookStore.searchText"
                 />
             </form>
-            <button class="btn btn-primary" @click="gotoAddBook">Thêm sách</button>
+            <button class="btn btn-primary" @click="gotoAddBook"><el-icon><Plus /></el-icon> Thêm sách</button>
         </div>
         <table class="w-full table-auto border-collapse">
             <thead>
@@ -34,9 +34,9 @@
                         <td>{{ book.SOQUYEN - book.SoLuongDaMuon }}</td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updateBook(index)">Cập nhật</button>
-                                <button class="btn btn-sm btn-danger" @click="deleteBook(index)">Xóa</button>
-                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)">Chi tiết</button>
+                                <button class="btn btn-sm btn-primary" @click="updateBook(index)"><el-icon><Edit /></el-icon> Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteBook(index)"><el-icon><Delete /></el-icon> Xóa</button>
+                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon><More /></el-icon> Chi tiết</button>
                             </div>
                         </td>
                     </tr>

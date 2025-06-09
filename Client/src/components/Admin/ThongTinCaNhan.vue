@@ -1,35 +1,26 @@
 <template>
-    <AppHeader />
     <main class="mt-5 pt-5" data-aos="fade-up" data-aos-duration="1000">
         <div class="container profile-container">
             <h1 class="text-center mb-4">Thông tin tài khoản</h1>
             <div class="profile-card">
             <h2 class="text-center mb-3">
-                {{ userStore.userInfo?.HOLOT }} {{ userStore.userInfo?.TEN }}
+                {{ userStore.staffInfo?.HoTenNV }}
             </h2>
             <p>
                 <el-icon><UserFilled /></el-icon>
-                <strong>Mã độc giả:</strong> {{ userStore.userInfo?.MADOCGIA }}
+                <strong>Mã nhân viên:</strong> {{ userStore.staffInfo?.MSNV }}
             </p>
-            <p>
-                <el-icon><Calendar /></el-icon>
-                <strong>Ngày sinh:</strong> {{ formatDate(userStore.userInfo?.NGAYSINH) }}
-            </p>
-            <p>
-                <el-icon><User /></el-icon>
-                <strong>Giới tính:</strong> {{ userStore.userInfo?.PHAI }}
+             <p>
+                <el-icon><Tools /></el-icon>
+                <strong>Chức vụ:</strong> {{ userStore.staffInfo?.ChucVu }}
             </p>
             <p>
                 <el-icon><Iphone /></el-icon>
-                <strong>Số điện thoại:</strong> {{ userStore.userInfo?.DIENTHOAI }}
-            </p>
-            <p>
-                <el-icon><Message /></el-icon>
-                <strong>Email:</strong> {{ userStore.userInfo?.EMAIL }}
+                <strong>Số điện thoại:</strong> {{ userStore.staffInfo?.SoDienThoai }}
             </p>
             <p>
                 <el-icon><AddLocation /></el-icon>
-                <strong>Địa chỉ:</strong> {{ userStore.userInfo?.DIACHI }}
+                <strong>Địa chỉ:</strong> {{ userStore.staffInfo?.DiaChi }}
             </p>
             
             <div class="button-wrapper">
@@ -54,10 +45,6 @@ const handleUpdateAccount = () => {
     // Redirect to the account update page
     router.push({ name: 'capnhatthongtindocgia', params: { id: userStore.userInfo?._id } });
 }
-const formatDate = (dateStr) => {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('vi-VN');
-};
 
 </script>
 

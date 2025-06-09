@@ -18,8 +18,8 @@
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" to="/admin/users">
-          <i class="fas fa-users me-2"></i> Người dùng
+        <router-link class="nav-link" :to="{name: 'trangcanhanadmin'}">
+          <i class="fas fa-users me-2"></i> Tài khoản
         </router-link>
       </li>
     </ul>

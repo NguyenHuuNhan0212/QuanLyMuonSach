@@ -31,9 +31,9 @@
                         </td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updateStatus(index)">Cập nhật</button>
-                                <button class="btn btn-sm btn-danger" @click="deleteBorrow(index)">Xóa</button>
-                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)">Chi tiết</button>
+                                <button class="btn btn-sm btn-primary" @click="updateStatus(index)"><el-icon><Edit /></el-icon> Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteBorrow(index)"><el-icon><Delete /></el-icon> Xóa</button>
+                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon><More /></el-icon> Chi tiết</button>
                             </div>
                         </td>
                     </tr>
@@ -87,7 +87,7 @@ const formatDate = (dateStr) => {
     if (!dateStr) return 'Chưa lấy sách'
     return new Date(dateStr).toLocaleDateString('vi-VN')
 }
-const updateStatus = (index) => {
+const updateStatus = async (index) => {
     const item = borrowList.value[index]
     const data = ref({
         MAMUONSACH: item.MAMUONSACH,
@@ -97,9 +97,10 @@ const updateStatus = (index) => {
         DONGIA: item.MASACH.DONGIA,
         TrangThai: item.TrangThai
     })
-    borrowStore.updateBorrowForAdmin(item._id, data.value)
-        .then(() => {
-            borrowStore.getAllForAdmin() // Refresh the list after update
+    await borrowStore.updateBorrowForAdmin(item._id, data.value)
+        .then(async() => {
+            await borrowStore.getAllForAdmin() // Refresh the list after update
+            borrowList.value = borrowStore.AdminMuon
             ElMessage.success('Cập nhật thành công!')
             console.log('Cập nhật trạng thái:', data.value)
         })
@@ -184,6 +185,9 @@ const toggleDetail = (index) => {
     width: 100%;
     padding: 5px;
     background-color: aliceblue;
+}
+.form-select:hover{
+    cursor: pointer;
 }
 
 </style>

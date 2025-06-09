@@ -2,9 +2,9 @@
   <div class="container mt-5" data-aos="fade-up" data-aos-duration="1000">
       <div class="card h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title mb-3">
+          <h5 class="card-title mb-3 text-center">
             <el-icon><Collection /></el-icon>
-            {{ borrowBook.MASACH.TENSACH }}
+            {{ borrowBook.MASACH?.TENSACH || 'Sách không còn'}}
           </h5>
           <p v-if="borrowBook.TrangThai === 'Đã lấy' || borrowBook.TrangThai === 'Đã trả'" class="card-text mb-1">
             <strong>Ngày mượn:</strong> {{ formatDate(borrowBook.NGAYMUON) }}

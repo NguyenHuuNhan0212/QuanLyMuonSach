@@ -36,8 +36,8 @@
         <input type="text" class="form-control" id="image" placeholder="Nhập địa chỉ của sách" v-model="form.image" required>
       </div>
       <div class="button-group">
-  <button type="submit" class="btn btn-primary">Lưu</button>
-  <button type="button" class="btn btn-danger" @click="cancelAddBook">Hủy</button>
+  <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Lưu</button>
+  <button type="button" class="btn btn-danger" @click="cancelAddBook"><el-icon><CloseBold /></el-icon> Hủy</button>
 </div>
 
     </form>

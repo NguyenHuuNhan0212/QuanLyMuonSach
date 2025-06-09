@@ -11,8 +11,8 @@
         <input type="text" class="form-control" id="diaChiNXB" placeholder="Nhập địa chỉ nhà xuất bản" v-model="form.diaChiNXB" required>
       </div>
       <div class="button-group">
-  <button type="submit" class="btn btn-primary">Lưu</button>
-  <button type="button" class="btn btn-danger" @click="cancelAddPublisher">Hủy</button>
+  <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon>  Lưu</button>
+  <button type="button" class="btn btn-danger" @click="cancelAddPublisher"><el-icon><CloseBold /></el-icon>  Hủy</button>
 </div>
 
     </form>
@@ -36,6 +36,7 @@ const submitForm = async () => {
             DIACHI: form.value.diaChiNXB
         }
         const result = await publisherStore.add(data)
+        
         router.push({name: 'quanlynxb'})
         if(result === 'Nhà xuất bản đã tồn tại.'){
             ElMessage.error(result)

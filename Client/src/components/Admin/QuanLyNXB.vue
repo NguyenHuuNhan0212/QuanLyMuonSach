@@ -11,7 +11,7 @@
                     v-model="publisherStore.searchText"
                 />
             </form>
-            <button class="btn btn-primary" @click="gotoAddPublisher">Thêm Nhà Xuất Bản</button>
+            <button class="btn btn-primary" @click="gotoAddPublisher"><el-icon><Plus /></el-icon> Thêm Nhà Xuất Bản</button>
         </div>
         <table class="w-full table-auto border-collapse">
             <thead>
@@ -35,8 +35,8 @@
                     </td>
                     <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updatePublisher(index)">Cập nhật</button>
-                                <button class="btn btn-sm btn-danger" @click="deletePublisher(index)">Xóa</button>
+                                <button class="btn btn-sm btn-primary" @click="updatePublisher(index)"><el-icon><Edit /></el-icon> Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deletePublisher(index)"><el-icon><Delete /></el-icon> Xóa</button>
                             </div>
                         </td>
                 </tr>

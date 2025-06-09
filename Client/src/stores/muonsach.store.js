@@ -7,8 +7,6 @@ export const useBorrowBookStore = defineStore('borrowBook', {
         return {
             SachMuon: [],
             AdminMuon: [],
-            fetchAdmin: false,
-            fetching: false
         }
     },
     actions: {
@@ -21,7 +19,6 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             return axiosInstance.get('/borrows/staff', {headers: {'Authorization': token}})
                 .then((res) => {
                     this.AdminMuon =  res.data.danhsachmuon
-                    this.fetchAdmin = true
                     return res.data.message
                 })
                 .catch((err) => {
@@ -38,7 +35,6 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             return axiosInstance.get('/borrows', {headers: {'Authorization': token}})
                 .then((res) => {
                     this.SachMuon =  res.data.danhsachmuon
-                    this.fetching = true
                     return res.data.message
                 })
                 .catch((err) => {
@@ -70,9 +66,10 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             }
             return axiosInstance.patch(`/borrows/${MaMuon}`, data, {headers: {'Authorization': token}})
                 .then((res) => {
-                    const index = this.AdminMuon.findIndex(muon => muon._id === MaMuon)
-                    if (index !== -1) {
-                        this.AdminMuon[index] = res.data.muon
+                    // cập nhật cho admin
+                    const adminIndex = this.AdminMuon.findIndex(muon => muon._id === MaMuon)
+                    if (adminIndex !== -1) {
+                        this.AdminMuon[adminindex] = res.data.muon
                     }
                     return res.data.message
                 })
@@ -120,6 +117,6 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             return (id) => {
                 return state.SachMuon.find(muon => muon._id === id)
             }
-        },
+        }
     }
 })
