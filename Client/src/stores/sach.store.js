@@ -7,13 +7,15 @@ export const useBookStore = defineStore('book', {
         return {
             books: [],
             searchText: '',
+            count: ''
         }
     },
     actions: {
         getAll() {
                 return axiosInstance.get('/books')
                     .then((res) => {
-                        this.books = res.data.sach
+                        this.books = res.data?.sach
+                        this.count = res.data?.count
                         return res.data.message
                     })
                     .catch((err) => {

@@ -64,7 +64,7 @@ const handleSubmit = async () => {
         message: 'Đăng nhập với vai trò quản trị viên thành công!',
         type: 'success',
       });
-      router.push({ name: 'quanlymuonsach' });
+      router.push({ name: 'trangchuadmin' });
 
     } else {
       ElMessage({

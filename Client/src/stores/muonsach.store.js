@@ -7,6 +7,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
         return {
             SachMuon: [],
             AdminMuon: [],
+            count: ''
         }
     },
     actions: {
@@ -18,7 +19,8 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             }
             return axiosInstance.get('/borrows/staff', {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.AdminMuon =  res.data.danhsachmuon
+                    this.AdminMuon =  res.data?.danhsachmuon
+                    this.count = res.data?.count
                     return res.data.message
                 })
                 .catch((err) => {

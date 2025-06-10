@@ -3,14 +3,18 @@ const nhaXuatBanModel = require('../models/nhaxuatban.model')
 module.exports = class PublisherService{
     async find(dieukien){
         const result = await nhaXuatBanModel.find(dieukien)
+        const nxbCount = await nhaXuatBanModel.countDocuments()
         return {
+            count: nxbCount,
             nhaxuatban: result,
             message: 'Lấy nhà xuất bản thành công.'
         }
     }
     async findByName(name){
         const result = await nhaXuatBanModel.find({TENNXB: {$regex:new RegExp(name), $options: 'i'}})
+        const nxbCount = await nhaXuatBanModel.countDocuments()
         return {
+            count: nxbCount,
             nhaxuatban: result,
             message: 'Lấy nhà xuất bản thành công.'
         }

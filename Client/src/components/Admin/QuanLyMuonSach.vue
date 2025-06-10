@@ -4,6 +4,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th class="text-center">STT</th>
                     <th class="text-center">Mã mượn</th>
                     <th class="text-center">Tên độc giả</th>
                     <th class="text-center">Tên sách</th>
@@ -16,6 +17,7 @@
             <tbody>
                 <template v-for="(item, index) in borrowList" :key="item._id">
                     <tr>
+                        <td>{{ index + 1 }}</td>
                         <td>{{ item.MAMUONSACH }}</td>
                         <td>{{ item.MADOCGIA?.HOLOT }} {{ item.MADOCGIA?.TEN }}</td>
                         <td>{{ item.MASACH?.TENSACH }}</td>

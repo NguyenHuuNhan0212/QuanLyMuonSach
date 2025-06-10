@@ -16,17 +16,19 @@
         <table class="w-full table-auto border-collapse">
             <thead>
                 <tr>
-                    <th class="border px-4 py-2 text-center">Mã sách</th>
-                    <th class="border px-4 py-2 text-center">Tên sách</th>
-                    <th class="border px-4 py-2 text-center">Tác giả</th>
-                    <th class="border px-4 py-2 text-center">Đơn giá</th>
-                    <th class="border px-4 py-2 text-center">Số lượng trong kho</th>
-                    <th class="border px-4 py-2 text-center">Hành động</th>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Mã sách</th>
+                    <th class="text-center">Tên sách</th>
+                    <th class="text-center">Tác giả</th>
+                    <th class="text-center">Đơn giá</th>
+                    <th class="text-center">Số lượng trong kho</th>
+                    <th class="text-center">Hành động</th>
                 </tr>
             </thead>
             <tbody>
                 <template v-for="(book, index) in bookList" :key="index">
                     <tr>
+                        <td>{{ index + 1 }}</td>
                         <td>{{ book.MASACH }}</td>
                         <td>{{ book.TENSACH }}</td>
                         <td>{{ book.TACGIA }}</td>
@@ -72,7 +74,7 @@
 </template>
 <script setup>
 import { useBookStore } from '@/stores/sach.store';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { ElMessageBox, ElMessage } from 'element-plus';
 
@@ -121,6 +123,9 @@ const deleteBook = (index) => {
 const updateBook = (index) => {
     router.push({name: 'capnhatsach', params: { MASACH: bookList.value[index].MASACH}})
 }
+onUnmounted(() => {
+    bookStore.searchText =''
+})
 </script>
 <style scoped>
 .quan-ly-sach {

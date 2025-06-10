@@ -1,6 +1,6 @@
 <template>
-    <div class="fixed-bottom">
-        <footer class="admin-footer bg-light text-center py-3 border-top ">
+    <div class="fixed-bottom" style="margin-left: 250px">
+        <footer class="admin-footer bg-light text-center py-3 border-top"  >
             <span>© 2025 Quản lý thư viện</span>
             <img
                 src="../../assets//moveUp.jpg" 

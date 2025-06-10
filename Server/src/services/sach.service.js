@@ -3,7 +3,9 @@ const sachModel = require('../models/sach.model')
 module.exports = class BookService{
     async getAll(){
         const data = await sachModel.find().populate('MANXB')
+        const sachCount = await sachModel.countDocuments()
         return {
+            count: sachCount,
             sach: data,
             message: 'Lấy tất cả sách thành công'
         }

@@ -16,14 +16,18 @@
         <table class="w-full table-auto border-collapse">
             <thead>
                 <tr>
-                    <th class="border px-4 py-2 text-center">Mã NXB</th>
-                    <th class="border px-4 py-2 text-center">Tên NXB</th>
-                    <th class="border px-4 py-2 text-center">Địa chỉ</th>
-                    <th class="border px-4 py-2 text-center">Hành động</th>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Mã NXB</th>
+                    <th class="text-center">Tên NXB</th>
+                    <th class="text-center">Địa chỉ</th>
+                    <th class="text-center">Hành động</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(nxb, index) in nxbList" :key="index">
+                    <td>
+                        {{ index + 1 }}
+                    </td>
                     <td>
                         {{ nxb.MANXB }}
                     </td>
@@ -46,7 +50,7 @@
 </template>
 <script setup>
 import { usePublisherStore } from '@/stores/nhaxuatban.store';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { ElMessageBox, ElMessage } from 'element-plus';
 
@@ -94,6 +98,9 @@ const gotoAddPublisher = () => {
     publisherStore.searchText = ''
     router.push({name: 'themnxb'})
 }
+onUnmounted(() => {
+    publisherStore.searchText = ''
+})
 </script>
 <style scoped>
 .quan-ly-nxb {

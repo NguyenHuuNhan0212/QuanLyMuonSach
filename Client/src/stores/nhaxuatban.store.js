@@ -7,7 +7,7 @@ export const usePublisherStore = defineStore('publisher', {
        return {
             publishers: [],
             searchText: '',
-            fetching:  false,
+            count: ''
        }
     },
     actions: {
@@ -17,7 +17,7 @@ export const usePublisherStore = defineStore('publisher', {
             return axiosInstance.get('/publishers', {headers: {'Authorization': token}})
                 .then((res) => {
                     this.publishers = res.data.nhaxuatban
-                    this.fetching = true
+                    this.count = res.data?.count
                     return res.data.message
                 })
                 .catch((err) => {

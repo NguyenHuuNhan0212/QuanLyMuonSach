@@ -16,7 +16,9 @@ module.exports = class BorrowBook{
             .populate('MADOCGIA', 'HOLOT EMAIL TEN PHAI NGAYSINH DIACHI DIENTHOAI')
             .populate('MASACH')
             .populate('MSNV', 'HoTenNV ChucVu SoDienThoai DiaChi')
+        const muonsachCount = await muonSachModel.countDocuments()
         return {
+            count: muonsachCount,
             danhsachmuon: result,
             message: 'Lấy thông tin mượn sách thành công.'
         }
