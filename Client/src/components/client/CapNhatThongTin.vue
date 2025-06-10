@@ -17,7 +17,7 @@
 
         <div class="mb-3">
           <label class="form-label">Ngày sinh</label>
-          <input type="date" class="form-control" v-model="form.NGAYSINH" />
+          <input type="date" class="form-control" v-model="formattedNgaySinh" />
         </div>
 
         <div class="mb-3">
@@ -56,7 +56,7 @@
 
 <script setup>
 import AppHeader from '../AppHeader.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/nguoidung.store'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -79,6 +79,14 @@ const form = ref({
   DIENTHOAI: userStore.userInfo?.DIENTHOAI || '',
   EMAIL: userStore.userInfo?.EMAIL || '',
   DIACHI: userStore.userInfo?.DIACHI || '',
+})
+const formattedNgaySinh = computed({
+  get(){
+    return form.value.NGAYSINH?.substring(0, 10) || ''
+  },
+  set(value) {
+    form.value.NGAYSINH = value
+  }
 })
 
 const updateUser = async () => {

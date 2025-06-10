@@ -69,7 +69,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
                     // cập nhật cho admin
                     const adminIndex = this.AdminMuon.findIndex(muon => muon._id === MaMuon)
                     if (adminIndex !== -1) {
-                        this.AdminMuon[adminindex] = res.data.muon
+                        this.AdminMuon[adminIndex] = res.data.muon
                     }
                     return res.data.message
                 })

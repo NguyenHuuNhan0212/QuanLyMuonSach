@@ -92,6 +92,11 @@ const routes = [
           name: "trangcanhanadmin",
           component: () => import("../components/Admin/ThongTinCaNhan.vue"),
       },
+      {
+          path: "/trang-ca-nhan/cap-nhat/:MSNV",
+          name: "updateProfileAdmin",
+          component: () => import("../components/Admin/CapNhatProfile.vue"),
+      },
       
     ]
   },

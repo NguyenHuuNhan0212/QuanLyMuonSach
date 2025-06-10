@@ -74,3 +74,16 @@ module.exports.updateUser = async (req, res, next) => {
         return next(new ApiError(500, 'Có lỗi khi cập nhật thông tin người dùng!'))
     }
 }
+//[PATCH] /staffs/:id
+module.exports.updateStaff = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const data = req.body
+        const staffService = new StaffService()
+        const result = await staffService.staffUpdate(id, data)
+        return res.status(200).json(result)
+    }catch(err){
+        console.log(err)
+        return next(new ApiError(500, 'Có lỗi khi cập nhật thông tin admin.'))
+    }
+}

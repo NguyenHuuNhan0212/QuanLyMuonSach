@@ -67,6 +67,24 @@ export const useUserStore = defineStore('user', {
             return false
           })
     },
+    updateStaff: function (staffData) {
+      if(!this.staffToken){
+        return false
+      }
+      if(!staffData._id || !staffData){
+        return false
+      }
+      return axiosInstance.patch(`/staffs/${this.staffInfo._id}`, staffData)
+          .then((res) => {
+                this.staffInfo = res.data?.data
+                sessionStorage.setItem('staffInfo', JSON.stringify(this.staffInfo))
+                return res.data.message
+              })
+          .catch((err) => {
+            console.log(err)
+            return false
+          })
+    },
     UserLogout: function() {
       this.token = ''
       this.userInfo = {}

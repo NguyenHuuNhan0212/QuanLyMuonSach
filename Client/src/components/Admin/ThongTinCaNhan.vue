@@ -33,17 +33,11 @@
 
 <script setup>
 import router from '@/router';
-import AppHeader from '../AppHeader.vue';
 import { useUserStore } from '@/stores/nguoidung.store'
 const userStore = useUserStore()
-const props = defineProps({
-    id: {
-        type: String,
-    }
-});
 const handleUpdateAccount = () => {
     // Redirect to the account update page
-    router.push({ name: 'capnhatthongtindocgia', params: { id: userStore.userInfo?._id } });
+    router.push({ name: 'updateProfileAdmin', params: { MSNV: userStore.staffInfo?.MSNV} });
 }
 
 </script>

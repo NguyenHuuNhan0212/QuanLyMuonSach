@@ -129,6 +129,12 @@ module.exports = class BorrowBook{
         }else if(kiemTra.TrangThai === data.TrangThai){
             return {message: 'Trạng thái mượn sách không thay đổi.'}
         }
+        if (kiemTra.TrangThai === 'Đã lấy' && data.TrangThai === 'Chờ lấy') {
+            return { message: 'Không thể chuyển từ "Đã lấy" về "Chờ lấy".' };
+        }
+        if (kiemTra.TrangThai === 'Đã trả' && (data.TrangThai === 'Chờ lấy' || data.TrangThai === 'Đã lấy')) {
+            return { message: 'Sách đã được trả. Không thể cập nhật lại trạng thái.' };
+        }
         if(data.TrangThai == "Đã lấy"){
             const muon = await muonSachModel.findOneAndUpdate(
                 {
@@ -180,7 +186,7 @@ module.exports = class BorrowBook{
                     .populate('MSNV', 'HoTenNV ChucVu DiaChi SoDienThoai')
             return {
                 muon: chiTietMuon,
-                message: 'Cập nhật mượn sách thành công.'
+                message: 'Cập nhật thành công.'
             }
 
         }

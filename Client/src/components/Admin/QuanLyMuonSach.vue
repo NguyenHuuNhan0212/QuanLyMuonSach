@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="(item, index) in borrowList" :key="item.id">
+                <template v-for="(item, index) in borrowList" :key="item._id">
                     <tr>
                         <td>{{ item.MAMUONSACH }}</td>
                         <td>{{ item.MADOCGIA?.HOLOT }} {{ item.MADOCGIA?.TEN }}</td>
@@ -24,8 +24,8 @@
                         <td>
                             <select v-model="item.TrangThai" class="form-select text-center fw-semibold"
                                 :class="bgSelect(item.TrangThai)">
-                                <option v-if="item.TrangThai !== 'Đã trả'" value="Chờ lấy" class="bg-warning fw-semibold">Chờ lấy sách</option>
-                                <option v-if="item.TrangThai !== 'Đã trả'" value="Đã lấy" class="bg-success fw-semibold">Đã lấy sách</option>
+                                <option value="Chờ lấy" class="bg-warning fw-semibold">Chờ lấy sách</option>
+                                <option value="Đã lấy" class="bg-success fw-semibold">Đã lấy sách</option>
                                 <option value="Đã trả" class="bg-info fw-semibold">Đã trả sách</option>
                             </select>
                         </td>
@@ -88,26 +88,29 @@ const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('vi-VN')
 }
 const updateStatus = async (index) => {
-    const item = borrowList.value[index]
-    const data = ref({
-        MAMUONSACH: item.MAMUONSACH,
-        MADOCGIA: item.MADOCGIA._id,
-        MASACH: item.MASACH._id,
-        NGAYMUON: item.NGAYMUON,
-        DONGIA: item.MASACH.DONGIA,
-        TrangThai: item.TrangThai
-    })
-    await borrowStore.updateBorrowForAdmin(item._id, data.value)
-        .then(async() => {
-            await borrowStore.getAllForAdmin() // Refresh the list after update
+    
+    try{
+        const item = borrowList.value[index]
+        const data = {
+            MAMUONSACH: item.MAMUONSACH,
+            MADOCGIA: item.MADOCGIA._id,
+            MASACH: item.MASACH._id,
+            NGAYMUON: item.NGAYMUON,
+            DONGIA: item.MASACH.DONGIA,
+            TrangThai: item.TrangThai
+        }
+        const result = await borrowStore.updateBorrowForAdmin(item._id, data)
+        if(result === 'Cập nhật thành công.'){
+            ElMessage.success(result)
+        }else{
+            await borrowStore.getAllForAdmin()
             borrowList.value = borrowStore.AdminMuon
-            ElMessage.success('Cập nhật thành công!')
-            console.log('Cập nhật trạng thái:', data.value)
-        })
-        .catch(error => {
-            console.error('Cập nhật thất bại:', error)
-            ElMessage.error('Cập nhật thất bại, vui lòng thử lại!')
-        })
+            ElMessage.warning(result)
+        }
+    }catch(err){
+        ElMessage.error('Lỗi khi cập nhật mượn sách.')
+    }
+    
 }
 const deleteBorrow = (index) => {
     const item = borrowList.value[index]

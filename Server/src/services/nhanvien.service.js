@@ -51,4 +51,24 @@ module.exports = class StaffService{
             return {mesage: 'Lỗi khi đăng nhập!'}
         }
     }
+    async staffUpdate(id, data){
+        try{
+            const kiemTra = await nhanVienModel.findById(id)
+            if(!kiemTra){
+                return {
+                    message: 'Nhân viên không tồn tại'
+                }
+            }
+            if(data.Password){
+                data.Password = await bcrypt.hash(data.Password, 10)
+            }
+            const staffUpdate = await nhanVienModel.findByIdAndUpdate(id,data, {new: true})
+            return {
+                data: staffUpdate,
+                message: 'Cập nhật thành công.'
+            }
+        }catch(err){
+            return { message: 'Có lỗi khi cập nhật.'}
+        }
+    }
 }
