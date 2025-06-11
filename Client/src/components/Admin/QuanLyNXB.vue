@@ -65,7 +65,7 @@ const nxbList = computed(() => {
 })
 const updatePublisher = (index) => {
     const publisher = nxbList.value[index]
-    router.push({ name: 'capnhatnxb', params: { MANXB: publisher.MANXB}})
+    router.push({ name: 'quanlynxb-capnhatnxb', params: { MANXB: publisher.MANXB}})
 }
 const deletePublisher = (index) => {
     const publisher = nxbList.value[index]
@@ -96,7 +96,7 @@ const deletePublisher = (index) => {
 }
 const gotoAddPublisher = () => {
     publisherStore.searchText = ''
-    router.push({name: 'themnxb'})
+    router.push({name: 'quanlynxb-themnxb'})
 }
 onUnmounted(() => {
     publisherStore.searchText = ''

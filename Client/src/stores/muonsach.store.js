@@ -7,7 +7,8 @@ export const useBorrowBookStore = defineStore('borrowBook', {
         return {
             SachMuon: [],
             AdminMuon: [],
-            count: ''
+            count: '',
+            searchText: ''
         }
     },
     actions: {
@@ -70,7 +71,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
                 .then((res) => {
                     // cập nhật cho admin
                     const adminIndex = this.AdminMuon.findIndex(muon => muon._id === MaMuon)
-                    if (adminIndex !== -1) {
+                    if (adminIndex !== -1 && res.data.muon) {
                         this.AdminMuon[adminIndex] = res.data.muon
                     }
                     return res.data.message
@@ -115,9 +116,18 @@ export const useBorrowBookStore = defineStore('borrowBook', {
 
     },
     getters: {
-        getBorrowById: (state) => {
-            return (id) => {
-                return state.SachMuon.find(muon => muon._id === id)
+        getBorrowById(state){
+            return (id) => state.SachMuon.find(book => book._id === id)
+        },
+        getBorrowFromNameReader(state) {
+            return (searchText) => {
+                if(!searchText) return state.AdminMuon
+                const lowerSearch = searchText.toLowerCase()
+
+                return state.AdminMuon.filter(borrow => {
+                    const fullName = `${borrow.MADOCGIA?.HOLOT} ${borrow.MADOCGIA?.TEN}`.toLowerCase()
+                    return fullName.includes(lowerSearch)
+                })
             }
         }
     }

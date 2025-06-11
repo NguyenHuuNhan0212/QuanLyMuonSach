@@ -46,6 +46,7 @@
             placeholder="Nhập tên sách để tìm kiếm"
             aria-label="Search"
             v-model="sachStore.searchText"
+            v-if="route.name !== 'dangky'"
           />
         </form>
 
@@ -74,7 +75,7 @@
                     <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
                   </li>
                   <li>
-                    <router-link :to="{name: 'trangcanhan', params: { id: userStore.userInfo?.MADOCGIA}}" class="dropdown-item">Tài khoản</router-link>
+                    <router-link :to="{name: 'trangcanhan', params: { id: userStore.userInfo?._id}}" class="dropdown-item">Tài khoản</router-link>
                   </li>
               </template>
               
@@ -92,9 +93,11 @@ import { useBookStore } from '@/stores/sach.store';
 import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
 import router from '@/router';
+import { useRoute } from 'vue-router';
+
 const userStore = useUserStore();
 const sachStore = useBookStore();
-// Xử lý khi Admin logout
+const route = useRoute()
 
 const handleLogout = () => {
   if(userStore.token){

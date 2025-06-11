@@ -37,7 +37,7 @@ import { useUserStore } from '@/stores/nguoidung.store'
 const userStore = useUserStore()
 const handleUpdateAccount = () => {
     // Redirect to the account update page
-    router.push({ name: 'updateProfileAdmin', params: { MSNV: userStore.staffInfo?.MSNV} });
+    router.push({ name: 'trangcanhanadmin-updateProfileAdmin', params: { MSNV: userStore.staffInfo?.MSNV} });
 }
 
 </script>

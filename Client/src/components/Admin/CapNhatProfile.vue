@@ -11,7 +11,7 @@
         <div class="mb-3">
           <label class="form-label">Chức vụ</label>
           <select class="form-select" v-model="form.ChucVu">
-            <option value="">-- Chọn chức vụ--</option>
+            <option value="" disabled>-- Chọn chức vụ--</option>
             <option value="Nhân viên bình thường">Nhân viên bình thường</option>
             <option value="Nhân viên quản lý">Nhân viên quản lý</option>
           </select>
@@ -29,7 +29,7 @@
 
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Cập nhật</button>
-          <button type="button" class="btn btn-danger" @click="resetForm"><el-icon><Close /></el-icon> Đặt lại</button>
+          <button type="button" class="btn btn-danger" @click="handleCancel"><el-icon><Close /></el-icon> Hủy</button>
         </div>
       </form>
     </div>
@@ -58,14 +58,8 @@ const updateStaff = async () => {
     ElMessage.error('Cập nhật thất bại.')
   }
 }
-const resetForm = () => {
-   form.value = {
-        _id: userStore.staffInfo?._id || '',
-        HoTenNV: userStore.staffInfo?.HoTenNV || '',
-        ChucVu: userStore.staffInfo?.ChucVu || '',
-        SoDienThoai: userStore.staffInfo?.SoDienThoai || '',
-        DiaChi: userStore.staffInfo?.DiaChi || ''
-   }
+const handleCancel = () => {
+   router.push({name: 'trangcanhanadmin'})
 }
 </script>
 <style scoped>

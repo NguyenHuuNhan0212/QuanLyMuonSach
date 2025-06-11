@@ -25,7 +25,7 @@
       <div class="mb-3">
         <label for="nhaXuatBan" class="form-label">Nhà xuất bản</label>
         <select v-model="form.maNXB" class="form-select" id="nhaXuatBan" aria-label="Default select example" required>
-            <option value="" disabled>Chọn nhà xuất bản</option>
+            <option value="" disabled>---Chọn nhà xuất bản---</option>
             <option v-for="(nxb, index) in nxbList" :key="index" :value="nxb._id">
                 {{ nxb.TENNXB }}
             </option>

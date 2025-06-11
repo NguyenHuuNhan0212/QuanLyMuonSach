@@ -43,7 +43,7 @@
                         </td>
                     </tr>
                     <tr v-if="expandedRow === index" data-aos="fade-up" data-aos-duration="1000">
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="p-3 bg-light rounded">
                                 <div class="row">
                                 <!-- Cột bên trái: Thông tin sách -->
@@ -93,7 +93,7 @@ const toggleDetail = (index) => {
 }
 const gotoAddBook = () => {
     bookStore.searchText = ''
-    router.push({name: 'themsach'})
+    router.push({name: 'quanlysach-themsach'})
 }
 const deleteBook = (index) => {
     const bookDelete = bookList.value[index]
@@ -121,7 +121,7 @@ const deleteBook = (index) => {
     
 }
 const updateBook = (index) => {
-    router.push({name: 'capnhatsach', params: { MASACH: bookList.value[index].MASACH}})
+    router.push({name: 'quanlysach-capnhatsach', params: { MASACH: bookList.value[index].MASACH}})
 }
 onUnmounted(() => {
     bookStore.searchText =''

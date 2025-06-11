@@ -1,6 +1,6 @@
 <template>
   <div class="container my-4" data-aos="fade-up" data-aos-duration="1000">
-    <h4 class="mb-4 text-center" >📊 Dashboard</h4>
+    <h4 class="mb-4 text-center" >Dashboard</h4>
     <div class="row g-3">
       <div class="col-md-4">
         <div class="card text-white text-center" style="backgroundColor: #17a2b8 ">

@@ -1,6 +1,17 @@
 <template>
     <div class="borrow-table-container mb-5" data-aos="fade-up" data-aos-duration="1000">
         <h1 class="text-center text-2xl font-bold mb-4">Danh Sách Mượn Sách</h1>
+        <div class="button-container mb-3 d-flex justify-content-end" >
+            <form class="d-flex mx-auto w-50" role="search" @submit.prevent>
+                <input
+                    class="form-control rounded-pill px-4"
+                    type="search"
+                    placeholder="Nhập tên độc giả để tìm kiếm phiếu mượn"
+                    aria-label="Search"
+                    v-model="borrowStore.searchText"
+                />
+            </form>
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -33,7 +44,7 @@
                         </td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updateStatus(index)"><el-icon><Edit /></el-icon> Cập nhật</button>
+                                <button class="btn btn-sm btn-primary" @click="updateStatus(index)"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
                                 <button class="btn btn-sm btn-danger" @click="deleteBorrow(index)"><el-icon><Delete /></el-icon> Xóa</button>
                                 <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon><More /></el-icon> Chi tiết</button>
                             </div>
@@ -42,7 +53,7 @@
 
                     <!-- Chi tiết mở rộng -->
                     <tr v-if="expandedRow === index" data-aos="fade-up" data-aos-duration="1000">
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="p-3 bg-light rounded">
                                 <div class="row">
                                 <!-- Cột bên trái: Thông tin độc giả -->
@@ -76,27 +87,33 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useBorrowBookStore } from '@/stores/muonsach.store'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const borrowStore = useBorrowBookStore()
-const borrowList = ref([])
+
 onMounted(async () => {
     await borrowStore.getAllForAdmin()
-    borrowList.value = borrowStore.AdminMuon
+})
+onUnmounted(() => {
+    borrowStore.searchText = ''
+})
+const borrowList = computed(() => {
+    return borrowStore.getBorrowFromNameReader(borrowStore.searchText)
 })
 const formatDate = (dateStr) => {
     if (!dateStr) return 'Chưa lấy sách'
     return new Date(dateStr).toLocaleDateString('vi-VN')
 }
+
 const updateStatus = async (index) => {
     
     try{
         const item = borrowList.value[index]
         const data = {
             MAMUONSACH: item.MAMUONSACH,
-            MADOCGIA: item.MADOCGIA._id,
-            MASACH: item.MASACH._id,
+            MADOCGIA: item.MADOCGIA?._id,
+            MASACH: item.MASACH?._id,
             NGAYMUON: item.NGAYMUON,
             DONGIA: item.MASACH.DONGIA,
             TrangThai: item.TrangThai

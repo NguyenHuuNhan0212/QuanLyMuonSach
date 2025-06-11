@@ -47,7 +47,7 @@
 
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Cập nhật</button>
-          <button type="button" class="btn btn-danger" @click="resetForm"><el-icon><Close /></el-icon> Đặt lại</button>
+          <button type="button" class="btn btn-danger" @click="handleCancel"><el-icon><Close /></el-icon> Hủy</button>
         </div>
       </form>
     </div>
@@ -95,17 +95,8 @@ const updateUser = async () => {
   ElMessage.success('Cập nhật thông tin thành công!')
 }
 
-function resetForm() {
-  form.value = {
-    _id: userStore.userInfo?._id || '',
-    HOLOT: userStore.userInfo?.HOLOT || '',
-    TEN: userStore.userInfo?.TEN || '',
-    NGAYSINH: userStore.userInfo?.NGAYSINH || '',
-    PHAI: userStore.userInfo?.PHAI || '',
-    DIENTHOAI: userStore.userInfo?.DIENTHOAI || '',
-    EMAIL: userStore.userInfo?.EMAIL || '',
-    DIACHI: userStore.userInfo?.DIACHI || '',
-  }
+const handleCancel = () => {
+  router.push({name: 'trangcanhan', params: {id: userStore.userInfo?._id}})
 }
 </script>
 

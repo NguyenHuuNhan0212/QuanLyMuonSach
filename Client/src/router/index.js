@@ -62,12 +62,12 @@ const routes = [
       },
       {
           path: "/quan-ly-nha-xuat-ban/them-nha-xuat-ban",
-          name: "themnxb",
+          name: "quanlynxb-themnxb",
           component: () => import("../components/Admin/ThemNXB.vue"),
       },
       {
           path: "/quan-ly-nha-xuat-ban/cap-nhat-nha-xuat-ban/:MANXB",
-          name: "capnhatnxb",
+          name: "quanlynxb-capnhatnxb",
           component: () => import("../components/Admin/CapNhatNXB.vue"),
           props: true
       },
@@ -78,12 +78,12 @@ const routes = [
       },
       {
           path: "/quan-ly-sach/them-sach",
-          name: "themsach",
+          name: "quanlysach-themsach",
           component: () => import("../components/Admin/ThemSach.vue"),
       },
       {
           path: "/quan-ly-sach/cap-nhat-sach/:MASACH",
-          name: "capnhatsach",
+          name: "quanlysach-capnhatsach",
           component: () => import("../components/Admin/CapNhatSach.vue"),
           props:true
       },
@@ -94,7 +94,7 @@ const routes = [
       },
       {
           path: "/trang-ca-nhan/cap-nhat/:MSNV",
-          name: "updateProfileAdmin",
+          name: "trangcanhanadmin-updateProfileAdmin",
           component: () => import("../components/Admin/CapNhatProfile.vue"),
       },
       

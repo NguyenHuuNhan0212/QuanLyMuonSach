@@ -1,7 +1,12 @@
 <template>
   <div class="sidebar bg-light p-3" data-aos="fade-right">
-    <h5 class="mb-4"><router-link class="nav-link-home" :to="{name: 'trangchuadmin'}" >📚 Quản trị</router-link></h5>
+    <h5 class="mb-4"><router-link class="nav-link-home" :to="{name: 'trangchuadmin'}" ><img src="@/assets/logo.jpg" alt="Logo" width="50" height="50" class="me-2 logo">Quản trị</router-link></h5>
     <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <router-link class="nav-link" :to="{name: 'trangchuadmin'}">
+          <i class="fa-solid fa-chart-simple"></i> Tổng quan
+        </router-link>
+      </li>
       <li class="nav-item mb-2">
         <router-link class="nav-link" :to="{name: 'quanlymuonsach'}">
           <i class="fas fa-tasks me-2"></i> Quản lý mượn sách
@@ -46,6 +51,9 @@
 }
 .nav-link:hover {
   color: #007bff;
+}
+.logo{
+  border-radius: 30px;
 }
 </style>
 
