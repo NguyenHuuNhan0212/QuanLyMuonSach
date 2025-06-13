@@ -39,16 +39,25 @@
         </ul>
 
         <!-- Giữa: Thanh tìm kiếm -->
-        <form class="d-flex mx-auto w-50" role="search" @submit.prevent>
-          <input
-            class="form-control rounded-pill px-4"
-            type="search"
-            placeholder="Nhập tên sách để tìm kiếm"
-            aria-label="Search"
-            v-model="sachStore.searchText"
-            v-if="route.name !== 'dangky'"
-          />
+       <form class="d-flex align-items-center mx-auto w-50 gap-2" role="search" @submit.prevent>
+              <select v-if="route.name === 'trangchu'" v-model="sachStore.searchMode" class="form-select rounded-pill border-0 shadow-sm px-3" style="max-width: 160px;">
+                <option value="" selected>Tất cả</option>
+                <option value="author">Tác giả</option>
+                <option value="bookName">Tên sách</option>
+                <option value="publisherName">Nhà xuất bản</option>
+                <option value="publisherYear">Năm xuất bản</option>
+              </select>
+
+              <input
+                v-if="route.name === 'trangchu'"
+                v-model="sachStore.searchText"
+                type="search"
+                class="form-control rounded-pill px-4 border-0 shadow-sm"
+                placeholder="Nhập tên sách, tác giả, nhà xuất bản..."
+                aria-label="Search"
+              />
         </form>
+
 
           <router-link v-if="!userStore.token && !userStore.staffToken" :to="{name: 'dangnhap'}" class="nav-link fw-semibold text-primary nav-link-border">Đăng nhập</router-link>
         

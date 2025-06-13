@@ -90,9 +90,19 @@ const formattedNgaySinh = computed({
 })
 
 const updateUser = async () => {
-  await userStore.UserUpdate(form.value)
-  router.push({ name: 'trangcanhan', params: { id: userStore.userInfo?.MADOCGIA } })
-  ElMessage.success('Cập nhật thông tin thành công!')
+  try{
+    const result = await userStore.UserUpdate(form.value)
+    router.push({ name: 'trangcanhan', params: { id: userStore.userInfo?.MADOCGIA } })
+    if(result === 'Cập nhật thông tin thành công!'){
+       ElMessage.success(result)
+    }else{
+      ElMessage.error(result)
+    }
+   
+  }catch(err){
+    ElMessage.error('Lỗi khi cập nhật.')
+  }
+  
 }
 
 const handleCancel = () => {

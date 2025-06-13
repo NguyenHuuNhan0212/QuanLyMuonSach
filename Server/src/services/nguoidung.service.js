@@ -63,6 +63,19 @@ module.exports = class UserService{
             if(!user){
                 return {message: 'Người dùng không tồn tại!'}
             }
+           // Kiểm tra email hoặc sdt đã tồn tại ở người dùng khác chưa
+            const existed = await nguoiDungModel.findOne({
+                _id: { $ne: id }, // ngoại trừ chính nó
+                $or: [
+                    { EMAIL: data.EMAIL },
+                    { DIENTHOAI: data.DIENTHOAI }
+                ]
+            });
+
+            if (existed) {
+                return { message: 'Email hoặc số điện thoại đã được sử dụng bởi người dùng khác!' }
+            }
+
             if(data.PASSWORD){
                 data.PASSWORD = await bcrypt.hash(data.PASSWORD, 10)
             }

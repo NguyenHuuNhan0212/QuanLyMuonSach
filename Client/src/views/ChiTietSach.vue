@@ -50,7 +50,7 @@
 
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useBookStore } from '@/stores/sach.store';
 import { useRoute } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue';

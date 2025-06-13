@@ -24,7 +24,7 @@
             <li>Thứ hai: 09:00 - 17:00</li>
             <li>Thứ ba: 09:00 - 17:00</li>
             <li>Thứ tư: 09:00 - 17:00</li>
-            <li>thứ năm: 09:00 - 17:00</li>
+            <li>Thứ năm: 09:00 - 17:00</li>
             <li>Thứ sáu: 09:00 - 17:00</li>
             <li>Thứ bảy: 09:00 - 11:00</li>
             <li>Chủ nhật: Nghỉ</li>

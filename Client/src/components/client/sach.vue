@@ -8,7 +8,8 @@
       <br>
       <div class="card-body">
         <h5 class="card-title">{{ book.TENSACH }}</h5>
-        <p><i>{{ book.TACGIA }}</i></p>
+        <span><strong>Tác giả: </strong><i>{{ book.TACGIA }}</i></span><br>
+        <span><strong>Nhà xuất bản: </strong><i>{{ book.MANXB?.TENNXB }}</i></span>
       </div>
     </div>
   </RouterLink>

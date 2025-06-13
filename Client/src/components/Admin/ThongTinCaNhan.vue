@@ -1,5 +1,5 @@
 <template>
-    <main class="mt-5 pt-5" data-aos="fade-up" data-aos-duration="1000">
+    <main class="mt-5" data-aos="fade-up" data-aos-duration="1000">
         <div class="container profile-container">
             <h1 class="text-center mb-4">Thông tin tài khoản</h1>
             <div class="profile-card">

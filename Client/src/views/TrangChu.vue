@@ -1,7 +1,7 @@
 <script setup>
 import sach from '@/components/client/sach.vue'
 import slider from '@/components/client/slider.vue'
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, onUnmounted } from 'vue'
 import { useBookStore } from '@/stores/sach.store'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
@@ -10,8 +10,26 @@ const bookStore = useBookStore()
 onMounted(() => {
   bookStore.getAll()
 })
+onUnmounted(() => {
+  bookStore.searchMode=''
+  bookStore.searchText = ''
+})
 const books = computed(() => {
-  return bookStore.getBooksFormName(bookStore.searchText)
+  if(bookStore.searchMode === 'author'){
+    return bookStore.getBooksFormAuthor(bookStore.searchText)
+  }
+  else if(bookStore.searchMode === 'bookName'){
+    return bookStore.getBooksFormName(bookStore.searchText)
+  }
+  else if(bookStore.searchMode === 'publisherName'){
+    return bookStore.getBooksFormPublisher(bookStore.searchText)
+  }
+  else if(bookStore.searchMode === 'publisherYear'){
+    return bookStore.getBooksFormPublisherYear(bookStore.searchText)
+  }
+  else{
+    return bookStore.getBooksFormAll(bookStore.searchText)
+  }
 })
 </script>
 

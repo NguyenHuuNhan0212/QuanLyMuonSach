@@ -7,7 +7,8 @@ export const useBookStore = defineStore('book', {
         return {
             books: [],
             searchText: '',
-            count: ''
+            count: '',
+            searchMode:''
         }
     },
     actions: {
@@ -85,5 +86,44 @@ export const useBookStore = defineStore('book', {
                 )
             }
         },
+        getBooksFormAuthor(state) {
+            return (searchText) => {
+                if(!searchText) return state.books
+                const lowerSearch = searchText.toLowerCase()
+                return state.books.filter(book => 
+                    book.TACGIA.toLowerCase().includes(lowerSearch)
+                )
+            }
+        },
+        getBooksFormPublisher(state) {
+            return (searchText) => {
+                if(!searchText) return state.books
+                const lowerSearch = searchText.toLowerCase()
+                return state.books.filter(book => 
+                    book.MANXB?.TENNXB.toLowerCase().includes(lowerSearch)
+                )
+            }
+        },
+        getBooksFormPublisherYear(state) {
+            return (searchText) => {
+                if(!searchText) return state.books
+                const lowerSearch = searchText.toLowerCase()
+                return state.books.filter(book => 
+                    String(book.NAMXUATBAN).includes(lowerSearch)
+                )
+            }
+        },
+        getBooksFormAll(state) {
+            return (searchText) => {
+                if(!searchText) return state.books
+                const lowerSearch = searchText.toLowerCase()
+                return state.books.filter(book => {
+                    return (book.TENSACH.toLowerCase().includes(lowerSearch) ||
+                            book.TACGIA.toLowerCase().includes(lowerSearch) ||
+                            book.MANXB?.TENNXB.toLowerCase().includes(lowerSearch) ||
+                            String(book.NAMXUATBAN).includes(lowerSearch))
+                })
+            }
+        }
     }
 })
