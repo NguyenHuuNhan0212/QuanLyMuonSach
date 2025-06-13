@@ -2,7 +2,7 @@
   <header class="fixed-top" data-aos="fade-down" data-aos-duration="8000">
 
   <nav class="navbar navbar-expand-lg bg-light py-3 shadow-sm">
-    <div class="container-fluid align-items-center ">
+    <div class="container align-items-center ">
 
       <!-- Logo -->
       <router-link to="/" class="navbar-brand d-flex align-items-center">
@@ -40,8 +40,8 @@
 
         <!-- Giữa: Thanh tìm kiếm -->
        <form class="d-flex align-items-center mx-auto w-50 gap-2" role="search" @submit.prevent>
-              <select v-if="route.name === 'trangchu'" v-model="sachStore.searchMode" class="form-select rounded-pill border-0 shadow-sm px-3" style="max-width: 160px;">
-                <option value="" selected>Tất cả</option>
+              <select v-if="route.name === 'trangchu'" v-model="sachStore.searchMode" class=" form-select  border-0 shadow-sm px-3" style="max-width: 160px;">
+                <option value="" selected>Tìm nhanh</option>
                 <option value="author">Tác giả</option>
                 <option value="bookName">Tên sách</option>
                 <option value="publisherName">Nhà xuất bản</option>
@@ -52,7 +52,7 @@
                 v-if="route.name === 'trangchu'"
                 v-model="sachStore.searchText"
                 type="search"
-                class="form-control rounded-pill px-4 border-0 shadow-sm"
+                class="form-control  px-4 border-0 shadow-sm"
                 placeholder="Nhập tên sách, tác giả, nhà xuất bản..."
                 aria-label="Search"
               />
@@ -360,5 +360,8 @@ const handleLogout = () => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.form-select{
+  cursor: pointer;
 }
 </style>

@@ -17,7 +17,15 @@ module.exports = class BorrowBook{
             .populate('MASACH')
             .populate('MSNV', 'HoTenNV ChucVu SoDienThoai DiaChi')
         const muonsachCount = await muonSachModel.countDocuments()
+        const sachDangLay = await muonSachModel.find({
+            TrangThai: 'Đã lấy'
+        })
+        let tongSoLuong = 0;
+        for(const sach of sachDangLay) {
+            tongSoLuong += sach.SoLuongMuon || 0;
+        }
         return {
+            soQuyenSachDangBiLay: tongSoLuong,
             count: muonsachCount,
             danhsachmuon: result,
             message: 'Lấy thông tin mượn sách thành công.'

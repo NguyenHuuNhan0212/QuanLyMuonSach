@@ -3,7 +3,7 @@
     <h4 class="mb-4 text-center" >Dashboard</h4>
     <div class="row g-3">
       <div class="col-md-4">
-        <div class="card text-white text-center" style="backgroundColor: #17a2b8 ">
+        <div class="card text-white text-center" :style="{ backgroundColor: '#17a2b8' }">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
@@ -20,7 +20,7 @@
       </div>
 
       <div class="col-md-4">
-        <div class="card text-white text-center" style="backgroundColor: #28a745 ">
+        <div class="card text-white text-center" :style="{backgroundColor: '#28a745' }">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
@@ -38,7 +38,7 @@
       </div>
 
       <div class="col-md-4">
-        <div class="card text-white text-center" style="backgroundColor: #fd7e14 ">
+        <div class="card text-white text-center" :style="{backgroundColor: '#fd7e14' }">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
@@ -46,6 +46,22 @@
                 <p class="mb-1">Tổng số phiếu mượn</p>
               </div>
             <i class="fa-solid fa-file-pen big-icon"></i>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-top-0">
+            <router-link class="nav-link" :to="{name: 'quanlymuonsach'}"><small>Xem thêm <i class="fas fa-arrow-circle-right"></i></small></router-link>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white text-center" :style="{backgroundColor: '#6f42c1' }">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="fw-bold">{{ borrowStore.sachDangLay || '0' }}</h2>
+                <p class="mb-1">Tổng số lượng sách đang mượn</p>
+              </div>
+              <i class="fa-solid fa-book big-icon"></i>
             </div>
           </div>
           <div class="card-footer bg-transparent border-top-0">

@@ -8,7 +8,8 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             SachMuon: [],
             AdminMuon: [],
             count: '',
-            searchText: ''
+            searchText: '',
+            sachDangLay:''
         }
     },
     actions: {
@@ -22,6 +23,7 @@ export const useBorrowBookStore = defineStore('borrowBook', {
                 .then((res) => {
                     this.AdminMuon =  res.data?.danhsachmuon
                     this.count = res.data?.count
+                    this.sachDangLay = res.data?.soQuyenSachDangBiLay
                     return res.data.message
                 })
                 .catch((err) => {

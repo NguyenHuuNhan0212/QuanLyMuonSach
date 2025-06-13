@@ -68,7 +68,7 @@ const handleSubmit = async () => {
 
     } else {
       ElMessage({
-        message: 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.',
+        message: result,
         type: 'error',
       });
     }

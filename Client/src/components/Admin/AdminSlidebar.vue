@@ -1,35 +1,64 @@
 <template>
   <div class="sidebar bg-light p-3" data-aos="fade-right">
-    <h5 class="mb-4"><router-link class="nav-link-home" :to="{name: 'trangchuadmin'}" ><img src="@/assets/logo.jpg" alt="Logo" width="50" height="50" class="me-2 logo">Quản trị</router-link></h5>
+    <h5 class="mb-4">
+      <router-link
+        class="nav-link-home"
+        :to="{ name: 'trangchuadmin' }"
+      >
+        <img src="@/assets/logo.jpg" alt="Logo" width="50" height="50" class="me-2 logo" />
+        Quản trị
+      </router-link>
+    </h5>
     <ul class="nav flex-column">
       <li class="nav-item mb-2">
-        <router-link class="nav-link" :to="{name: 'trangchuadmin'}">
+        <router-link
+          class="nav-link"
+          :to="{ name: 'trangchuadmin' }"
+          :class="{ 'router-active': route.name?.includes('trangchuadmin') }"
+        >
           <i class="fa-solid fa-chart-simple"></i> Tổng quan
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" :to="{name: 'quanlymuonsach'}">
+        <router-link
+          class="nav-link"
+          :to="{ name: 'quanlymuonsach' }"
+          :class="{ 'router-active': route.name?.includes('quanlymuonsach')  }"
+        >
           <i class="fas fa-tasks me-2"></i> Quản lý mượn sách
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" :to="{name: 'quanlynxb'}">
+        <router-link
+          class="nav-link"
+          :to="{ name: 'quanlynxb' }"
+          :class="{ 'router-active': route.name?.includes('quanlynxb') }"
+        >
           <i class="fas fa-building me-2"></i> Quản lý nhà xuất bản
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" :to="{name: 'quanlysach'}">
+        <router-link
+          class="nav-link"
+          :to="{ name: 'quanlysach' }"
+          :class="{ 'router-active': route.name?.includes('quanlysach')}"
+        >
           <i class="fas fa-book me-2"></i> Quản lý sách
         </router-link>
       </li>
       <li class="nav-item mb-2">
-        <router-link class="nav-link" :to="{name: 'trangcanhanadmin'}">
+        <router-link
+          class="nav-link"
+          :to="{ name: 'trangcanhanadmin' }"
+          :class="{ 'router-active': route.name?.includes('trangcanhanadmin') }"
+        >
           <i class="fas fa-users me-2"></i> Tài khoản
         </router-link>
       </li>
     </ul>
   </div>
 </template>
+
 
 <style scoped>
 .sidebar {
@@ -55,8 +84,16 @@
 .logo{
   border-radius: 30px;
 }
+.router-active{
+  color: #007bff !important;
+  background-color: #e9ecef;
+  font-weight: 600
+}
 </style>
 
-<script setup> 
+<script setup>
+import { useRoute } from 'vue-router';
 
+ 
+const route = useRoute()
 </script>
