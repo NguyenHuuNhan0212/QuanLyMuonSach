@@ -2,6 +2,8 @@
   <RouterLink :to="{ name: 'chitietsach', params: { MaSach: book.MASACH }}" class="book-link">
     <div class="card text-center book-card" data-aos="fade-up" data-aos-duration="500">
       <div class="image-wrapper-home">
+        <div class="ribbon" v-if="route.name === 'sachhot'">Hot</div>
+        <div class="ribbon" v-if="route.name === 'sachmoinhat'">Mới</div>
         <img :src="book.image" class="card-img-top book-image" :alt="book.TENSACH" />
       </div>
       <br>
@@ -16,7 +18,8 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
+const route = useRoute()
 const props = defineProps({
   book: {
     type: Object,
@@ -82,4 +85,24 @@ const props = defineProps({
   text-overflow: ellipsis;
   text-align: center;
 }
+.ribbon {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  background-color: #e74c3c; /* đỏ cam nổi bật */
+  color: white;
+  padding: 5px 15px;
+  font-size: 12px;
+  font-weight: bold;
+  transform: rotate(-45deg);
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+/* Thêm position: relative để đặt ribbon đúng */
+.image-wrapper-home {
+  position: relative;
+}
+
 </style>

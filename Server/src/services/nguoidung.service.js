@@ -85,4 +85,19 @@ module.exports = class UserService{
             return {message: err.message}
         }
     }
+    async changePassword(id, password, newPassword){
+        const user = await nguoiDungModel.findById(id)
+        if(!user){
+            return { message: 'Người dùng không tồn tại.'}
+        }else{
+            const isMatch = await bcrypt.compare(password, user.PASSWORD)
+            if(!isMatch){
+                return { message: 'Mật khẩu cũ không đúng.'}
+            }
+            const hashesedNewPassword = await bcrypt.hash(newPassword, 10)
+            user.PASSWORD = hashesedNewPassword
+            await user.save()
+            return { message: 'Đổi mật khẩu thành công.'}
+        }
+    }
 }

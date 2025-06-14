@@ -8,7 +8,9 @@ export const useBookStore = defineStore('book', {
             books: [],
             searchText: '',
             count: '',
-            searchMode:''
+            searchMode:'',
+            booksNew: [],
+            booksHot: []
         }
     },
     actions: {
@@ -17,6 +19,8 @@ export const useBookStore = defineStore('book', {
                     .then((res) => {
                         this.books = res.data?.sach
                         this.count = res.data?.count
+                        this.booksNew = res.data?.sachMoiNhat
+                        this.booksHot = res.data?.sachHot
                         return res.data.message
                     })
                     .catch((err) => {
@@ -73,6 +77,12 @@ export const useBookStore = defineStore('book', {
     getters: {
         getBook(state) {
             return (MaSach) => state.books.find(book => String(book.MASACH) === MaSach);
+        },
+        getBookNew(state){
+            return state.booksNew
+        },
+        getBookHot(state){
+            return state.booksHot
         },
         getBooks(state){
             return state.books

@@ -1,66 +1,58 @@
 <script setup>
-import sach from '@/components/client/sach.vue'
-import slider from '@/components/client/slider.vue'
-import { onMounted, computed, onUnmounted } from 'vue'
-import { useBookStore } from '@/stores/sach.store'
-import AppHeader from '@/components/AppHeader.vue'
-import AppFooter from '@/components/AppFooter.vue'
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import slider from '@/components/client/slider.vue';
+import sachAll from '@/components/client/SachAll.vue';
+import { RouterView, RouterLink, useRoute } from 'vue-router';
 
-const bookStore = useBookStore()
-onMounted(() => {
-  bookStore.getAll()
-})
-onUnmounted(() => {
-  bookStore.searchMode=''
-  bookStore.searchText = ''
-})
-const books = computed(() => {
-  if(bookStore.searchMode === 'author'){
-    return bookStore.getBooksFormAuthor(bookStore.searchText)
-  }
-  else if(bookStore.searchMode === 'bookName'){
-    return bookStore.getBooksFormName(bookStore.searchText)
-  }
-  else if(bookStore.searchMode === 'publisherName'){
-    return bookStore.getBooksFormPublisher(bookStore.searchText)
-  }
-  else if(bookStore.searchMode === 'publisherYear'){
-    return bookStore.getBooksFormPublisherYear(bookStore.searchText)
-  }
-  else{
-    return bookStore.getBooksFormAll(bookStore.searchText)
-  }
-})
+const route = useRoute()
 </script>
 
 <template>
   <AppHeader />
   <main class="container mt-5 pt-5">
     <slider />
-    <hr class="container mt-5" />
-    <h1 class="text-center mb-4">Danh sách sách</h1>
-
-    <div class="container">
-      <div v-if="books.length > 0" class="row  g-4">
-        <div
-          class="col-12 col-sm-6 col-md-4 col-lg-3"
-          v-for="book in books"
-          :key="book.MASACH"
-        >
-          <sach :book="book" />
-        </div>
-      </div>
-      <div v-else  class="row  g-4">
-        <div class="alert alert-info text-center w-100" >
-            Hiện tại thư viện không có quyển sách phù hợp với nhu cầu tìm kiếm của bạn.
-        </div>
-      </div>
+    <div class="mt-5 tab-wrapper">
+      <router-link :to="{name: 'trangchu'}" class="tab-link" :class="{active: route.name === 'trangchu'}">Tất cả sách</router-link>
+      <router-link :to="{name: 'sachmoinhat'}" class="tab-link" :class="{active: route.name === 'sachmoinhat'}">Sách mới nhất</router-link>
+      <router-link :to="{name: 'sachhot'}" class="tab-link" :class="{active: route.name === 'sachhot'}">Nổi bật</router-link>
     </div>
+   
+    <hr class="container" />
+    <sachAll v-if="route.name === 'trangchu'" />
+    <RouterView />
   </main>
   <AppFooter />
 </template>
 
 <style scoped>
+.tab-wrapper {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
 
+.tab-link {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+.tab-link.active {
+  color: #2f6652; /* màu xanh nhẹ giống ảnh */
+}
+
+.tab-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background-color: #2f6652;
+}
 
 </style>

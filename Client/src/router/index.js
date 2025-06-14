@@ -1,3 +1,4 @@
+import { compile } from "vue"
 import { createRouter, createWebHistory } from "vue-router"
 
 const routes = [
@@ -5,6 +6,18 @@ const routes = [
     path: "/",
     name: "trangchu",
     component: () => import("../views/TrangChu.vue"),
+    children: [
+      {
+        path: "/sach-moi-nhat",
+        name: 'sachmoinhat',
+        component: () => import('../components/client/SachMoiNhat.vue')
+      },
+      {
+        path: "/sach-muon-nhieu-nhat",
+        name: 'sachhot',
+        component: () => import('../components/client/SachHot.vue')
+      }
+    ]
   },
   {
     path: "/dang-nhap",
@@ -43,6 +56,13 @@ const routes = [
     path: "/user/update/trang-ca-nhan/:id",
     name: "capnhatthongtindocgia",
     component: () => import("../components/client/CapNhatThongTin.vue"),
+    props: true,
+  },
+  {
+  
+    path: "/user/trang-ca-nhan/doi-mat-khau/:id",
+    name: "doimatkhau",
+    component: () => import("../components/client/ChangePassword.vue"),
     props: true,
   },
   {

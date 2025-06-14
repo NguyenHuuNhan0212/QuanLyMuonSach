@@ -60,7 +60,7 @@
 
       <!-- Bottom -->
       <div class="text-center border-top pt-3 mt-3">
-        <span class="text-white-50">© 2025 LIBRARYBOOK. All rights reserved.</span>
+        <span class="text-white-50">© 2025 LIBRARYBOOK. Tri thức hôm nay – Hành trang ngày mai.</span>
       </div>
     </div>
   </footer>

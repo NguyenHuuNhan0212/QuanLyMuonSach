@@ -40,8 +40,8 @@
 
         <!-- Giữa: Thanh tìm kiếm -->
        <form class="d-flex align-items-center mx-auto w-50 gap-2" role="search" @submit.prevent>
-              <select v-if="route.name === 'trangchu'" v-model="sachStore.searchMode" class=" form-select  border-0 shadow-sm px-3" style="max-width: 160px;">
-                <option value="" selected>Tìm nhanh</option>
+              <select v-if="route.name === 'trangchu' || route.name === 'sachmoinhat' || route.name === 'sachhot'" v-model="sachStore.searchMode" class=" form-select  border-0 shadow-sm px-3" style="max-width: 160px;">
+                <option value="" selected>{{ searchFast }}</option>
                 <option value="author">Tác giả</option>
                 <option value="bookName">Tên sách</option>
                 <option value="publisherName">Nhà xuất bản</option>
@@ -49,7 +49,7 @@
               </select>
 
               <input
-                v-if="route.name === 'trangchu'"
+                v-if="route.name === 'trangchu'|| route.name === 'sachhot' || route.name === 'sachmoinhat' "
                 v-model="sachStore.searchText"
                 type="search"
                 class="form-control  px-4 border-0 shadow-sm"
@@ -103,6 +103,7 @@ import { useUserStore } from '@/stores/nguoidung.store';
 import { ElMessage } from 'element-plus';
 import router from '@/router';
 import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 const userStore = useUserStore();
 const sachStore = useBookStore();
@@ -121,6 +122,15 @@ const handleLogout = () => {
     ElMessage.error('Bạn chưa đăng nhập!');
   }
 } 
+const searchFast =computed(() => {
+if(sachStore.searchMode === ''){
+    return 'Tìm nhanh'
+  }else{
+    return 'Từ khóa bất kỳ'
+  }
+})
+  
+
 </script>
 <style scoped>
 .navbar {

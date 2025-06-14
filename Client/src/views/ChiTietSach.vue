@@ -10,20 +10,20 @@
       </button>
 
       <div class="row">
-        <div class="col-md-5">
-          <div class="image-wrapper">
-            <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
-          </div>
+        <div class="col-md-6">
+            <div class="image-wrapper" style="min-height: 500px;">
+              <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
+            </div>
         </div>
-        <div class="col-md-7">
-          <h1 class="mb-4">Thông tin sách</h1>
+        <div class="col-md-6">
+          <h1 class="mb-4">{{ book.TENSACH }}</h1>
           <p class="mb-3 description fst-italic"><strong>Mã sách:</strong> {{ book.MASACH }}</p>
-          <p class="mb-3 description "><strong>Tên sách: </strong> {{ book.TENSACH }}</p>
           <p class="mb-3 description"><strong>Tác giả: </strong> {{ book.TACGIA }}</p>
           <p class="description mb-4"><strong>Đơn giá: </strong> {{ book.DONGIA }}</p>
           <p class="description mb-4"><strong>Số lượng còn lại: </strong> {{ soluongConLai }}</p>
           <p class="description mb-4"><strong>Nhà xuất bản: </strong> {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
           <p class="description mb-4"><strong>Năm xuất bản: </strong> {{ book.NAMXUATBAN }}</p>
+          <p class="description mb-4"><strong>Số lượt mượn: </strong> {{ book.SoLuotMuon }}</p>
           <div class="quantity-control mb-4 ">
             <strong>Số lượng: </strong>
             <br />
@@ -188,4 +188,5 @@ const soluongConLai = computed(() => {
 .image-wrapper:hover img {
   transform: rotateY(-25deg);
 }
+
 </style>

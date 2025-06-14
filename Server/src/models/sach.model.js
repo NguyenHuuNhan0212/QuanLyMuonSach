@@ -10,6 +10,7 @@ const sachSchame = new mongoose.Schema(
         NAMXUATBAN: {type: Number, required: true},
         MANXB: { type: mongoose.Schema.Types.ObjectId, ref: 'bangNhaXuatBan', required: true},
         TACGIA: {type: String, required: true},
+        SoLuotMuon: {type: Number, default: 0},// thêm để làm chức năng sách mượn nhiều nhất
         image: {type: String},
         SoLuongDaMuon: {type: Number, required: true, default: 0}
     },

@@ -161,6 +161,14 @@ module.exports = class BorrowBook{
                     new: true
                 }
             )
+            const sach = await sachModel.findById(muon.MASACH)
+            if(sach) {
+                await sachModel.findByIdAndUpdate(muon.MASACH, {
+                    $set: {
+                        SoLuotMuon: sach.SoLuotMuon + muon.SoLuongMuon
+                    }
+                })
+            }
              const chiTietMuon = await muonSachModel.findOne({ _id: muonId})
                 .populate('MASACH')
                 .populate('MADOCGIA', 'HOLOT TEN NGAYSINH EMAIL PHAI DIACHI DIENTHOAI')

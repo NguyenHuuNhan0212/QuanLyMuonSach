@@ -32,9 +32,15 @@
                 <strong>Địa chỉ:</strong> {{ userStore.userInfo?.DIACHI }}
             </p>
             
-            <div class="button-wrapper">
-                <button class="btn btn-primary" @click="handleUpdateAccount"><el-icon><Edit /></el-icon> Chỉnh sửa tài khoản</button>
+            <div class="button-wrapper d-flex justify-content-between gap-3 mt-4">
+                <button class="btn btn-primary d-flex align-items-center gap-2" @click="handleUpdateAccount">
+                    <el-icon><Edit /></el-icon> Chỉnh sửa tài khoản
+                </button>
+                <button class="btn btn-outline-primary d-flex align-items-center gap-2" @click="handleUpdatePassword">
+                    <el-icon><Lock /></el-icon> Đổi mật khẩu
+                </button>
             </div>
+
             </div>
         </div>
     </main>
@@ -53,6 +59,9 @@ const props = defineProps({
 const handleUpdateAccount = () => {
     // Redirect to the account update page
     router.push({ name: 'capnhatthongtindocgia', params: { id: userStore.userInfo?._id } });
+}
+const handleUpdatePassword = () =>{
+    router.push({name: 'doimatkhau', params: {id: userStore.userInfo?._id}})
 }
 const formatDate = (dateStr) => {
   if (!dateStr) return '';

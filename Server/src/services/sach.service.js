@@ -4,7 +4,11 @@ module.exports = class BookService{
     async getAll(){
         const data = await sachModel.find().populate('MANXB')
         const sachCount = await sachModel.countDocuments()
+        const sachMoiNhat = await sachModel.find().populate('MANXB').sort({createdAt: -1}).limit(10)
+        const sachHot = await sachModel.find({SoLuotMuon: {$gt: 0}}).populate('MANXB').sort({SoLuotMuon: -1});
         return {
+            sachHot,
+            sachMoiNhat,
             count: sachCount,
             sach: data,
             message: 'Lấy tất cả sách thành công'

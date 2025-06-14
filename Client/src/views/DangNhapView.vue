@@ -1,9 +1,8 @@
 <template>
-  <AppHeader />
-  <main class="mt-5 pt-5">
+  <AppHeader /> 
+  <main class=" pt-5">
     <mauDangNhapNguoiDung />
   </main>
-  <AppFooter />
 </template>
 
 <script setup>

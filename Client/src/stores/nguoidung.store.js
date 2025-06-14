@@ -56,6 +56,19 @@ export const useUserStore = defineStore('user', {
             return false
           })
     },
+    changePassword: function(userData){
+      if (!this.token) {
+        return false
+      }
+      return axiosInstance.patch(`/users/changePassword/${this.userInfo?._id}`, userData)
+          .then((res) => {
+            return res.data?.message
+          })
+          .catch((err) => {
+            console.log(err)
+            return false
+          })
+    },
     StaffLogin: function(staffData) {
       return axiosInstance.post('/staffs/login', staffData)
           .then((res) => {
