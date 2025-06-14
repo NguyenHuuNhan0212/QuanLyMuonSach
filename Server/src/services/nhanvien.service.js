@@ -71,4 +71,22 @@ module.exports = class StaffService{
             return { message: 'Có lỗi khi cập nhật.'}
         }
     }
+    async changePassword(id, password, newPassword) {
+        const user = await nhanVienModel.findById(id)
+        if(!user){
+            return { message: 'Nhân viên không tồn tại.'}
+        }else{
+             const isMatch = await bcrypt.compare(password, user.Password)
+            if(!isMatch){
+                return { message: 'Mật khẩu cũ không đúng.'}
+            }
+            const hashedPassword = await bcrypt.hash(newPassword, 10)
+            user.Password = hashedPassword
+            await user.save()
+            return {
+                message: 'Đổi mật khẩu thành công.'
+            }
+        }
+       
+    }
 }

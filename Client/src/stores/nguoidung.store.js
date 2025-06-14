@@ -101,6 +101,19 @@ export const useUserStore = defineStore('user', {
             return false
           })
     },
+    changePasswordAdmin: function(staffData) {
+      if(!this.staffToken){
+        return
+      }
+      return axiosInstance.patch(`/staffs/changePassword/${this.staffInfo?._id}`, staffData)
+              .then((res) => {
+                return res.data?.message
+              })
+              .catch((err) => {
+                console.log(err)
+                return false
+              })
+    },
     UserLogout: function() {
       this.token = ''
       this.userInfo = {}

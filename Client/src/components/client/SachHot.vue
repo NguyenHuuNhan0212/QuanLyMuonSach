@@ -17,7 +17,7 @@
 </template>
 <script setup>
 import { onMounted, computed, onUnmounted } from 'vue';
-import sach from './Sach.vue';
+import sach from './sach.vue';
 import { useBookStore } from '@/stores/sach.store';
 const bookStore = useBookStore()
 

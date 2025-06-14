@@ -18,7 +18,7 @@
     </div>
 </template>
 <script setup>
-import sach from '@/components/client/Sach.vue'
+import sach from '@/components/client/sach.vue'
 import { onMounted, computed, onUnmounted } from 'vue'
 import { useBookStore } from '@/stores/sach.store'
 

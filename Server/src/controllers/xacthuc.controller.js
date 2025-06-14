@@ -101,3 +101,18 @@ module.exports.changePasswordForUser = async (req, res, next) => {
         return next(new ApiError(500, 'Có lỗi khi đổi mật khẩu.'))
     }
 }
+
+// [PATCH] /staffs/changePassword/:id
+module.exports.changePasswordForAdmin = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const password = req.body.password
+        const newPassword = req.body.newPassword
+        const staffService = new StaffService()
+        const result = await staffService.changePassword(id, password, newPassword)
+        return res.status(200).json(result)
+    }catch(err) {
+        console.log(err)
+        return next(new ApiError(500, 'Có lỗi khi đổi mật khẩu.'))
+    }
+}

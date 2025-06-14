@@ -117,6 +117,11 @@ const routes = [
           name: "trangcanhanadmin-updateProfileAdmin",
           component: () => import("../components/Admin/CapNhatProfile.vue"),
       },
+      {
+          path: "/trang-ca-nhan/cap-nhat-password/:id",
+          name: "trangcanhanadmin-changepassword",
+          component: () => import("../components/Admin/ChangePasswordAdmin.vue"),
+      },
       
     ]
   },

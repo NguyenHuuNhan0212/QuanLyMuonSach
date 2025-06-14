@@ -7,7 +7,7 @@
             v-for="book in books"
             :key="book.MASACH"
             >
-            <sach :book="book" />
+            <Sach :book="book" />
             </div>
         </div>
         <div v-else class="alert alert-info text-center w-100" >
@@ -17,7 +17,7 @@
 </template>
 <script setup>
 import { onMounted, computed, onUnmounted } from 'vue';
-import sach from './Sach.vue';
+import Sach from './sach.vue';
 import { useBookStore } from '@/stores/sach.store';
 const bookStore = useBookStore()
 

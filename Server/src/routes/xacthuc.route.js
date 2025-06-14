@@ -10,6 +10,7 @@ router.post('/users/login', xacThucController.login)
     .post('/staffs/login', xacThucController.staffLogin)
     .post('/staffs/register', xacThucController.staffRegister)
     .patch('/staffs/:id', xacThucController.updateStaff)
+    .patch('/staffs/changePassword/:id', xacThucController.changePasswordForAdmin)
     .post('/logout', xacThucController.logout)
 
 module.exports = router

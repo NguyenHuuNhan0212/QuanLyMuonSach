@@ -23,9 +23,10 @@
                 <strong>Địa chỉ:</strong> {{ userStore.staffInfo?.DiaChi }}
             </p>
             
-            <div class="button-wrapper">
+            <div class="button-wrapper d-flex justify-content-between gap-3 mt-4">
                 <button class="btn btn-primary" @click="handleUpdateAccount"><el-icon><Edit /></el-icon> Chỉnh sửa tài khoản</button>
-            </div>
+                <button class="btn btn-outline-primary" @click="handleUpdatePassword"><el-icon><Lock /></el-icon> Đổi mật khẩu</button>
+              </div>
             </div>
         </div>
     </main>
@@ -39,7 +40,9 @@ const handleUpdateAccount = () => {
     // Redirect to the account update page
     router.push({ name: 'trangcanhanadmin-updateProfileAdmin', params: { MSNV: userStore.staffInfo?.MSNV} });
 }
-
+const handleUpdatePassword = () => {
+  router.push({name: 'trangcanhanadmin-changepassword', params: { id: userStore.staffInfo?._id}})
+}
 </script>
 
 <style scoped>
