@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h2 class="fw-bold">{{ bookCount }}</h2>
-                <p class="mb-1">Tổng số sách trong thư viện</p>
+                <p class="mb-1">Tổng số quyển sách của thư viện</p>
               </div>
               <i class="fa-solid fa-book big-icon"></i>
             </div>
@@ -69,6 +69,23 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="card text-white text-center" :style="{backgroundColor: '#6f42c1' }">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="fw-bold">{{ readerCount || '0' }}</h2>
+                <p class="mb-1">Số lượng độc giả có tài khoản của thư viện</p>
+              </div>
+              <i class="fa-solid fa-users-line big-icon"></i>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-top-0">
+            <router-link class="nav-link" :to="{name: 'quanlymuonsach'}"><small>Xem thêm <i class="fas fa-arrow-circle-right"></i></small></router-link>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,12 +94,15 @@
 import { useBookStore } from '@/stores/sach.store';
 import { usePublisherStore } from '@/stores/nhaxuatban.store';
 import { useBorrowBookStore } from '@/stores/muonsach.store';
+import { useReaderStore } from '@/stores/docgia.store';
 import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const readerStore = useReaderStore()
 const publisherStore = usePublisherStore()
 const borrowStore = useBorrowBookStore()
 const bookStore = useBookStore()
+const readerCount = ref('')
 const bookCount = ref('')
 const borrowCount = ref('')
 const publisherCount = ref('')
@@ -90,6 +110,8 @@ onMounted(async ()=> {
     await bookStore.getAll()
     await publisherStore.getAll()
     await borrowStore.getAllForAdmin()
+    await readerStore.getAll()
+    readerCount.value = readerStore.count
     bookCount.value = bookStore.count
     publisherCount.value = publisherStore.count
     borrowCount.value = borrowStore.count

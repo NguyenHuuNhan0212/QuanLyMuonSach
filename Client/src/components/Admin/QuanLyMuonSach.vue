@@ -123,7 +123,6 @@ const updateStatus = async (index) => {
             ElMessage.success(result)
         }else{
             await borrowStore.getAllForAdmin()
-            borrowList.value = borrowStore.AdminMuon
             ElMessage.warning(result)
         }
     }catch(err){
@@ -131,31 +130,34 @@ const updateStatus = async (index) => {
     }
     
 }
-const deleteBorrow = (index) => {
+const deleteBorrow =  (index) => {
     const item = borrowList.value[index]
     ElMessageBox.confirm(
         `Bạn có chắc chắn muốn xóa phiếu mượn mã ${item.MAMUONSACH} không?`,
         'Xác nhận xóa',
         {
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
-        type: 'warning',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            type: 'warning',
         }
     )
-    .then(() => {
-         borrowStore.deleteBorrowForAdmin(item._id)
-        .then(() => {
-            borrowList.value = borrowStore.AdminMuon
-            ElMessage.success(`Xóa phiếu mượn mã ${item.MAMUONSACH} thành công`)
-        })
-        .catch(error => {
+    .then(async () => {
+        try {
+            const result = await borrowStore.deleteBorrowForAdmin(item._id)
+
+            if (result === 'Xóa phiếu mượn thành công.') {
+                ElMessage.success(`Xóa phiếu mượn mã ${item.MAMUONSACH} thành công`)
+            } else {
+                await borrowStore.getAllForAdmin()
+                ElMessage.error(result || 'Xóa thất bại.')
+            }
+        } catch (error) {
             ElMessage.error('Xóa thất bại, vui lòng thử lại!')
-        })
+        }
     })
     .catch(() => {
         ElMessage.error('Đã hủy thao tác xóa')
     })
-   
 }
 const bgSelect = (status) => {
     switch (status) {

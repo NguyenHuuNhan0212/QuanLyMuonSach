@@ -22,6 +22,15 @@
       <li class="nav-item mb-2">
         <router-link
           class="nav-link"
+          :to="{ name: 'quanlysach' }"
+          :class="{ 'router-active': route.name?.includes('quanlysach')}"
+        >
+          <i class="fas fa-book me-2"></i> Quản lý sách
+        </router-link>
+      </li>
+      <li class="nav-item mb-2">
+        <router-link
+          class="nav-link"
           :to="{ name: 'quanlymuonsach' }"
           :class="{ 'router-active': route.name?.includes('quanlymuonsach')  }"
         >
@@ -40,10 +49,10 @@
       <li class="nav-item mb-2">
         <router-link
           class="nav-link"
-          :to="{ name: 'quanlysach' }"
-          :class="{ 'router-active': route.name?.includes('quanlysach')}"
+          :to="{ name: 'quanlydocgia' }"
+          :class="{ 'router-active': route.name?.includes('quanlydocgia')}"
         >
-          <i class="fas fa-book me-2"></i> Quản lý sách
+          <i class="fa-solid fa-users"></i> Quản lý độc giả
         </router-link>
       </li>
       <li class="nav-item mb-2">
@@ -52,7 +61,7 @@
           :to="{ name: 'trangcanhanadmin' }"
           :class="{ 'router-active': route.name?.includes('trangcanhanadmin') }"
         >
-          <i class="fas fa-users me-2"></i> Tài khoản
+         <i class="fa-solid fa-user me-2"></i> Tài khoản
         </router-link>
       </li>
     </ul>

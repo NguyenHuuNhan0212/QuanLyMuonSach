@@ -100,4 +100,30 @@ module.exports = class UserService{
             return { message: 'Đổi mật khẩu thành công.'}
         }
     }
+    async getAll() {
+        const users = await nguoiDungModel.find()
+        const countUser = await nguoiDungModel.countDocuments()
+        if(!users){
+            return {
+                message: 'Không có người dùng sử dụng hệ thống.'
+            }
+        }else{
+            return {
+                userList: users,
+                countUser: countUser,
+                message: 'Lấy danh sách người dùng thành công.'
+            }
+        }
+    }
+    async deleteOneUser(id){
+        const user = await nguoiDungModel.findById(id)
+        if(!user){
+            return { message: 'Người dùng không tồn tại.'}
+        }else{
+            await nguoiDungModel.deleteOne({_id: id})
+            return {
+                message: `Xóa độc giả thành công.`
+            }
+        }
+    }
 }

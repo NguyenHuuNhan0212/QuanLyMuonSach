@@ -81,7 +81,6 @@ const deletePublisher = (index) => {
     .then(() => {
         publisherStore.delete(publisher.MANXB)
         .then(() => {
-            nxbList.value = publisherStore.publishers
             ElMessage.success(`Xóa nhà xuất bản mã ${publisher.MANXB} thành công.`)
 
         })

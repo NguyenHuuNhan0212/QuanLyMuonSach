@@ -3,13 +3,17 @@ const sachModel = require('../models/sach.model')
 module.exports = class BookService{
     async getAll(){
         const data = await sachModel.find().populate('MANXB')
-        const sachCount = await sachModel.countDocuments()
+        // const sachCount = await sachModel.countDocuments()
+        let totalBooks = 0
+        for(const book of data){
+            totalBooks += book.SOQUYEN
+        }
         const sachMoiNhat = await sachModel.find().populate('MANXB').sort({createdAt: -1}).limit(10)
-        const sachHot = await sachModel.find({SoLuotMuon: {$gt: 0}}).populate('MANXB').sort({SoLuotMuon: -1});
+        const sachHot = await sachModel.find({SoLuotMuon: {$gt: 2}}).populate('MANXB').sort({SoLuotMuon: -1});
         return {
             sachHot,
             sachMoiNhat,
-            count: sachCount,
+            count: totalBooks,
             sach: data,
             message: 'Lấy tất cả sách thành công'
         }

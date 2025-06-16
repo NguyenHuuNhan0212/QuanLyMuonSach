@@ -38,27 +38,37 @@
           </li>
         </ul>
 
-        <!-- Giữa: Thanh tìm kiếm -->
-       <form class="d-flex align-items-center mx-auto w-50 gap-2" role="search" @submit.prevent>
-              <select v-if="route.name === 'trangchu' || route.name === 'sachmoinhat' || route.name === 'sachhot'" v-model="sachStore.searchMode" class=" form-select  border-0 shadow-sm px-3" style="max-width: 160px;">
+         
+        <form @submit.prevent class="container" style="max-width: 600px;">
+          <div class="row g-2 align-items-center">
+            <!-- Select chế độ tìm -->
+            <div class="col-12 col-sm-4">
+              <select
+                v-if="route.name === 'trangchu' || route.name === 'sachmoinhat' || route.name === 'sachhot'"
+                v-model="sachStore.searchMode"
+                class="form-select shadow-sm"
+              >
                 <option value="" selected>{{ searchFast }}</option>
                 <option value="author">Tác giả</option>
                 <option value="bookName">Tên sách</option>
                 <option value="publisherName">Nhà xuất bản</option>
                 <option value="publisherYear">Năm xuất bản</option>
               </select>
+            </div>
 
+            <!-- Input tìm -->
+            <div class="col-12 col-sm-8">
               <input
-                v-if="route.name === 'trangchu'|| route.name === 'sachhot' || route.name === 'sachmoinhat' "
+                v-if="route.name === 'trangchu' || route.name === 'sachhot' || route.name === 'sachmoinhat'"
                 v-model="sachStore.searchText"
                 type="search"
-                class="form-control  px-4 border-0 shadow-sm"
+                class="form-control shadow-sm"
                 placeholder="Nhập tên sách, tác giả, nhà xuất bản..."
                 aria-label="Search"
               />
+            </div>
+          </div>
         </form>
-
-
           <router-link v-if="!userStore.token && !userStore.staffToken" :to="{name: 'dangnhap'}" class="nav-link fw-semibold text-primary nav-link-border">Đăng nhập</router-link>
         
         <!-- Phải: Dropdown menu -->
@@ -79,12 +89,12 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <template v-if="userStore.token">
-                  <li><a class="dropdown-item" href="#" @click="handleLogout">Đăng xuất</a></li>
+                  <li><a class="dropdown-item" href="#" @click="handleLogout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
                   <li>
-                    <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item">Lịch sử mượn sách</router-link>
+                    <router-link :to="{name: 'lichsumuonsach'}" class="dropdown-item"><i class="fa-regular fa-clock"></i> Lịch sử mượn sách</router-link>
                   </li>
                   <li>
-                    <router-link :to="{name: 'trangcanhan', params: { id: userStore.userInfo?._id}}" class="dropdown-item">Tài khoản</router-link>
+                    <router-link :to="{name: 'trangcanhan', params: { id: userStore.userInfo?._id}}" class="dropdown-item"><i class="fa-solid fa-user"></i> Tài khoản</router-link>
                   </li>
               </template>
               
@@ -316,9 +326,7 @@ if(sachStore.searchMode === ''){
     margin: 10px 0;
   }
   
-  .form-control {
-    border-radius: 20px;
-  }
+  
 }
 
 /* Animation cho navbar khi load */

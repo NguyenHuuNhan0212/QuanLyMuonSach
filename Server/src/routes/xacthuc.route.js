@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const xacThucController = require('../controllers/xacthuc.controller')
+const DocGiaController = require('../controllers/docgia.controller')
 
 // nếu có thời gian thiết kế route lại theo chuẩn RESTful 
 router.post('/users/login', xacThucController.login)
@@ -12,5 +13,7 @@ router.post('/users/login', xacThucController.login)
     .patch('/staffs/:id', xacThucController.updateStaff)
     .patch('/staffs/changePassword/:id', xacThucController.changePasswordForAdmin)
     .post('/logout', xacThucController.logout)
+    .get('/readers', DocGiaController.getAllDocGia)
+    .delete('/readers/:id', DocGiaController.deleteOneUser)
 
 module.exports = router

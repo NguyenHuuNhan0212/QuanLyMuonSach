@@ -107,7 +107,10 @@ export const useBorrowBookStore = defineStore('borrowBook', {
             }
             return axiosInstance.delete(`/borrows/staffs/${MaMuon}`, {headers: {'Authorization': token}})
                 .then((res) => {
-                    this.AdminMuon = this.AdminMuon.filter(muon => muon._id !== MaMuon)
+                    if(res.data?.muon){
+                         this.AdminMuon = this.AdminMuon.filter(muon => muon._id !== MaMuon)
+                    }
+                   
                     return res.data.message
                 })
                 .catch((err) => {

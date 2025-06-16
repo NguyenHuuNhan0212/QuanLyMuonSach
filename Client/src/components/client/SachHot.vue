@@ -7,7 +7,7 @@
             v-for="book in books"
             :key="book.MASACH"
             >
-            <sach :book="book" />
+            <sach :book="{...book, isHot: true}" />
             </div>
         </div>
         <div v-else class="alert alert-info text-center w-100" >

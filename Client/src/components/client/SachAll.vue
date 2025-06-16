@@ -7,7 +7,8 @@
           v-for="book in books"
           :key="book.MASACH"
         >
-          <sach :book="book" />
+          <sach :book="{...book, isHot: sachHotList.some(b => b.MASACH === book.MASACH), 
+            isNew: sachMoiList.some(b => b.MASACH === book.MASACH)}" />
         </div>
       </div>
       <div v-else  class="row  g-4">
@@ -19,12 +20,17 @@
 </template>
 <script setup>
 import sach from '@/components/client/sach.vue'
-import { onMounted, computed, onUnmounted } from 'vue'
+import { onMounted, computed, onUnmounted, ref } from 'vue'
 import { useBookStore } from '@/stores/sach.store'
 
 const bookStore = useBookStore()
-onMounted(() => {
-  bookStore.getAll()
+const sachHotList = ref([])
+const sachMoiList = ref([])
+onMounted(async () => {
+  await bookStore.getAll()
+  sachHotList.value = bookStore.getBookHot
+  sachMoiList.value = bookStore.getBookNew
+  console.log(sachHotList.value)
 })
 onUnmounted(() => {
   bookStore.searchMode=''

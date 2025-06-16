@@ -122,6 +122,11 @@ const routes = [
           name: "trangcanhanadmin-changepassword",
           component: () => import("../components/Admin/ChangePasswordAdmin.vue"),
       },
+      {
+          path: "/quan-ly-doc-gia",
+          name: "quanlydocgia",
+          component: () => import("../components/Admin/QuanLyDocGia.vue"),
+      },
       
     ]
   },

@@ -2,8 +2,8 @@
   <RouterLink :to="{ name: 'chitietsach', params: { MaSach: book.MASACH }}" class="book-link">
     <div class="card text-center book-card" data-aos="fade-up" data-aos-duration="500">
       <div class="image-wrapper-home">
-        <div class="ribbon" v-if="route.name === 'sachhot'">Hot</div>
-        <div class="ribbon" v-if="route.name === 'sachmoinhat'">Mới</div>
+        <div class="ribbon" v-if="book.isHot">Hot</div>
+        <div class="ribbon" v-if="book.isNew">Mới</div>
         <img :src="book.image" class="card-img-top book-image" :alt="book.TENSACH" />
       </div>
       <br>

@@ -6,6 +6,7 @@
       <h4 v-else-if="route.name.includes('quanlynxb')"> <i class="fas fa-building me-2"></i>Trang quản lý nhà xuất bản</h4>
       <h4 v-else-if="route.name === 'quanlymuonsach'"><i class="fas fa-tasks me-2"></i>Trang quản lý mượn sách</h4>
       <h4 v-else-if="route.name.includes('trangcanhanadmin')"><i class="fa-solid fa-user me-2"></i>Trang cá nhân</h4>
+       <h4 v-else-if="route.name.includes('quanlydocgia')"><i class="fa-solid fa-users-line me-2"></i>Quản lý độc giả</h4>
       <div>
         <span class="me-3"><i class="fas fa-user-circle me-1"></i> {{ userStore.staffInfo?.HoTenNV || 'Admin' }}</span>
         <button class="btn btn-outline-danger btn-sm" @click="handelLogout">

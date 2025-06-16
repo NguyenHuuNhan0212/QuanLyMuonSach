@@ -115,23 +115,34 @@ module.exports = class BorrowBook{
             message: 'Chỉ hủy được khi chưa nhận sách.'
         }
     }
-    async deleteBorrowForAdmin(muonId){
-        const borrowDelete = await muonSachModel.findOneAndDelete({_id: muonId})
-        if(borrowDelete){
-            if(borrowDelete.TrangThai != 'Đã trả'){
-                const sach = await sachModel.findById(borrowDelete.MASACH)
-                await sachModel.findByIdAndUpdate(borrowDelete.MASACH, {
-                    $set: {
-                        SoLuongDaMuon: sach.SoLuongDaMuon - borrowDelete.SoLuongMuon
-                    }
-                })
-            }
+    async deleteBorrowForAdmin(muonId) {
+        const borrow = await muonSachModel.findById(muonId);
+
+        if (!borrow) {
+            return {
+                message: 'Không tồn tại phiếu mượn.'
+            };
         }
+
+        if (borrow.TrangThai === 'Chờ lấy') {
+            return {
+                message: 'Bạn không được phép xóa phiếu mượn khi đang trong trạng thái chờ lấy.'
+            };
+        }
+        if (borrow.TrangThai === 'Đã lấy') {
+            return {
+                message: 'Người dùng chưa trả sách không được phép xóa phiếu mượn.'
+            };
+        }
+
+        const deleted = await muonSachModel.findByIdAndDelete(muonId);
+
         return {
-            muon: borrowDelete,
-            message: 'Xóa mượn sách thành công'
-        }
+            muon: deleted,
+            message: 'Xóa phiếu mượn thành công.'
+        };
     }
+
     async updateBorrowForAdmin(data, muonId, nhanVienId){
         let kiemTra = await muonSachModel.findOne({_id: muonId})
         if(!kiemTra){
