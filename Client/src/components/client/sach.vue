@@ -4,7 +4,7 @@
       <div class="image-wrapper-home">
         <div class="ribbon" v-if="book.isHot">Hot</div>
         <div class="ribbon" v-if="book.isNew">Mới</div>
-        <img :src="book.image" class="card-img-top book-image" :alt="book.TENSACH" />
+        <img :src="'http://localhost:3000'+book.image" class="card-img-top book-image" :alt="book.TENSACH" />
       </div>
       <br>
       <br>

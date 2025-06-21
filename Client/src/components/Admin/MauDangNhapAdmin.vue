@@ -12,7 +12,7 @@
                  <div class="d-flex justify-content-center align-items-center">
                     <img src="@/assets/logo.jpg" class="img-logo" height="100px" alt="Logo thư viện">
                 </div>
-                <h4 class="mb-3 text-center">Đăng nhập Admin</h4>
+                <h4 class="mb-3 text-center">Đăng nhập</h4>
                 <form @submit.prevent="handleSubmit">
                     <div class="mb-3">
                     <label for="SoDienThoai" class="form-label"><strong>Số điện thoại</strong></label>

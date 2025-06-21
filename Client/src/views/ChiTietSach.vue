@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-md-6">
             <div class="image-wrapper" style="min-height: 500px;">
-              <img :src="book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
+              <img :src="'http://localhost:3000' + book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
             </div>
         </div>
         <div class="col-md-6">

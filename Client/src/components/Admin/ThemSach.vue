@@ -33,8 +33,9 @@
       </div>
        <div class="mb-3">
         <label for="image" class="form-label">Hình bìa sách </label>
-        <input type="text" class="form-control" id="image" placeholder="Nhập địa chỉ của sách" v-model="form.image" required>
+        <input type="file" class="form-control" id="image" @change="handleImageUpload" accept="image/*" required>
       </div>
+      
       <div class="button-group">
   <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Lưu</button>
   <button type="button" class="btn btn-danger" @click="cancelAddBook"><el-icon><CloseBold /></el-icon>Hủy</button>
@@ -49,6 +50,7 @@ import { useBookStore } from '@/stores/sach.store'
 import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const publisherStore = usePublisherStore()
 const nxbList = ref([])
@@ -66,32 +68,57 @@ const form = ref({
     soQuyen:'',
     donGia: '',
     namXuatBan: '',
-    maNXB: '',
-    image: ''
+    maNXB: ''
 })
-const submitForm = async () => {
-    try{
-        const data = {
-            TENSACH: form.value.tenSach,
-            TACGIA: form.value.tacGia,
-            SOQUYEN: form.value.soQuyen,
-            DONGIA: form.value.donGia,
-            NAMXUATBAN: form.value.namXuatBan,
-            MANXB: form.value.maNXB,
-            image: form.value.image
+const imageFile = ref('')
+
+const handleImageUpload = async (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    const formData = new FormData()
+    formData.append('image', file)
+    console.log(formData)
+    try {
+      const res = await axios.post('http://localhost:3000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-        const result = await bookStore.add(data)
-        router.push({name: 'quanlysach'})
-        if(result === 'Thêm sách thành công.'){
-            ElMessage.success(result)
-        }else if(result === 'Sách đã tồn tại.'){
-            ElMessage.error('Tên sách đã tồn tại')
-        }
-    }catch(err){
-        ElMessage.error('Lỗi khi thêm sách')
+      })
+      imageFile.value = res.data.imageUrl // => /uploads/xxxx.jpg
+      ElMessage.success('Tải ảnh thành công')
+    } catch (err) {
+      ElMessage.error('Lỗi khi tải ảnh')
     }
-    
+  }
 }
+
+
+const submitForm = async () => {
+  try {
+    const data = {
+      TENSACH: form.value.tenSach,
+      TACGIA: form.value.tacGia,
+      SOQUYEN: form.value.soQuyen,
+      DONGIA: form.value.donGia,
+      NAMXUATBAN: form.value.namXuatBan,
+      MANXB: form.value.maNXB,
+      image: imageFile.value // ← URL nhận được sau khi upload
+    }
+    console.log(data)
+    const result = await bookStore.add(data)
+
+    router.push({ name: 'quanlysach' })
+
+    if (result === 'Thêm sách thành công.') {
+      ElMessage.success(result)
+    } else if (result === 'Sách đã tồn tại.') {
+      ElMessage.error('Tên sách đã tồn tại')
+    }
+  } catch (err) {
+    ElMessage.error('Lỗi khi thêm sách')
+  }
+}
+
 const cancelAddBook = () => {
     router.push({name: 'quanlysach'})
 }

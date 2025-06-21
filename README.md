@@ -3,12 +3,6 @@
 Hệ thống quản lý mượn sách giúp quản lý sách, người dùng, phiếu mượn/trả, thống kê và bảo mật bằng xác thực người dùng qua email (OTP). Giao diện dễ sử dụng và tích hợp bảng dữ liệu trực quan.
 
 ---
-
-## 🚀 Demo
-
-- 🌐 **Frontend** (Vercel): [https://quan-ly-muon-sach.vercel.app](https://quan-ly-muon-sach.vercel.app)
-- 🔧 **Backend** (Render): [https://quanlymuonsach.onrender.com](https://quanlymuonsach.onrender.com)
-
 ---
 
 ## 🛠️ Công nghệ sử dụng

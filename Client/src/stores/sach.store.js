@@ -31,9 +31,16 @@ export const useBookStore = defineStore('book', {
         async add(data) {
             const userStore = useUserStore()
             const token = userStore.staffToken
-            return await axiosInstance.post('/books', data, {headers: {'Authorization': token}})
+             console.log(data)
+            return await axiosInstance.post('/books', data, {
+                headers: {
+                    'Authorization': token
+                }
+            })
+
                 .then((res) => {
                     if(res.data.sach){
+                       
                         this.books.push(res.data.sach)
                     }
                     return res.data.message
