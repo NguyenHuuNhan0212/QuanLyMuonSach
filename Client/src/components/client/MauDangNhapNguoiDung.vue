@@ -47,12 +47,6 @@
             <div class="mb-3">
               <input v-model="password" type="password" class="form-control custom-input" placeholder="Mật khẩu" required />
             </div>
-
-            <div class="form-check mb-3 text-white">
-              <input v-model="isAdmin" class="form-check-input" type="checkbox" id="adminCheckbox" />
-              <label class="form-check-label" for="adminCheckbox">Đăng nhập với vai trò admin</label>
-            </div>
-
             <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
 
             <div class="text-center mt-3 text-white">
@@ -78,7 +72,6 @@ const router = useRouter();
 const userStore = useUserStore();
 const password = ref('');
 const SoDienThoai = ref('');
-const isAdmin = ref(false);
 
 
 const handleSubmit = async () => {
@@ -90,25 +83,15 @@ const handleSubmit = async () => {
     return;
   }
   try {
-    const result = isAdmin.value ?
-        await userStore.StaffLogin({SoDienThoai: SoDienThoai.value,Password: password.value,}) :
-        await userStore.UserLogin({DIENTHOAI: SoDienThoai.value,PASSWORD: password.value,});
-
-    const token = isAdmin.value ? userStore.staffToken : userStore.token;
-    if (result && token && !isAdmin.value) {
+    const result = await userStore.UserLogin({DIENTHOAI: SoDienThoai.value,PASSWORD: password.value,});
+    const token = userStore.token;
+    if (result && token) {
       ElMessage({
         message: 'Đăng nhập thành công!',
         type: 'success',
       });
       router.push({ name: 'trangchu' });
-    }else if(result && token && isAdmin.value) {
-      ElMessage({
-        message: 'Đăng nhập với vai trò quản trị viên thành công!',
-        type: 'success',
-      });
-      router.push({ name: 'trangchuadmin' });
-
-    } else {
+    }else {
       ElMessage({
         message: result,
         type: 'error',

@@ -39,9 +39,10 @@
           class="form-control"
           id="dienThoai"
           v-model="form.DIENTHOAI"
-          pattern="^[0-9]{10,11}$"
+          :class="{ 'is-invalid': phoneError }"
           placeholder="Nhập số điện thoại đăng ký tài khoản"
         >
+        <div class="invalid-feedback" v-if="phoneError">{{ phoneError }}</div>
       </div>
 
       <div class="col-md-6">
@@ -51,16 +52,24 @@
           class="form-control"
           id="email"
           v-model="form.EMAIL"
+          :class="{'is-invalid': emailError}"
           placeholder="Nhập email của bạn"
         >
+         <div class="invalid-feedback" v-if="emailError">{{ emailError }}</div>
       </div>
         <div class="col-md-6">
             <label for="password1" class="form-label">Mật khẩu</label>
-            <input type="password" class="form-control" id="password1" v-model="form.PASSWORD1" placeholder="Nhập mật khẩu">
-        </div>
+            <input type="password" class="form-control" id="password1"
+             v-model="form.PASSWORD1" placeholder="Nhập mật khẩu"
+             :class="{'is-invalid': passwordError}">
+            <div class="invalid-feedback" v-if="passwordError">{{ passwordError }}</div>
+          </div>
         <div class="col-md-6">
             <label for="password2" class="form-label">Xác nhận mật khẩu</label>
-            <input type="password" class="form-control" id="password2" v-model="form.PASSWORD2" placeholder="Xác nhận mật khẩu">
+            <input type="password" class="form-control" id="password2" 
+            v-model="form.PASSWORD2" placeholder="Xác nhận mật khẩu"
+            :class="{'is-invalid': passwordConfirmError}">
+            <div class="invalid-feedback" v-if="passwordConfirmError">{{ passwordConfirmError }}</div>
         </div>
       <div class="col-12 text-center">
         <button type="submit" class="btn btn-primary">Đăng ký</button>
@@ -70,7 +79,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/nguoidung.store'
 import { useRouter } from 'vue-router'
@@ -89,6 +98,36 @@ const form = reactive({
   EMAIL: ''
 })
 
+// Biến lưu lỗi
+const emailError = ref('')
+const phoneError = ref('')
+const passwordError = ref('')
+const passwordConfirmError = ref('')
+
+// Watch email
+watch(() => form.EMAIL, (value) => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  emailError.value = regex.test(value.trim()) ? '' : 'Email không hợp lệ.'
+})
+
+// Watch số điện thoại
+watch(() => form.DIENTHOAI, (value) => {
+  const regex = /^[0-9]{10,11}$/
+  phoneError.value = regex.test(value.trim()) ? '' : 'Số điện thoại phải gồm 10–11 chữ số.'
+})
+
+// Watch mật khẩu
+watch(() => form.PASSWORD1, (value) => {
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
+  passwordError.value = regex.test(value) ? '' : 'Mật khẩu phải ≥8 ký tự gồm chữ hoa, chữ thường, số và ký tự đặc biệt.'
+  passwordConfirmError.value = (form.PASSWORD2 && form.PASSWORD2 !== value) ? 'Mật khẩu xác nhận không khớp.' : ''
+})
+
+// Watch xác nhận mật khẩu
+watch(() => form.PASSWORD2, (value) => {
+  passwordConfirmError.value = value === form.PASSWORD1 ? '' : 'Mật khẩu xác nhận không khớp.'
+})
+
 const handleSubmit = async () => {
     if (!form.HOLOT || !form.TEN || !form.NGAYSINH || !form.PHAI || !form.DIACHI || !form.DIENTHOAI || !form.EMAIL || !form.PASSWORD1 || !form.PASSWORD2) {
             ElMessage({
@@ -97,6 +136,10 @@ const handleSubmit = async () => {
             });
             return;
         }
+    if (emailError.value || phoneError.value || passwordError.value || passwordConfirmError.value) {
+      ElMessage({ message: 'Vui lòng sửa các lỗi trước khi đăng ký.', type: 'error' })
+      return
+    }
     if (form.PASSWORD1 !== form.PASSWORD2) {
         ElMessage({
             message: 'Mật khẩu không khớp. Vui lòng kiểm tra lại.',
@@ -185,6 +228,13 @@ button.btn {
 
 button.btn:hover {
   background-color: #66b1ff;
+}
+.is-invalid {
+  border-color: #dc3545;
+}
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
 }
 
 </style>

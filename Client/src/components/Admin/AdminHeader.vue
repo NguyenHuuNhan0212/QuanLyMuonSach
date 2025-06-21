@@ -31,7 +31,7 @@ const handelLogout = () => {
             message: 'Đăng xuất thành công!',
             type: 'success',
         });
-        router.push({name: 'trangchu'})
+        router.push({name: 'admindangnhap'})
     }else {
         ElMessage.error('Bạn chưa đăng nhập!');
         router.push({name: 'dangnhap'})

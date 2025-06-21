@@ -8,7 +8,7 @@
           :key="book.MASACH"
         >
           <sach :book="{...book, isHot: sachHotList.some(b => b.MASACH === book.MASACH), 
-            isNew: sachMoiList.some(b => b.MASACH === book.MASACH)}" />
+            isNew: false}" />
         </div>
       </div>
       <div v-else  class="row  g-4">
@@ -30,7 +30,6 @@ onMounted(async () => {
   await bookStore.getAll()
   sachHotList.value = bookStore.getBookHot
   sachMoiList.value = bookStore.getBookNew
-  console.log(sachHotList.value)
 })
 onUnmounted(() => {
   bookStore.searchMode=''

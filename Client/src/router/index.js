@@ -66,6 +66,11 @@ const routes = [
     props: true,
   },
   {
+    path: "/admin-dang-nhap",
+    name: "admindangnhap",
+    component: () => import("../components/Admin/MauDangNhapAdmin.vue")
+  },
+  {
     path: "/admin/dashboard",
     name: "trangchuadmin",
     component: () => import("../views/AdminDashboard.vue"),
