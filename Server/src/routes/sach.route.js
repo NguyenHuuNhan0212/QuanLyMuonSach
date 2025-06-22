@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const SachController = require('../controllers/sach.controller')
-
+const {verifyTokenStaff} = require('../middlewares/verifyToken')
 router.get('/', SachController.getAll)
-    .post('/', SachController.addBook)
-    .patch('/:MaSach', SachController.updateBook)
-    .delete('/:MaSach', SachController.deleteBook)
-    .delete('/', SachController.deleteAllBook)
+    .post('/', verifyTokenStaff, SachController.addBook)
+    .patch('/:MaSach', verifyTokenStaff, SachController.updateBook)
+    .delete('/:MaSach', verifyTokenStaff, SachController.deleteBook)
+    .delete('/', verifyTokenStaff, SachController.deleteAllBook)
 module.exports = router

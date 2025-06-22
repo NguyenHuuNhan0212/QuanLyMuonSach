@@ -33,7 +33,11 @@
       </div>
        <div class="mb-3">
         <label for="image" class="form-label">Hình bìa sách </label>
-        <input type="text" class="form-control" id="image" placeholder="Nhập địa chỉ của sách" v-model="form.image" required>
+        <input type="file" class="form-control" id="image" @change="handleImageUpload" accept="image/*" >
+        <div class="mt-2">
+          <small class="text-muted">Ảnh hiện tại: {{ extractFileName(currentImage) }}</small>
+        </div>
+
       </div>
       <div class="button-group">
   <button type="submit" class="btn btn-primary"><el-icon><Select /></el-icon> Lưu</button>
@@ -49,21 +53,23 @@ import { useBookStore } from '@/stores/sach.store'
 import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
 
 const publisherStore = usePublisherStore()
 const MASACH = useRoute().params.MASACH
 const nxbList = ref([])
 const bookStore = useBookStore()
 const router = useRouter()
+const currentImage = ref('')
 const form = ref({
     tenSach: '',
     tacGia: '',
     soQuyen:'',
     donGia: '',
     namXuatBan: '',
-    maNXB: '',
-    image: ''
+    maNXB: ''
 })
+
 onMounted(async () => {
     await bookStore.getAll()
     await publisherStore.getAll()
@@ -77,12 +83,33 @@ onMounted(async () => {
         form.value.donGia = book.DONGIA
         form.value.namXuatBan = book.NAMXUATBAN
         form.value.maNXB = book.MANXB?._id
-        form.value.image = book.image
+        currentImage.value = book.image
     }else{
         ElMessage.error('Không tìm thấy sách.')
         router.push({name: 'quanlysach'})
     }
 })
+
+const imageFile = ref('')
+const handleImageUpload = async (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    const formData = new FormData()
+    formData.append('image', file)
+    console.log(formData)
+    try {
+      const res = await axios.post('http://localhost:3000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      imageFile.value = res.data.imageUrl // => /uploads/xxxx.jpg
+      ElMessage.success('Tải ảnh thành công')
+    } catch (err) {
+      ElMessage.error('Lỗi khi tải ảnh')
+    }
+  }
+}
 
 
 const submitForm = async () => {
@@ -94,7 +121,7 @@ const submitForm = async () => {
             DONGIA: form.value.donGia,
             NAMXUATBAN: form.value.namXuatBan,
             MANXB: form.value.maNXB,
-            image: form.value.image
+            image: imageFile.value || currentImage.value
         }
         const result = await bookStore.update(MASACH, data)
         if(result === 'Cập nhật sách thành công.'){
@@ -112,6 +139,11 @@ const submitForm = async () => {
 const cancelAddBook = () => {
     router.push({name: 'quanlysach'})
 }
+const extractFileName = (path) => {
+  if (!path) return ''
+  return path.split('-')[1]
+}
+
 </script>
 <style scoped>
 .form-container {

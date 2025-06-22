@@ -39,7 +39,6 @@
                         <td>{{ item.EMAIL }}</td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-danger" @click="deleteReader(index)"><el-icon><Delete /></el-icon> Xóa</button>
                                 <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon><More /></el-icon> Chi tiết</button>
                             </div>
                         </td>
@@ -85,30 +84,5 @@ function frmNgaySinh(ngaySinh) {
 const detail = ref(null)
 const toggleDetail = (index) => {
     detail.value = detail.value === null ? index : null
-}
-const deleteReader = (index) => {
-   const reader = readerList.value[index]
-    ElMessageBox.confirm(
-        `Bạn có chắc chắn muốn xóa độc giả mã ${reader.MADOCGIA} không?`,
-        'Xác nhận xóa',
-        {
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
-        type: 'warning',
-        }
-    )
-    .then(() => {
-         readerStore.delete(reader._id)
-        .then(() => {
-            ElMessage.success(`Xóa độc giả mã ${reader.MADOCGIA} thành công.`)
-
-        })
-        .catch((err) => {
-            ElMessage.error('Lỗi khi xóa độc giả')
-        })
-    })
-    .catch((err) => {
-        ElMessage.error('Bạn đã hủy thao tác xóa')
-    })
 }
 </script>

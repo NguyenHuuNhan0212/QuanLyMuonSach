@@ -1,43 +1,15 @@
 const ApiError = require('../api-error')
-const jwt = require('jsonwebtoken')
 const BorrowBook = require('../services/theodoimuonsach.service')
 
-// Xác thực người dùng
-function verifyTokenUser(req, res){
-    const token = req.headers['authorization']
-    //const token = authHeader && authHeader.split(' ')[1]
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, user) => {
-            if(error){
-                return reject('Không có quyền')
-            }else{
-                return resolve(user)
-            }
-        })
-    })
-}
-// Xác thực nhân viên
-function verifyTokenStaff(req, res){
-    const token = req.headers['authorization']
-    //const token = authHeader && authHeader.split(' ')[1] 
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, staff) => {
-            if(error || !staff.ChucVu){
-                return reject('Không có quyền')
-            }else{
-                return resolve(staff)
-            }
-        })
-    })
-}
+
 //[GET] /borrows/
 module.exports.getAllForUser = async  (req, res, next) => {
     try{
-        const docgia = await verifyTokenUser(req, res)
+        const docgia = req.user
         const borrowBook = new BorrowBook()
         const result = await borrowBook.getAllForUser(docgia._id)
         if(!result || !result.danhsachmuon.length){
-            return res.status(404).json({message: `Chưa có dữ liệu mượn sách từ độc giả có mã số ${docgia.MADOCGIA}`})
+            return res.status(200).json({message: `Chưa có dữ liệu mượn sách từ độc giả có mã số ${docgia.MADOCGIA}`})
         }
         return res.json(result)
     }catch(err){
@@ -52,7 +24,6 @@ module.exports.getAllForUser = async  (req, res, next) => {
 //[GET] /borrows/admin
 module.exports.getAllForAdmin = async (req, res, next) => {
     try{
-        await verifyTokenStaff(req, res)
         const borrowBook = new BorrowBook()
         const result = await borrowBook.getAllForAdmin()
         if(!result || !result.danhsachmuon.length ){
@@ -71,7 +42,7 @@ module.exports.getAllForAdmin = async (req, res, next) => {
 //[POST] /borrows/
 module.exports.addBorrow = async (req, res, next) => {
     try{
-        const docgia = await verifyTokenUser(req, res)
+        const docgia = req.user
         const borrowBook = new BorrowBook()
         const result = await borrowBook.addBorrow(req.body, docgia._id)
         if(result) {
@@ -89,7 +60,7 @@ module.exports.addBorrow = async (req, res, next) => {
 //[PATCH] /borrows/:muonId
 module.exports.updateBorrowForAdmin = async (req, res, next) => {
     try{
-        const staff = await verifyTokenStaff(req, res)
+        const staff = req.staff
         const muonId = req.params.muonId
         const borrowBook = new BorrowBook()
         const result = await borrowBook.updateBorrowForAdmin(req.body, muonId, staff._id)
@@ -108,7 +79,6 @@ module.exports.updateBorrowForAdmin = async (req, res, next) => {
 //[POST] /users/:muonId
 module.exports.deleteBorrowForUser = async (req, res, next) => {
     try{
-        await verifyTokenUser(req, res)
         const muonId = req.params.muonId
         const borrowBook = new BorrowBook()
         const result = await borrowBook.deleteBorrowForUser(muonId)
@@ -127,7 +97,6 @@ module.exports.deleteBorrowForUser = async (req, res, next) => {
 //[POST] /admin/:muonId
 module.exports.deleteBorrowForAdmin = async (req, res, next) => {
     try{
-        await verifyTokenStaff(req, res)
         const muonId = req.params.muonId
         const borrowBook = new BorrowBook()
         const result = await borrowBook.deleteBorrowForAdmin(muonId)

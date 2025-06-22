@@ -26,18 +26,6 @@ export const  useReaderStore = defineStore('reader', {
                     return false
                 })
         },
-        delete: function(id){
-            const token = useUserStore().staffToken
-            return axiosInstance.delete(`/readers/${id}`, {headers: {'Authorization' : token}})
-                    .then((res)=> {
-                        this.docGiaList = this.docGiaList.filter(docgia => docgia._id !== id)
-                        res.data?.message
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                        return false
-                    })
-        }
     },
     getters: {
         getAllReaderFromName(state) {

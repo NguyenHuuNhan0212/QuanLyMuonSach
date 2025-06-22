@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const muonSachController = require('../controllers/theodoimuonsach.controller')
-
+const { verifyTokenUser, verifyTokenStaff } = require('../middlewares/verifyToken')
 //chưa nghĩ ra được chuẩn RESTful 
-router.get('/', muonSachController.getAllForUser)
-    .get('/staff', muonSachController.getAllForAdmin)
-    .post('/', muonSachController.addBorrow)
-    .patch('/:muonId', muonSachController.updateBorrowForAdmin)
-    .delete('/users/:muonId', muonSachController.deleteBorrowForUser)
-    .delete('/staffs/:muonId', muonSachController.deleteBorrowForAdmin)
+router.get('/', verifyTokenUser, muonSachController.getAllForUser)
+    .get('/staff', verifyTokenStaff, muonSachController.getAllForAdmin)
+    .post('/', verifyTokenUser, muonSachController.addBorrow)
+    .patch('/:muonId', verifyTokenStaff, muonSachController.updateBorrowForAdmin)
+    .delete('/users/:muonId', verifyTokenUser, muonSachController.deleteBorrowForUser)
+    .delete('/staffs/:muonId', verifyTokenStaff, muonSachController.deleteBorrowForAdmin)
 module.exports = router

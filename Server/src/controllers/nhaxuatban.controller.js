@@ -1,24 +1,9 @@
 const ApiError = require('../api-error')
-const jwt = require('jsonwebtoken')
 const PublisherService = require('../services/nhaxuatban.service')
 
-function verifyToken(req, res) {
-    const token = req.headers['authorization']
-    //const token = authHeader && authHeader.split(' ')[1] // tách từ "Bearer <token>"
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, staff) => {
-            if(error || !staff.ChucVu){
-                return reject('Không có quyền')
-            }else{
-                resolve(staff)
-            }
-        })
-    })
-}
 //[GET] /publishers/
 module.exports.getAll = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const publisherService = new PublisherService()
         const {TENNXB} = req.query
         const result = TENNXB ? await publisherService.findByName(TENNXB) : await publisherService.find()
@@ -38,7 +23,6 @@ module.exports.addPublisher = async (req, res, next) => {
         return next(new ApiError(400, 'Điền đầy đủ thông tin để thêm nhà xuất bản.'))
     }
     try{
-        await verifyToken(req, res)
         const data = req.body
         const publisherService = new PublisherService()
         const result = await publisherService.addPublisher(data)
@@ -55,7 +39,6 @@ module.exports.addPublisher = async (req, res, next) => {
 //[PATCH] /publishers/:MaNXB
 module.exports.updatePublisher = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const publisherService = new PublisherService()
         const result = await publisherService.updatePublisher(req.params.MaNXB, req.body)
         return res.json(result)
@@ -70,7 +53,6 @@ module.exports.updatePublisher = async (req, res, next) => {
 }
 module.exports.deletePublisher = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const MaNXB = req.params.MaNXB
         const publisherService = new PublisherService()
         const result = await publisherService.deletePublisher(MaNXB)
@@ -92,7 +74,6 @@ module.exports.deletePublisher = async (req, res, next) => {
 }
 module.exports.deleteAllPublishers = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const publisherService = new PublisherService()
         const deletedCount = await publisherService.deleteAllPublishers()
         return res.json({

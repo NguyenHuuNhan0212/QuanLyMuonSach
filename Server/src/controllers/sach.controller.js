@@ -1,20 +1,5 @@
 const ApiError = require('../api-error')
-const jwt = require('jsonwebtoken')
 const BookService = require('../services/sach.service')
-
-function verifyToken(req, res) {
-    const token = req.headers['authorization']
-    //const token = authHeader && authHeader.split(' ')[1]
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET || 'NhanB2203517', (error, staff) => {
-            if(error || !staff.ChucVu){
-                return reject('Không có quyền')
-            }else{
-                resolve(staff)
-            }
-        })
-    })
-}
 //[GET] /books/
 module.exports.getAll = async (req, res, next) => {
     try{
@@ -34,7 +19,6 @@ module.exports.addBook = async (req, res, next) => {
         return next(new ApiError(400, 'Điền đầy đủ thông tin để thêm sách.'))
     }
     try{
-        await verifyToken(req, res)
         const sach = req.body
         const bookService = new BookService()
         const result = await bookService.addBook(sach)
@@ -51,7 +35,6 @@ module.exports.addBook = async (req, res, next) => {
 //[PATCH] /books/:MaSach
 module.exports.updateBook = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const data = req.body
         const bookService = new BookService()
         const sachUpdate = await bookService.updateBook(req.params.MaSach, data)
@@ -68,7 +51,6 @@ module.exports.updateBook = async (req, res, next) => {
 //[DELETE] /books/:MaSach
 module.exports.deleteBook = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const maSach = req.params.MaSach
         const bookService = new BookService()
         const result = await bookService.deleteBook(maSach)
@@ -91,7 +73,6 @@ module.exports.deleteBook = async (req, res, next) => {
 //[DELETE] /books/
 module.exports.deleteAllBook = async (req, res, next) => {
     try{
-        await verifyToken(req, res)
         const bookService = new BookService()
         const deletedCount = await bookService.deleteAllBook()
         return res.json({
