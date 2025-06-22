@@ -7,7 +7,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h2 class="fw-bold">{{ bookCount }}</h2>
+                <h2 class="fw-bold">{{ bookCount || '0' }}</h2>
                 <p class="mb-1">Tổng số quyển sách của thư viện</p>
               </div>
               <i class="fa-solid fa-book big-icon"></i>
@@ -24,7 +24,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h2 class="fw-bold">{{ publisherCount }}</h2>
+                <h2 class="fw-bold">{{ publisherCount || '0' }}</h2>
                 <p class="mb-1">Tổng số nhà xuất bản</p>
               </div>
               <i class="fa-solid fa-print big-icon"></i>
@@ -42,7 +42,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h2 class="fw-bold">{{ borrowCount }}</h2>
+                <h2 class="fw-bold">{{ borrowCount || '0' }}</h2>
                 <p class="mb-1">Tổng số phiếu mượn</p>
               </div>
             <i class="fa-solid fa-file-pen big-icon"></i>

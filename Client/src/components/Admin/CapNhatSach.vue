@@ -141,7 +141,7 @@ const cancelAddBook = () => {
 }
 const extractFileName = (path) => {
   if (!path) return ''
-  return path.split('-')[1]
+  return path.split('/')[2]
 }
 
 </script>

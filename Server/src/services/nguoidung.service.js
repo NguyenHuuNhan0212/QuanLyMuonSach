@@ -115,15 +115,4 @@ module.exports = class UserService{
             }
         }
     }
-    async deleteOneUser(id){
-        const user = await nguoiDungModel.findById(id)
-        if(!user){
-            return { message: 'Người dùng không tồn tại.'}
-        }else{
-            await nguoiDungModel.deleteOne({_id: id})
-            return {
-                message: `Xóa độc giả thành công.`
-            }
-        }
-    }
 }
