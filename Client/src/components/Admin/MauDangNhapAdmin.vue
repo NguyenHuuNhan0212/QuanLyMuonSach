@@ -1,6 +1,6 @@
 <template>
     <header class="admin-header">
-        <div class="container d-flex align-items-center px-4 py-2   ">
+        <div class="container-fluid d-flex align-items-center px-4 py-2   ">
             <img src="@/assets/logo.jpg" alt="Admin Icon" class="me-2 img-logo" height="50px" />
             <h5 class="mb-0 fw-bold text-white">Thư viện trực tuyến</h5>
         </div>
