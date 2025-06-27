@@ -2,8 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const upload = require('../middlewares/upload.middleware')
+const { verifyTokenStaff } = require('../middlewares/verifyToken')
 
-router.post('/', upload.single('image'), (req, res) => {
+router.post('/', verifyTokenStaff, upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'Không có file được tải lên.' })
     }
