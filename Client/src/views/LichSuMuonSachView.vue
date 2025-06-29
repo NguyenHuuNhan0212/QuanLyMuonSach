@@ -1,6 +1,7 @@
 <template>
     <AppHeader />
     <main class="container mt-5 pt-5">
+        <h2 class="mt-5 text-center"><b>LỊCH SỬ MƯỢN SÁCH</b></h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <template v-if="borrowHistory.length === 0 && userStore.token">
                 <div class="d-flex justify-content-center w-100 mt-4">
@@ -11,8 +12,9 @@
             </template>
             <template v-else>
                 <div v-for="(borrowBook, index) in borrowHistory" :key="index" class="col">
-                    <LichSuMuonSach :borrowBook="borrowBook" @cancelBorrow="cancelBorrow(borrowBook._id)"
-                    @borrowDetail="borrowDetail(borrowBook._id)"/>
+                    <router-link class="nav-link" :to="{name: 'chitietlichsumuonsach', params: {id: borrowBook._id}}"><LichSuMuonSach :borrowBook="borrowBook" @cancelBorrow="cancelBorrow(borrowBook._id)"
+                    @borrowDetail="borrowDetail(borrowBook._id)"/> </router-link>
+                    
                 </div>
             </template>
         </div>
@@ -23,7 +25,7 @@
 import LichSuMuonSach from '@/components/client/LichSuMuonSach.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
-
+import { RouterLink } from 'vue-router';
 import router from '@/router';
 import { useBorrowBookStore } from '@/stores/muonsach.store';
 import { useUserStore } from '@/stores/nguoidung.store';

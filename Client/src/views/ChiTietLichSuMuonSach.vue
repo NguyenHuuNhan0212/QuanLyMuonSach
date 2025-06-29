@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <div class= "image-wrapper" >
                     <img v-if="borrowedBook && borrowedBook.MASACH.image" 
-                     :src="borrowedBook.MASACH.image" 
+                     :src="'http://localhost:3000'+borrowedBook.MASACH.image" 
                      alt="Hình ảnh sách" 
                      class="img-fluid rounded shadow mb-3"> 
                 </div>

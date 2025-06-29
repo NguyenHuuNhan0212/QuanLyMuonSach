@@ -2,6 +2,10 @@
   <div class="container mt-5" data-aos="fade-up" data-aos-duration="1000">
       <div class="card h-100 shadow-sm">
         <div class="card-body">
+          
+          <p class="text-center mb-3">
+            <img :src="'http://localhost:3000'+borrowBook.MASACH?.image" :alt="borrowBook.MASACH?.TENSACH" class="mb-3  rounded shadow-sm" width="150px" height="170px" />
+          </p>
           <h5 class="card-title mb-3 text-center">
             <el-icon><Collection /></el-icon>
             {{ borrowBook.MASACH?.TENSACH || 'Sách không còn'}}
