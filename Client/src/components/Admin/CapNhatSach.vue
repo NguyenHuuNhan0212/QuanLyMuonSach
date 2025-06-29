@@ -54,7 +54,9 @@ import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
+import { useUserStore } from '@/stores/nguoidung.store'
 
+const userStore = useUserStore()
 const publisherStore = usePublisherStore()
 const MASACH = useRoute().params.MASACH
 const nxbList = ref([])
@@ -96,11 +98,11 @@ const handleImageUpload = async (event) => {
   if (file) {
     const formData = new FormData()
     formData.append('image', file)
-    console.log(formData)
     try {
       const res = await axios.post('http://localhost:3000/upload', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': userStore.staffToken
         }
       })
       imageFile.value = res.data.imageUrl // => /uploads/xxxx.jpg
