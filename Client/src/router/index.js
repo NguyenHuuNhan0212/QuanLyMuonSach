@@ -148,6 +148,9 @@ router.beforeEach((to, from, next) => {
       return next("/admin-dang-nhap");
     }
   }
+  if (to.path.includes("/quan-ly") && !isAdmin) {
+    return next("/admin-dang-nhap");
+  }
 
   next();
 });
