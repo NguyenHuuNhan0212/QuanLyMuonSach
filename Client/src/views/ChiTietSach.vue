@@ -11,16 +11,19 @@
 
       <div class="row">
         <div class="col-md-6">
-            <div class="image-wrapper" style="min-height: 500px;">
-              <img :src="'http://localhost:3000' + book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
-            </div>
+          <div class="image-wrapper" style="min-height: 500px;">
+            <img :src="'http://localhost:3000' + book.image" :alt="book.TENSACH" class="img-fluid rounded shadow" />
+          </div>
         </div>
         <div class="col-md-6">
           <h1 class="mb-4">{{ book.TENSACH }}</h1>
           <p class="mb-3 description fst-italic"><strong>Mã sách:</strong> {{ book.MASACH }}</p>
           <p class="mb-3 description"><strong>Tác giả: </strong> {{ book.TACGIA }}</p>
-          <p class="description mb-4"><strong>Đơn giá: </strong> {{ book.DONGIA }}</p>
-          <p class="description mb-4"><strong>Số lượng còn lại: </strong> {{ soluongConLai }}</p>
+          <p class="description mb-4"><strong>Đơn giá: </strong> <span class="text-danger fw-bold">{{ book.DONGIA }}
+              (VND) </span></p>
+          <p class="description mb-4"><strong>Số lượng còn lại: </strong> <span class="text-danger fw-bold">{{
+            soluongConLai
+          }}</span></p>
           <p class="description mb-4"><strong>Nhà xuất bản: </strong> {{ book.MANXB?.TENNXB || 'Không tìm thấy' }}</p>
           <p class="description mb-4"><strong>Năm xuất bản: </strong> {{ book.NAMXUATBAN }}</p>
           <p class="description mb-4"><strong>Số lượt mượn: </strong> {{ book.SoLuotMuon }}</p>
@@ -30,12 +33,8 @@
             <el-input-number class="mt-3" v-model="quantity" :min="1" :max="20" />
           </div>
 
-          <el-button 
-              type="primary"
-              :loading="isLoading"
-              :disabled="isLoading"
-              @click="handleBorrowBook">
-              Đăng ký mượn
+          <el-button type="primary" :loading="isLoading" :disabled="isLoading" @click="handleBorrowBook">
+            Đăng ký mượn
           </el-button>
 
         </div>
@@ -89,7 +88,7 @@ const handleBorrowBook = async () => {
       type: 'warning',
     });
   }
-  if(!userStore.token){
+  if (!userStore.token) {
     ElMessage({
       message: 'Vui lòng đăng nhập để mượn sách.',
       type: 'warning',
@@ -98,7 +97,7 @@ const handleBorrowBook = async () => {
     return;
   }
   const soluongconlai = book.value.SOQUYEN - book.value.SoLuongDaMuon
-  if(quantity.value > soluongconlai){
+  if (quantity.value > soluongconlai) {
     ElMessage({
       message: `Số lượng sách còn lại không đủ. Hiện tại chỉ còn ${soluongconlai} quyển.`,
       type: 'warning',
@@ -111,11 +110,11 @@ const handleBorrowBook = async () => {
     MADOCGIA: userStore.userInfo._id,
   }
   isLoading.value = true;
-  try{
+  try {
     const result = await borrowBookStore.addBorrow(data);
-  if(result === 'Đăng ký mượn sách thành công!'){
-        // Cập nhật trực tiếp trong mảng books
-       await bookStore.getAll();
+    if (result === 'Đăng ký mượn sách thành công!') {
+      // Cập nhật trực tiếp trong mảng books
+      await bookStore.getAll();
       ElMessage({
         message: result,
         type: 'success',
@@ -127,13 +126,13 @@ const handleBorrowBook = async () => {
         type: 'error',
       });
     }
-  }catch(error){
-      ElMessage({
-        message: 'Đã xảy ra lỗi không xác định.',
-        type: 'error',
-      });
-      console.error(error);
-  }finally {
+  } catch (error) {
+    ElMessage({
+      message: 'Đã xảy ra lỗi không xác định.',
+      type: 'error',
+    });
+    console.error(error);
+  } finally {
     isLoading.value = false; // Kết thúc loading
   }
 }
@@ -145,7 +144,6 @@ const soluongConLai = computed(() => {
 
 </script>
 <style scoped>
-
 .description {
   font-size: 1rem;
   line-height: 1.6;
@@ -188,5 +186,4 @@ const soluongConLai = computed(() => {
 .image-wrapper:hover img {
   transform: rotateY(-25deg);
 }
-
 </style>
