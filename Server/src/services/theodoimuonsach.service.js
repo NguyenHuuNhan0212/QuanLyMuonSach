@@ -96,8 +96,9 @@ module.exports = class BorrowBook {
       if (!docgia || !docgia.MADOCGIA || !docgia.MADOCGIA.EMAIL) {
         await muonSachModel.findByIdAndDelete(borrowNew._id);
         return { message: "Không tìm thấy thông tin người dùng để gửi email." };
+      } else {
+        this.sendEmailToUser(borrowNew._id, docgia.MADOCGIA.EMAIL);
       }
-      await this.sendEmailToUser(borrowNew._id, docgia.MADOCGIA.EMAIL);
     }
     return {
       muon: borrowNew,
