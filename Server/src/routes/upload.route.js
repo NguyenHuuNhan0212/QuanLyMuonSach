@@ -1,21 +1,22 @@
 // src/routes/upload.route.js
-const express = require('express')
-const router = express.Router()
-const upload = require('../middlewares/upload.middleware')
-const { verifyTokenStaff } = require('../middlewares/verifyToken')
+const express = require("express");
+const router = express.Router();
+const upload = require("../middlewares/upload.middleware");
+const { verifyTokenStaff } = require("../middlewares/verifyToken");
 
-router.post('/', verifyTokenStaff, upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'Không có file được tải lên.' })
-    }
+//upload.single để xử lý 1 file từ input tên image
+router.post("/", verifyTokenStaff, upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "Không có file được tải lên." });
+  }
 
-    // Đường dẫn công khai
-    const imageUrl = `/uploads/${req.file.filename}`
+  // Đường dẫn công khai
+  const imageUrl = `/uploads/${req.file.filename}`;
 
-    return res.status(200).json({
-        message: 'Upload ảnh thành công.',
-        imageUrl
-    })
-})
+  return res.status(200).json({
+    message: "Upload ảnh thành công.",
+    imageUrl,
+  });
+});
 
-module.exports = router
+module.exports = router;
