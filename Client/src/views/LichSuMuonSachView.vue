@@ -12,9 +12,11 @@
             </template>
             <template v-else>
                 <div v-for="(borrowBook, index) in borrowHistory" :key="index" class="col">
-                    <router-link class="nav-link" :to="{name: 'chitietlichsumuonsach', params: {id: borrowBook._id}}"><LichSuMuonSach :borrowBook="borrowBook" @cancelBorrow="cancelBorrow(borrowBook._id)"
-                    @borrowDetail="borrowDetail(borrowBook._id)"/> </router-link>
-                    
+                    <router-link class="nav-link" :to="{ name: 'chitietlichsumuonsach', params: { id: borrowBook._id } }">
+                        <LichSuMuonSach :borrowBook="borrowBook" @cancelBorrow="cancelBorrow(borrowBook._id)"
+                            @borrowDetail="borrowDetail(borrowBook._id)" />
+                    </router-link>
+
                 </div>
             </template>
         </div>
@@ -49,7 +51,7 @@ onMounted(async () => {
     }
 })
 
-const  cancelBorrow = async (id) => {
+const cancelBorrow = async (id) => {
     try {
         await borrowBookStore.deleteBorrowForUser(id)
         ElMessage({
@@ -60,7 +62,7 @@ const  cancelBorrow = async (id) => {
         // Cập nhật lại danh sách mượn sách
         await borrowBookStore.getAllForUser();
         borrowHistory.value = borrowBookStore.SachMuon;
-         
+
     } catch (error) {
         ElMessage({
             message: 'Hủy đăng ký mượn sách thất bại.',

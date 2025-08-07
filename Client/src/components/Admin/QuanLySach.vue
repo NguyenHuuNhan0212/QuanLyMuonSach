@@ -1,17 +1,14 @@
 <template>
     <div class="quan-ly-sach container mb-5" data-aos="fade-up" data-aos-duration="1000">
         <h1 class="text-center text-2xl font-bold">Quản Lý Sách</h1>
-        <div class="button-container mb-3 d-flex justify-content-end" >
+        <div class="button-container mb-3 d-flex justify-content-end">
             <form class="d-flex mx-auto w-50" role="search" @submit.prevent>
-                <input
-                    class="form-control rounded-pill px-4"
-                    type="search"
-                    placeholder="Nhập tên sách để tìm kiếm"
-                    aria-label="Search"
-                    v-model="bookStore.searchText"
-                />
+                <input class="form-control rounded-pill px-4" type="search" placeholder="Nhập tên sách để tìm kiếm"
+                    aria-label="Search" v-model="bookStore.searchText" />
             </form>
-            <button class="btn btn-primary" @click="gotoAddBook"><el-icon><Plus /></el-icon> Thêm sách</button>
+            <button class="btn btn-primary" @click="gotoAddBook"><el-icon>
+                    <Plus />
+                </el-icon> Thêm sách</button>
         </div>
         <table class="w-full table-auto border-collapse">
             <thead>
@@ -36,9 +33,15 @@
                         <td>{{ book.SOQUYEN - book.SoLuongDaMuon }}</td>
                         <td class="text-center align-middle">
                             <div class="d-flex justify-content-center gap-2">
-                                <button class="btn btn-sm btn-primary" @click="updateBook(index)"><el-icon><Edit /></el-icon> Cập nhật</button>
-                                <button class="btn btn-sm btn-danger" @click="deleteBook(index)"><el-icon><Delete /></el-icon> Xóa</button>
-                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon><More /></el-icon> Chi tiết</button>
+                                <button class="btn btn-sm btn-primary" @click="updateBook(index)"><el-icon>
+                                        <Edit />
+                                    </el-icon> Cập nhật</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteBook(index)"><el-icon>
+                                        <Delete />
+                                    </el-icon> Xóa</button>
+                                <button class="btn btn-sm btn-secondary" @click="toggleDetail(index)"><el-icon>
+                                        <More />
+                                    </el-icon> Chi tiết</button>
                             </div>
                         </td>
                     </tr>
@@ -46,28 +49,32 @@
                         <td colspan="7">
                             <div class="p-3 bg-light rounded">
                                 <div class="row">
-                                <!-- Cột bên trái: Thông tin sách -->
-                                <div class="col-md-6">
-                                    <p><strong>Mã sách:</strong> {{ book.MASACH }}</p>
-                                    <p><strong>Tên sách:</strong> {{ book.TENSACH }}</p>
-                                    <p><strong>Đơn giá:</strong> {{ book.DONGIA }} (VND)</p>
-                                    <p><strong>Số sách trong kho:</strong> {{ book.SOQUYEN - book.SoLuongDaMuon}}</p>
-                                    <p><strong>Năm xuất bản:</strong> {{ book.NAMXUATBAN }}</p>
-                                    <p><strong>Tác giả:</strong> {{ book.TACGIA }}</p>
-                                </div>
+                                    <!-- Cột bên trái: Thông tin sách -->
+                                    <div class="col-md-6">
+                                        <p><strong>Mã sách:</strong> {{ book.MASACH }}</p>
+                                        <p><strong>Tên sách:</strong> {{ book.TENSACH }}</p>
+                                        <p><strong>Đơn giá:</strong> {{ book.DONGIA }} (VND)</p>
+                                        <p><strong>Số sách trong kho:</strong> {{ book.SOQUYEN - book.SoLuongDaMuon }}
+                                        </p>
+                                        <p><strong>Năm xuất bản:</strong> {{ book.NAMXUATBAN }}</p>
+                                        <p><strong>Tác giả:</strong> {{ book.TACGIA }}</p>
+                                    </div>
 
-                                <!-- Cột bên phải: Thông tin NXB -->
-                                <div class="col-md-6">
-                                    <p><strong>Mã nhà xuất bản:</strong> {{ book.MANXB?.MANXB || 'Không tồn tại' }}</p>
-                                    <p><strong>Tên nhà xuất bản:</strong> {{ book.MANXB?.TENNXB || 'Không có dữ liệu' }}</p>
-                                    <p><strong>Địa chỉ:</strong> {{ book.MANXB?.DIACHI || 'Không tìm thấy địa chỉ' }}</p>
-                                </div>
+                                    <!-- Cột bên phải: Thông tin NXB -->
+                                    <div class="col-md-6">
+                                        <p><strong>Mã nhà xuất bản:</strong> {{ book.MANXB?.MANXB || 'Không tồn tại' }}
+                                        </p>
+                                        <p><strong>Tên nhà xuất bản:</strong> {{ book.MANXB?.TENNXB ||
+                                            'Không có dữ liệu' }}</p>
+                                        <p><strong>Địa chỉ:</strong> {{ book.MANXB?.DIACHI || 'Không tìm thấy địa chỉ'
+                                            }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </template>
-                
+
             </tbody>
         </table>
     </div>
@@ -80,7 +87,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 
 const router = useRouter()
 const bookStore = useBookStore()
-onMounted(async() => {
+onMounted(async () => {
     await bookStore.getAll()
 })
 const bookList = computed(() => {
@@ -93,7 +100,7 @@ const toggleDetail = (index) => {
 }
 const gotoAddBook = () => {
     bookStore.searchText = ''
-    router.push({name: 'quanlysach-themsach'})
+    router.push({ name: 'quanlysach-themsach' })
 }
 const deleteBook = (index) => {
     const bookDelete = bookList.value[index]
@@ -106,25 +113,25 @@ const deleteBook = (index) => {
             type: 'warning',
         }
     )
-    .then(async () => {
-        await bookStore.delete(bookDelete.MASACH)
-        .then(() => {
-            ElMessage.success(`Bạn đã xóa quyển sách ${bookDelete.TENSACH} thành công.`)
+        .then(async () => {
+            await bookStore.delete(bookDelete.MASACH)
+                .then(() => {
+                    ElMessage.success(`Bạn đã xóa quyển sách ${bookDelete.TENSACH} thành công.`)
+                })
+                .catch((error) => {
+                    ElMessage.error('Lỗi khi xóa sách.')
+                })
         })
-        .catch((error) => {
-            ElMessage.error('Lỗi khi xóa sách.')
+        .catch(() => {
+            ElMessage.error('Đã hủy thao tác xóa')
         })
-    })
-    .catch(() => {
-        ElMessage.error('Đã hủy thao tác xóa')
-    })
-    
+
 }
 const updateBook = (index) => {
-    router.push({name: 'quanlysach-capnhatsach', params: { MASACH: bookList.value[index].MASACH}})
+    router.push({ name: 'quanlysach-capnhatsach', params: { MASACH: bookList.value[index].MASACH } })
 }
 onUnmounted(() => {
-    bookStore.searchText =''
+    bookStore.searchText = ''
 })
 </script>
 <style scoped>
@@ -152,5 +159,4 @@ onUnmounted(() => {
 .quan-ly-sach th {
     background-color: #f8f9fa;
 }
-
 </style>
