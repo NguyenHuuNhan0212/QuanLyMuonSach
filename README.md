@@ -44,6 +44,10 @@ Hệ thống Quản lý mượn sách giúp quản lý toàn bộ quy trình: s�
 
 ---
 
+## Quản lý dự án:
+
+- Sử dụng Git để quản lý
+
 ## ▶️ Cài đặt & chạy local
 
 ### 🖥 Backend
@@ -64,6 +68,7 @@ npm run dev
 
 ### 📁 Cấu trúc thư mục
 
+```bash
 ├── Client/ # Frontend Vue 3
 │ ├── src/
 │ │ ├── assets/ # Tài nguyên giao diện (ảnh, logo...)
@@ -81,3 +86,4 @@ npm run dev
 │ │ ├── services/ # Gửi email, xử lý OTP...
 │ │ └── utils/ # Helper functions, middleware
 │ └── server.js # File khởi động server
+```
